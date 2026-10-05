@@ -153,9 +153,35 @@ function stats(){
  const kp=`<div class="kpis"><div class="kpi"><b>${Object.keys(D).length}</b><span>Gironi</span></div><div class="kpi"><b>${teams}</b><span>Squadre</span><div class="mixrow">${["A","B","C","D"].filter(L=>bySq[L]).map(L=>`<span class="mc"><i class="dot s${L}">${L}</i>${bySq[L]}</span>`).join("")}</div></div><div class="kpi"><b>${clubs.size}</b><span>Società</span></div>${sizes.map(n=>`<div class="kpi"><b>${groups[n].length}</b><span>Società con ${n} squadr${n===1?"a":"e"}</span></div>`).join("")}</div>`;
  const lists=sizes.map(n=>`<section class="sgrp"><h4>${n} squadr${n===1?"a":"e"} <small>${groups[n].length} società</small></h4><ul class="clubs">${groups[n].sort((a,b)=>a[0].localeCompare(b[0])).map(([k,arr])=>`<li${k===myClub()?' class="cbs"':""}><span class="cn">${esc(k)}</span></li>`).join("")}</ul></section>`).join("");
  document.getElementById("sBody").innerHTML=kp+lists+`<p class="mapnote" style="margin:0">Le squadre con lo stesso nome sono contate come una sola società. Torino FC femminile è inclusa in Torino FC; Juventus Women è contata a parte, come nel calendario.</p>`;
- const sd=document.getElementById("sdlg");if(sd.showModal)sd.showModal();else sd.setAttribute("open","");
+ stab(STAB);const sd=document.getElementById("sdlg");if(!sd.open){if(sd.showModal)sd.showModal();else sd.setAttribute("open","")}
 }
-document.getElementById("statsBtn").onclick=()=>{stats();setHash()};
+document.getElementById("statsBtn").onclick=()=>{STAB="soc";stats();setHash()};
+// Statistiche, tab Risultati: outcome mix of all played games + goals for/against per team.
+let STAB="soc",SG="";
+function stab(t){STAB=t;document.getElementById("sTabC").setAttribute("aria-selected",t==="soc");document.getElementById("sTabR").setAttribute("aria-selected",t==="res");
+ document.getElementById("sBody").hidden=t!=="soc";document.getElementById("sRes").hidden=t!=="res";if(t==="res")drawRes();setTimeout(setHash,0)}
+document.getElementById("sTabC").onclick=()=>stab("soc");document.getElementById("sTabR").onclick=()=>stab("res");
+const pct=(a,b)=>b?Math.round(a*100/b)+"%":"";
+function drawRes(){
+ let tot=0,pl=0,big=0,one=0,dr=0,nil=0,gl=0;
+ Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[2]===-1)return;tot++;const x=goals(liveOf(g,m[2],m[3]));if(!x)return;pl++;gl+=x[0]+x[1];
+  const d=Math.abs(x[0]-x[1]);if(d>=2)big++;else if(d===1)one++;else{dr++;if(!x[0])nil++}}));
+ const kp=`<div class="kpis"><div class="kpi"><b>${pl}<small>/${tot}</small></b><span>Partite giocate</span></div><div class="kpi"><b>${big}</b><span>Vittorie con 2+ gol di scarto</span></div><div class="kpi"><b>${one}</b><span>Vittorie di 1 gol</span></div><div class="kpi"><b>${dr}</b><span>Pareggi</span></div><div class="kpi"><b>${nil}</b><span>di cui 0-0</span></div><div class="kpi"><b>${pl?(gl/pl).toFixed(1).replace(".",","):"0"}</b><span>Gol per partita</span></div></div>`;
+ const mix=[["Vittorie con 2+ gol di scarto",big],["Vittorie di 1 gol",one],["Pareggi con gol",dr-nil],["Pareggi 0-0",nil]],mx=Math.max(1,...mix.map(x=>x[1]));
+ const mixc=`<section class="sgrp"><h4>Come finiscono le partite</h4><div class="hbars">${mix.map(([l,n])=>`<div class="hb" data-tip="${l}: ${n} partite${pl?" · "+pct(n,pl):""}"><span class="hl">${l}</span><span class="ht"><i style="width:${n/mx*100}%"></i></span><b>${n}<small>${pl?" "+pct(n,pl):""}</small></b></div>`).join("")}</div></section>`;
+ const K=Object.keys(D);
+ const rows=(SG?[SG]:K).flatMap(g=>standings(g).map(x=>({...x,gr:g}))).filter(x=>x.g||!pl).sort((a,b)=>(b.f-b.a)-(a.f-a.a)||b.f-a.f||a.t.n.localeCompare(b.t.n));
+ const M=Math.max(1,...rows.map(x=>Math.max(x.f,x.a)));
+ const sel=`<div class="seg gsel" id="rSel" role="group" aria-label="Girone"><button type="button" data-g="" aria-pressed="${!SG}">Tutti</button>${K.map(k=>`<button type="button" data-g="${k}" aria-pressed="${SG===k}">${k}</button>`).join("")}</div>`;
+ const chart=`<section class="sgrp"><h4>Gol fatti e subiti per squadra <small>ordinate per differenza reti</small></h4>${sel}<div class="gleg"><span><i class="sw gf"></i>Gol fatti</span><span><i class="sw ga"></i>Gol subiti</span></div>${pl?"":`<p class="mapnote">Ancora nessun risultato: il grafico si riempie con le prime partite.</p>`}<div class="gfa">${rows.map(x=>{const d=x.f-x.a;return `<div class="gr${isFav(x.gr,x.i)?" fav":""}" data-g="${x.gr}" data-i="${x.i}" data-tip="${esc(x.t.n)} ${x.t.s} · Girone ${x.gr}: ${x.g} partite, ${x.f} fatti, ${x.a} subiti, differenza ${d>0?"+":""}${d}"><span class="gn2"><i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span>${SG?"":`<em>${x.gr}</em>`}</span><span class="ga2"><b>${x.a}</b><i style="width:${x.a/M*100}%"></i></span><span class="gf2"><i style="width:${x.f/M*100}%"></i><b>${x.f}</b></span><span class="gd ${d>0?"p":d<0?"n":""}">${d>0?"+":""}${d}</span></div>`}).join("")}</div></section>`;
+ const R=document.getElementById("sRes");R.innerHTML=kp+mixc+chart;
+ R.querySelectorAll("#rSel button").forEach(b=>b.onclick=()=>{SG=b.dataset.g;drawRes()});
+ R.querySelectorAll(".gr").forEach(r=>r.onclick=()=>{document.getElementById("sdlg").close();open(r.dataset.g,+r.dataset.i)});
+}
+// One shared tooltip for chart rows (data-tip).
+(()=>{const tip=document.getElementById("ctip");
+ document.addEventListener("mousemove",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(!t){tip.hidden=true;return}
+  tip.textContent=t.dataset.tip;tip.hidden=false;const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"});})();
 (()=>{const sd=document.getElementById("sdlg");document.getElementById("sX").onclick=()=>sd.close();sd.addEventListener("click",e=>{if(e.target===sd)sd.close()});})();
 
 let AMAP=null,AMK={},AALL=[];
@@ -319,14 +345,14 @@ document.getElementById("verBtn").onclick=()=>{openNotes();setHash()};
 let CTAB="cal";
 function setHash(){
  const on=id=>document.getElementById(id).open;
- const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("mdlg")?"#mappa":on("sdlg")?"#statistiche":on("vdlg")?"#novita":"";
+ const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="res"?"#statistiche/risultati":"#statistiche"):on("vdlg")?"#novita":"";
  if(location.hash!==h)history.replaceState(null,"",h||location.pathname+location.search);
 }
 ["dlg","cdlg","mdlg","sdlg","vdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
 (()=>{const p=decodeURIComponent(location.hash.slice(1)).split("/");
  if(p[0]==="squadra"&&D[p[1]]&&D[p[1]].t[+p[2]]){open(p[1],+p[2]);if(["cal","grid","map"].includes(p[3]))tab(p[3])}
  else if(p[0]==="classifica")openTable(D[p[1]]?p[1]:null);
- else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche")stats();
+ else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){if(p[1]==="risultati")STAB="res";stats()}
 })();
 
 })();
