@@ -25,3 +25,5 @@ and its handoff notes are in `legacy/`.
   bump `v` when replacing it. Favicon `favicon.svg`, iOS icon `img/apple-touch-icon.png`.
 - Version + release notes: `data/releases.json` (newest first, Italian). The footer badge and the Novità
   modal (`#novita`) read it. Add an entry and bump the version when shipping a user-facing change.
+- Cache busting: `app.css?v=N` / `app.js?v=N` in index.html. Bump N on every change to either file,
+  or browsers mix a fresh index.html with a stale app.js. JSON data uses `cache:"no-cache"`.
