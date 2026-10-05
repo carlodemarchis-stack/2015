@@ -13,7 +13,7 @@ function grid(){
  const g=document.getElementById("grid");
  g.innerHTML=Object.entries(D).map(([k,v])=>{
   const has=v.t.some((t,i)=>isFav(k,i));
-  return `<section class="card${has?" has-cbs":""}"><header><h2>${k}</h2><span class="mix">${["A","B","C","D"].map(L=>{const c=v.t.filter(t=>t.s===L).length;return c?`<span class="mc"><i class="dot s${L}">${L}</i>${c}</span>`:""}).join("")}</span><span class="n">${v.t.length} squadre</span></header><ul>${v.t.map((t,i)=>`<li tabindex="0" role="button" data-g="${k}" data-i="${i}" class="${isCBS(t)?"cbs":""}${isFav(k,i)?" fav":""}"><i class="dot s${t.s}">${t.s}</i><span class="nm t${t.s}" title="${esc(t.n)}">${esc(t.n)}</span>${isFav(k,i)?'<span class="fstar" aria-label="La tua squadra"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z" fill="currentColor"/></svg></span>':""}</li>`).join("")}</ul></section>`;
+  return `<section class="card${has?" has-cbs":""}"><header data-cg="${k}" tabindex="0" role="button" title="Classifica girone ${k}"><h2>${k}</h2><span class="mix">${["A","B","C","D"].map(L=>{const c=v.t.filter(t=>t.s===L).length;return c?`<span class="mc"><i class="dot s${L}">${L}</i>${c}</span>`:""}).join("")}</span><span class="n">${v.t.length} squadre</span></header><ul>${v.t.map((t,i)=>`<li tabindex="0" role="button" data-g="${k}" data-i="${i}" class="${isCBS(t)?"cbs":""}${isFav(k,i)?" fav":""}"><i class="dot s${t.s}">${t.s}</i><span class="nm t${t.s}" title="${esc(t.n)}">${esc(t.n)}</span>${isFav(k,i)?'<span class="fstar" aria-label="La tua squadra"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z" fill="currentColor"/></svg></span>':""}</li>`).join("")}</ul></section>`;
  }).join("");
 }
 function maps(t){const city=t.c.split(" · ").pop();return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(`${t.a}, ${city}, Piemonte`);}
@@ -66,8 +66,8 @@ function open(g,i){
 }
 grid();
 setTimeout(()=>{grid();syncFav()},0);
-document.getElementById("grid").addEventListener("click",e=>{const li=e.target.closest("li[data-g]");if(li)open(li.dataset.g,+li.dataset.i)});
-document.getElementById("grid").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){const li=e.target.closest("li[data-g]");if(li){e.preventDefault();open(li.dataset.g,+li.dataset.i)}}});
+document.getElementById("grid").addEventListener("click",e=>{const hd=e.target.closest("header[data-cg]");if(hd){openTable(hd.dataset.cg);setHash();return}const li=e.target.closest("li[data-g]");if(li)open(li.dataset.g,+li.dataset.i)});
+document.getElementById("grid").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){const hd=e.target.closest("header[data-cg]");if(hd){e.preventDefault();openTable(hd.dataset.cg);setHash();return}const li=e.target.closest("li[data-g]");if(li){e.preventDefault();open(li.dataset.g,+li.dataset.i)}}});
 const dl=document.getElementById("dlg");
 document.getElementById("dlgX").onclick=()=>dl.close();
 dl.addEventListener("click",e=>{if(e.target===dl)dl.close()});

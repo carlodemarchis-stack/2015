@@ -24,3 +24,6 @@ footer a{color:#8cc8ff}
 @media (max-width:600px){.ctab .opt{display:none}}
 .tlogo{width:44px;height:44px;object-fit:contain;flex:none;background:#fff;border-radius:6px;padding:3px}
 .ologo{width:22px;height:22px;object-fit:contain;flex:none;background:#fff;border-radius:4px;padding:1px;margin-right:6px;vertical-align:middle}
+.card header[data-cg]{cursor:pointer}
+.card header[data-cg]:hover h2{text-decoration:underline;text-underline-offset:4px}
+.card header[data-cg]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
