@@ -1,0 +1,24 @@
+/* Additions on top of the original artifact styles (kept inline in index.html). */
+.res{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:4px;font-weight:700;font-size:12px;font-variant-numeric:tabular-nums;background:var(--line);color:var(--fg)}
+.res.w{background:#2f9a4f;color:#fff}.res.l{background:#a8352f;color:#fff}.res.d{background:#6b7570;color:#fff}
+.day .eo .res{margin:0;padding:0 4px;font-size:11px}
+footer a{color:#8cc8ff}
+#cdlg{width:min(860px,calc(100vw - 32px))}
+.cbody{padding:14px 20px 20px;display:flex;flex-direction:column;gap:14px}
+.gsel{flex-wrap:wrap;align-self:flex-start}
+.gsel button{min-width:34px;justify-content:center}
+.ctab{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.ctab th,.ctab td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.ctab th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.ctab td.tn,.ctab th.tn{text-align:left;white-space:normal;width:100%}
+.ctab td.tn{display:flex;align-items:center;gap:8px;cursor:pointer}
+.ctab td.pt{font-weight:700}
+.ctab tr.fav td{background:rgba(242,201,76,.10)}
+.rounds{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.rnd{border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+.rnd h4{font-family:var(--display);font-size:16px;text-transform:uppercase;margin:0 0 6px;color:var(--muted)}
+.rnd .mr{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;font-size:12px;padding:2px 0;align-items:center}
+.rnd .mr span:last-child{text-align:right}
+.rnd .mr b{font-variant-numeric:tabular-nums;min-width:36px;text-align:center}
+.rnd .mr em{color:var(--muted);font-style:normal;text-align:center}
+@media (max-width:600px){.ctab .opt{display:none}}

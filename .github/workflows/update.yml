@@ -1,0 +1,33 @@
+name: Update results
+
+# Every 3 hours on match days (Sat/Sun), once a day otherwise. Times are UTC.
+on:
+  schedule:
+    - cron: "15 */3 * * 6,0"
+    - cron: "15 5 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 scripts/update.py
+      - name: Commit if changed
+        run: |
+          git add data/live.json
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update results from giocaacalcio.it"
+          git push

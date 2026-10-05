@@ -1,0 +1,863 @@
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   A                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:           !  1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I BORGARO AUTOINGROS   SQ.C    - SAN MAURIZIO C.SE             I   I BORGARO AUTOINGROS    SQ.C     - CALCIO SETTIMO              I
+I CALCIO SETTIMO               - SISPORT S.P.A.        SQ.C    I   I CASELLE CALCIO                 - VOLPIANO PIANESE            I
+I CASELLE CALCIO               - CIRIE CALCIO 1946             I   I CIRIE CALCIO 1946              - AUTOVIP SAN MAURO CALCIO    I
+I MAPPANESE                    - AUTOVIP SAN MAURO CALCIO      I   I MAPPANESE                      - SISPORT S.P.A.        SQ.C  I
+I VOLPIANO PIANESE             - PRO EUREKA            SQ.B    I   I SAN MAURIZIO C.SE              - PRO EUREKA            SQ.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:           !  2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I AUTOVIP SAN MAURO CALCIO     - VOLPIANO PIANESE              I   I AUTOVIP SAN MAURO CALCIO       - SAN MAURIZIO C.SE           I
+I CIRIE CALCIO 1946            - MAPPANESE                     I   I CALCIO SETTIMO                 - CASELLE CALCIO              I
+I PRO EUREKA           SQ.B    - CALCIO SETTIMO                I   I PRO EUREKA            SQ.B     - BORGARO AUTOINGROS    SQ.C  I
+I SAN MAURIZIO C.SE            - CASELLE CALCIO                I   I SISPORT S.P.A.        SQ.C     - CIRIE CALCIO 1946           I
+I SISPORT S.P.A.       SQ.C    - BORGARO AUTOINGROS    SQ.C    I   I VOLPIANO PIANESE               - MAPPANESE                   I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:           !  3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CALCIO SETTIMO               - AUTOVIP SAN MAURO CALCIO      I   I BORGARO AUTOINGROS    SQ.C     - AUTOVIP SAN MAURO CALCIO    I
+I CASELLE CALCIO               - BORGARO AUTOINGROS    SQ.C    I   I CASELLE CALCIO                 - PRO EUREKA            SQ.B  I
+I MAPPANESE                    - SAN MAURIZIO C.SE             I   I MAPPANESE                      - CALCIO SETTIMO              I
+I SISPORT S.P.A.       SQ.C    - PRO EUREKA            SQ.B    I   I SAN MAURIZIO C.SE              - CIRIE CALCIO 1946           I
+I VOLPIANO PIANESE             - CIRIE CALCIO 1946             I   I VOLPIANO PIANESE               - SISPORT S.P.A.        SQ.C  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:           !  4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I AUTOVIP SAN MAURO CALCIO     - PRO EUREKA            SQ.B    I   I AUTOVIP SAN MAURO CALCIO       - CASELLE CALCIO              I
+I BORGARO AUTOINGROS   SQ.C    - MAPPANESE                     I   I CALCIO SETTIMO                 - VOLPIANO PIANESE            I
+I CASELLE CALCIO               - SISPORT S.P.A.        SQ.C    I   I CIRIE CALCIO 1946              - BORGARO AUTOINGROS    SQ.C  I
+I CIRIE CALCIO 1946            - CALCIO SETTIMO                I   I PRO EUREKA            SQ.B     - MAPPANESE                   I
+I SAN MAURIZIO C.SE            - VOLPIANO PIANESE              I   I SISPORT S.P.A.        SQ.C     - SAN MAURIZIO C.SE           I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:           !  5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I CALCIO SETTIMO               - SAN MAURIZIO C.SE             I
+I MAPPANESE                    - CASELLE CALCIO                I
+I PRO EUREKA           SQ.B    - CIRIE CALCIO 1946             I
+I SISPORT S.P.A.       SQ.C    - AUTOVIP SAN MAURO CALCIO      I
+I VOLPIANO PIANESE             - BORGARO AUTOINGROS    SQ.C    I
+I--------------------------------------------------------------I
+*---------------------------*                                                       *-----------------------------------*
+|                    |      **   E L E N C O     C A M P I     D A     G I O C O **                                     |
+| COMITATO           |                                                                                                  |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:    A                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO               LOCALITA' CAMPO               | ORA | INDIRIZZO                                       |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                 |       |
+| BORGARO AUTOINGROS   SQ.C            | 1204 | SINTETICO "MAGGIONI"              BORGARO TORINESE          DOM | 10:30 | VIA S.CRISTINA 9             |                |
+|                                      |      |                                                                 |       |                              |                |
+| CALCIO SETTIMO                       | 899 | PRIMO LEVI                         SETTIMO TORINESE              | 14:30 | VIA PRIMO LEVI, 6            |                |
+|                                      |      |                                                                 |       |                              |                |
+| CASELLE CALCIO                       | 1052 | SECONDARIO "N.2" ERBA NATURALE CASELLE T.SE                     | 16:00 | VIA ALLE FABBRICHE, 127/129  |                |
+|                                      |      |                                                                 |       |                              |                |
+| MAPPANESE                            | 4125 | SINTETICO"COMUNALE" ATT.BASE      MAPPANO                       | 16:30 | VIA GALVANI, 48              |                |
+|                                      |      |                                                                 |       |                              |                |
+| VOLPIANO PIANESE                     | 4000 | SINTETICO "BERTOLOTTI"            VOLPIANO                      | 12:00 | VIA SAN GRATO, 5             |                |
+|                                      |      |                                                                 |       |                              |                |
+| AUTOVIP SAN MAURO CALCIO             | 3365 | COMUNALE "CITTADELLA A"           LEINI                         | 18:00 | VIA GREMO 59                 |                |
+|                                      |      |                                                                 |       |                              |                |
+| CIRIE CALCIO 1946                    | 201 | SERGIO BRUNERO                     CIRIE                         | 14:30 | VIA BIAUNE, 1                |                |
+|                                      |      |                                                                 |       |                              |                |
+| PRO EUREKA           SQ.B            | 522 | SINTETICO - G. SATTIN "A"          SETTIMO TORINESE          DOM | 10:30 | VIA TORINO, 85               |                |
+|                                      |      |                                                                 |       |                              |                |
+| SAN MAURIZIO C.SE                    | 498 | COMUNALE                           SAN MAURIZIO CANAVESE         | 14:30 | VIA CERETTA INFERIORE,36     |                |
+|                                      |      |                                                                 |       |                              |                |
+| SISPORT S.P.A.       SQ.C            | 1020 | SINTETICO ADB C9 "POLIGRU" N.1 GRUGLIASCO                       | 16:30 | CORSO ALLAMANO, 125          |                |
+|                                      |      |                                                                 |       |                              |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   B                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:           !  1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I A.S.D. ATLETICO C.B.N.       - ALPIGNANO             SQ.B    I   I CALCIO LEINI                   - A.S.D. ATLETICO C.B.N.      I
+I BORGARO AUTOINGROS   SQ.B    - AUTOVIP SAN MAURO CALSQ.B     I   I CALCIO SETTIMO        SQ.B     - BORGARO AUTOINGROS    SQ.B  I
+I CALCIO LEINI                 - CALCIO SETTIMO        SQ.B    I   I CASELLE CALCIO        sq.B     - ALPIGNANO             SQ.B  I
+I CASELLE CALCIO       sq.B    - CIRIE CALCIO 1946     sq.B    I   I VOLPIANO PIANESE      SQ.B     - CIRIE CALCIO 1946     sq.B  I
+I      Riposa................ - VOLPIANO PIANESE       SQ.B    I   I       Riposa................ - AUTOVIP SAN MAURO CALSQ.B     I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:           !  2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I ALPIGNANO            SQ.B    - CALCIO LEINI                  I   I ALPIGNANO             SQ.B     - VOLPIANO PIANESE      SQ.B  I
+I BORGARO AUTOINGROS   SQ.B    - A.S.D. ATLETICO C.B.N.        I   I AUTOVIP SAN MAURO CALSQ.B      - CASELLE CALCIO        sq.B  I
+I CIRIE CALCIO 1946    sq.B    - AUTOVIP SAN MAURO CALSQ.B     I   I BORGARO AUTOINGROS    SQ.B     - CALCIO LEINI                I
+I VOLPIANO PIANESE     SQ.B    - CASELLE CALCIO        sq.B    I   I CIRIE CALCIO 1946     sq.B     - CALCIO SETTIMO        SQ.B  I
+I      Riposa................ - CALCIO SETTIMO         SQ.B    I   I       Riposa................ - A.S.D. ATLETICO C.B.N.        I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:           !  3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I A.S.D. ATLETICO C.B.N.       - CIRIE CALCIO 1946     sq.B    I   I AUTOVIP SAN MAURO CALSQ.B      - ALPIGNANO             SQ.B  I
+I ALPIGNANO            SQ.B    - BORGARO AUTOINGROS    SQ.B    I   I CALCIO LEINI                   - CIRIE CALCIO 1946     sq.B  I
+I AUTOVIP SAN MAURO CALSQ.B    - VOLPIANO PIANESE      SQ.B    I   I CALCIO SETTIMO        SQ.B     - VOLPIANO PIANESE      SQ.B  I
+I CASELLE CALCIO       sq.B    - CALCIO SETTIMO        SQ.B    I   I CASELLE CALCIO        sq.B     - A.S.D. ATLETICO C.B.N.      I
+I      Riposa................ - CALCIO LEINI                   I   I       Riposa................ - BORGARO AUTOINGROS      SQ.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:           !  4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CALCIO LEINI                 - CASELLE CALCIO        sq.B    I   I A.S.D. ATLETICO C.B.N.         - AUTOVIP SAN MAURO CALSQ.B   I
+I CALCIO SETTIMO       SQ.B    - AUTOVIP SAN MAURO CALSQ.B     I   I ALPIGNANO             SQ.B     - CALCIO SETTIMO        SQ.B  I
+I CIRIE CALCIO 1946    sq.B    - BORGARO AUTOINGROS    SQ.B    I   I BORGARO AUTOINGROS    SQ.B     - CASELLE CALCIO        sq.B  I
+I VOLPIANO PIANESE     SQ.B    - A.S.D. ATLETICO C.B.N.        I   I VOLPIANO PIANESE      SQ.B     - CALCIO LEINI                I
+I      Riposa................ - ALPIGNANO              SQ.B    I   I       Riposa................ - CIRIE CALCIO 1946       sq.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:           !  5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I A.S.D. ATLETICO C.B.N.       - CALCIO SETTIMO        SQ.B    I
+I ALPIGNANO            SQ.B    - CIRIE CALCIO 1946     sq.B    I
+I AUTOVIP SAN MAURO CALSQ.B    - CALCIO LEINI                  I
+I BORGARO AUTOINGROS   SQ.B    - VOLPIANO PIANESE      SQ.B    I
+I      Riposa................ - CASELLE CALCIO         sq.B    I
+I--------------------------------------------------------------I
+*---------------------------*                                                       *-----------------------------------*
+|                    |      **   E L E N C O     C A M P I     D A     G I O C O **                                     |
+| COMITATO           |                                                                                                  |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:    B                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO               LOCALITA' CAMPO               | ORA | INDIRIZZO                                       |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                 |       |
+| A.S.D. ATLETICO C.B.N.               | 368 | SINTETICO "LINO CERVA"             NOLE                      DOM | 16:00 | VIA VOLONTARI DEL SANGUE 6   |                |
+|                                      |      |                                                                 |       |                              |                |
+| AUTOVIP SAN MAURO CALSQ.B            | 3365 | COMUNALE "CITTADELLA A"           LEINI                     DOM | 17:00 | VIA GREMO 59                 |                |
+|                                      |      |                                                                 |       |                              |                |
+| CALCIO LEINI                         | 9090 | SINTETICO ADB C9 CITTADELLA"C" LEINI                        DOM | 10:15 | VIA CARLO GREMO, 59          |                |
+|                                      |      |                                                                 |       |                              |                |
+| CASELLE CALCIO       sq.B            | 1052 | SECONDARIO "N.2" ERBA NATURALE CASELLE T.SE                 DOM | 10:30 | VIA ALLE FABBRICHE, 127/129  |                |
+|                                      |      |                                                                 |       |                              |                |
+| ALPIGNANO            SQ.B            |   13 | ALLENDE - ERBA NATURALE           ALPIGNANO                 DOM | 10:30 | VIA MIGLIARONE, 12           |                |
+|                                      |      |                                                                 |       |                              |                |
+| BORGARO AUTOINGROS   SQ.B            | 1204 | SINTETICO "MAGGIONI"              BORGARO TORINESE              | 16:45 | VIA S.CRISTINA 9             |                |
+|                                      |      |                                                                 |       |                              |                |
+| CIRIE CALCIO 1946    sq.B            | 201 | SERGIO BRUNERO                     CIRIE                     DOM | 10:30 | VIA BIAUNE, 1                |                |
+|                                      |      |                                                                 |       |                              |                |
+| VOLPIANO PIANESE     SQ.B            | 4000 | SINTETICO "BERTOLOTTI"            VOLPIANO                      | 12:00 | VIA SAN GRATO, 5             |                |
+|                                      |      |                                                                 |       |                              |                |
+| CALCIO SETTIMO       SQ.B            | 899 | PRIMO LEVI                         SETTIMO TORINESE          DOM | 9:00 | VIA PRIMO LEVI, 6             |                |
+|                                      |      |                                                                 |       |                              |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   C                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:           !  1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I ALPIGNANO                    - PRO EUREKA                    I   I BORGARO AUTOINGROS             - ALPIGNANO                   I
+I BORGARO AUTOINGROS           - LASCARIS 1954 ASD             I   I GASSINOSANRAFFAELE             - PRO EUREKA                  I
+I SISPORT S.P.A.       SQ.B    - GASSINOSANRAFFAELE            I   I LASCARIS 1954 ASD              - LUCENTO                     I
+I VIRTUS ACCADEMIA CALCIO      - LUCENTO                       I   I VIRTUS ACCADEMIA CALCIO        - VENARIA REALE               I
+I      Riposa................ - VENARIA REALE                  I   I       Riposa................ - SISPORT S.P.A.          SQ.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:           !  2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I GASSINOSANRAFFAELE           - BORGARO AUTOINGROS            I   I ALPIGNANO                      - VIRTUS ACCADEMIA CALCIO     I
+I LASCARIS 1954 ASD            - VIRTUS ACCADEMIA CALCIO       I   I LUCENTO                        - GASSINOSANRAFFAELE          I
+I LUCENTO                      - ALPIGNANO                     I   I PRO EUREKA                     - SISPORT S.P.A.        SQ.B  I
+I VENARIA REALE                - SISPORT S.P.A.        SQ.B    I   I VENARIA REALE                  - LASCARIS 1954 ASD           I
+I      Riposa................ - PRO EUREKA                     I   I       Riposa................ - BORGARO AUTOINGROS            I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:           !  3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I ALPIGNANO                    - LASCARIS 1954 ASD             I   I ALPIGNANO                      - VENARIA REALE               I
+I BORGARO AUTOINGROS           - SISPORT S.P.A.        SQ.B    I   I BORGARO AUTOINGROS             - PRO EUREKA                  I
+I VENARIA REALE                - PRO EUREKA                    I   I GASSINOSANRAFFAELE             - LASCARIS 1954 ASD           I
+I VIRTUS ACCADEMIA CALCIO      - GASSINOSANRAFFAELE            I   I SISPORT S.P.A.        SQ.B     - LUCENTO                     I
+I      Riposa................ - LUCENTO                        I   I       Riposa................ - VIRTUS ACCADEMIA CALCIO       I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:           !  4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I BORGARO AUTOINGROS           - VENARIA REALE                 I   I LASCARIS 1954 ASD              - SISPORT S.P.A.        SQ.B  I
+I GASSINOSANRAFFAELE           - ALPIGNANO                     I   I LUCENTO                        - BORGARO AUTOINGROS          I
+I LUCENTO                      - PRO EUREKA                    I   I PRO EUREKA                     - VIRTUS ACCADEMIA CALCIO     I
+I SISPORT S.P.A.       SQ.B    - VIRTUS ACCADEMIA CALCIO       I   I VENARIA REALE                  - GASSINOSANRAFFAELE          I
+I      Riposa................ - LASCARIS 1954 ASD              I   I       Riposa................ - ALPIGNANO                     I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:           !  5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I ALPIGNANO                    - SISPORT S.P.A.        SQ.B    I
+I PRO EUREKA                   - LASCARIS 1954 ASD             I
+I VENARIA REALE                - LUCENTO                       I
+I VIRTUS ACCADEMIA CALCIO      - BORGARO AUTOINGROS            I
+I      Riposa................ - GASSINOSANRAFFAELE             I
+I--------------------------------------------------------------I
+*---------------------------*                                                       *-----------------------------------*
+|                    |      **   E L E N C O     C A M P I     D A     G I O C O **                                     |
+| COMITATO           |                                                                                                  |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.      GIRONE:   C                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO               LOCALITA' CAMPO               | ORA | INDIRIZZO                                       |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                 |       |
+| ALPIGNANO                            |   13 | ALLENDE - ERBA NATURALE           ALPIGNANO                     | 10:30 | VIA MIGLIARONE, 12           |                |
+|                                      |      |                                                                 |       |                              |                |
+| BORGARO AUTOINGROS                   | 1204 | SINTETICO "MAGGIONI"              BORGARO TORINESE              | 16:45 | VIA S.CRISTINA 9             |                |
+|                                      |      |                                                                 |       |                              |                |
+| SISPORT S.P.A.       SQ.B            | 1020 | SINTETICO ADB C9 "POLIGRU" N.1 GRUGLIASCO                       | 14:30 | CORSO ALLAMANO, 125          |                |
+|                                      |      |                                                                 |       |                              |                |
+| VIRTUS ACCADEMIA CALCIO              | 1684 | SINTETICO C5 "SPORT CLUB"         VENARIA REALE                 | 15:20 | VIA DI VITTORIO 18           |                |
+|                                      |      |                                                                 |       |                              |                |
+| GASSINOSANRAFFAELE                   | 4001 | SINTETICO "BERTOLINI"             GASSINO TORINESE              | 16:30 | VIA DIAZ                     |                |
+|                                      |      |                                                                 |       |                              |                |
+| LASCARIS 1954 ASD                    | 6011 | SINTETICO "SOFFIETTI B"           PIANEZZA                      | 9:30 | VIA CLAVIERE 16               |                |
+|                                      |      |                                                                 |       |                              |                |
+| LUCENTO                              | 637 | SINTETICO "RICONDA"                TORINO                    DOM | 17:00 | CORSO LOMBARDIA 107          |                |
+|                                      |      |                                                                 |       |                              |                |
+| VENARIA REALE                        | 1161 | SINTETICO "DON MOSSO 4"           VENARIA REALE             DOM | 10:00 | VIA S.MARCHESE               |                |
+|                                      |      |                                                                 |       |                              |                |
+| PRO EUREKA                           | 522 | SINTETICO - G. SATTIN "A"          SETTIMO TORINESE              | 15:00 | VIA TORINO, 85               |                |
+|                                      |      |                                                                 |       |                              |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   D                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:           !  1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I LUCENTO              SQ.C    - VIRTUS ACCADEMIA CALCSQ.B     I   I LASCARIS 1954 ASD     SQ.B     - VENARIA REALE         SQ.B  I
+I POL. PARADISO COLLEGNO       - POZZOMAINA S.R.L. S.SSQ.C     I   I POL. PARADISO COLLEGNO         - LUCENTO               SQ.C  I
+I PRO COLLEGNO COLLEGNESE      - VENARIA REALE         SQ.B    I   I POZZOMAINA S.R.L. S.SSQ.C      - ALPIGNANO             SQ.C  I
+I SIS LESNA TORINO     sq.B    - ALPIGNANO             SQ.C    I   I PRO COLLEGNO COLLEGNESE        - VIRTUS ACCADEMIA CALCSQ.B   I
+I      Riposa................ - LASCARIS 1954 ASD      SQ.B    I   I       Riposa................ - SIS LESNA TORINO        sq.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:           !  2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I ALPIGNANO            SQ.C    - LUCENTO               SQ.C    I   I ALPIGNANO             SQ.C     - POL. PARADISO COLLEGNO      I
+I LASCARIS 1954 ASD    SQ.B    - PRO COLLEGNO COLLEGNESE       I   I SIS LESNA TORINO      sq.B     - PRO COLLEGNO COLLEGNESE     I
+I VENARIA REALE        SQ.B    - SIS LESNA TORINO      sq.B    I   I VENARIA REALE         SQ.B     - POZZOMAINA S.R.L. S.SSQ.C   I
+I VIRTUS ACCADEMIA CALCSQ.B    - POL. PARADISO COLLEGNO        I   I VIRTUS ACCADEMIA CALCSQ.B      - LASCARIS 1954 ASD     SQ.B  I
+I      Riposa................ - POZZOMAINA S.R.L. S.SSQ.C      I   I       Riposa................ - LUCENTO                 SQ.C  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:           !  3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I LUCENTO              SQ.C    - VENARIA REALE         SQ.B    I   I POL. PARADISO COLLEGNO         - VENARIA REALE         SQ.B  I
+I PRO COLLEGNO COLLEGNESE      - POZZOMAINA S.R.L. S.SSQ.C     I   I POZZOMAINA S.R.L. S.SSQ.C      - LASCARIS 1954 ASD     SQ.B  I
+I SIS LESNA TORINO     sq.B    - LASCARIS 1954 ASD     SQ.B    I   I PRO COLLEGNO COLLEGNESE        - LUCENTO               SQ.C  I
+I VIRTUS ACCADEMIA CALCSQ.B    - ALPIGNANO             SQ.C    I   I SIS LESNA TORINO      sq.B     - VIRTUS ACCADEMIA CALCSQ.B   I
+I      Riposa................ - POL. PARADISO COLLEGNO         I   I       Riposa................ - ALPIGNANO               SQ.C  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:           !  4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I LASCARIS 1954 ASD    SQ.B    - LUCENTO               SQ.C    I   I ALPIGNANO             SQ.C     - PRO COLLEGNO COLLEGNESE     I
+I POL. PARADISO COLLEGNO       - PRO COLLEGNO COLLEGNESE       I   I LASCARIS 1954 ASD     SQ.B     - POL. PARADISO COLLEGNO      I
+I POZZOMAINA S.R.L. S.SSQ.C    - SIS LESNA TORINO      sq.B    I   I LUCENTO               SQ.C     - SIS LESNA TORINO      sq.B  I
+I VENARIA REALE        SQ.B    - ALPIGNANO             SQ.C    I   I VIRTUS ACCADEMIA CALCSQ.B      - POZZOMAINA S.R.L. S.SSQ.C   I
+I      Riposa................ - VIRTUS ACCADEMIA CALCSQ.B      I   I       Riposa................ - VENARIA REALE           SQ.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:           !  5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I ALPIGNANO            SQ.C    - LASCARIS 1954 ASD     SQ.B    I
+I LUCENTO              SQ.C    - POZZOMAINA S.R.L. S.SSQ.C     I
+I SIS LESNA TORINO     sq.B    - POL. PARADISO COLLEGNO        I
+I VIRTUS ACCADEMIA CALCSQ.B    - VENARIA REALE         SQ.B    I
+I      Riposa................ - PRO COLLEGNO COLLEGNESE        I
+I--------------------------------------------------------------I
+*---------------------------*                                                      *-----------------------------------*
+|                   |       **   E L E N C O     C A M P I     D A    G I O C O **                                     |
+| COMITATO          |                                                                                                  |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:   D                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO              LOCALITA' CAMPO               | ORA | INDIRIZZO                                        |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                |       |
+| LUCENTO              SQ.C            | 683 | SINTETICO "VALDELLATORRE"         TORINO                        | 15:00 | VIA VALDELLATORRE 169         |                |
+|                                      |      |                                                                |       |                               |                |
+| POL. PARADISO COLLEGNO               | 206 | SINTETICO "VESPUCCI" ATT.BASE     COLLEGNO                      | 15:45 | VIA VESPUCCI 1                |                |
+|                                      |      |                                                                |       |                               |                |
+| PRO COLLEGNO COLLEGNESE              | 207 | BENDINI                           COLLEGNO                      | 17:00 | VIA ANTICA DI RIVOLI, 15      |                |
+|                                      |      |                                                                |       |                               |                |
+| SIS LESNA TORINO     sq.B            | 633 | SINTETICO "BRISSOGNE"             TORINO                        | 16:00 | VIA BRISSOGNE, 41             |                |
+|                                      |      |                                                                |       |                               |                |
+| ALPIGNANO            SQ.C            |   13 | ALLENDE - ERBA NATURALE          ALPIGNANO                     | 10:30 | VIA MIGLIARONE, 12            |                |
+|                                      |      |                                                                |       |                               |                |
+| LASCARIS 1954 ASD    SQ.B            | 407 | "SOFFIETTI" ERBA NATURALE         PIANEZZA                      | 11:30 | VIA CLAVIERE 16               |                |
+|                                      |      |                                                                |       |                               |                |
+| VENARIA REALE        SQ.B            | 1161 | SINTETICO "DON MOSSO 4"          VENARIA REALE                 | 16:30 | VIA S.MARCHESE                |                |
+|                                      |      |                                                                |       |                               |                |
+| VIRTUS ACCADEMIA CALCSQ.B            | 1684 | SINTETICO C5 "SPORT CLUB"        VENARIA REALE             DOM | 9:30 | VIA DI VITTORIO 18             |                |
+|                                      |      |                                                                |       |                               |                |
+| POZZOMAINA S.R.L. S.SSQ.C            | 673 | SINTETICO "OTTAVIO PORTA"         TORINO                        | 15:45 | VIA MONTE ORTIGARA 78         |                |
+|                                      |      |                                                                |       |                               |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                       *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   E                    *
+                                                   *                                                                       *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                        ! RITORNO:         I
+I ORE...:           !  1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A      ! ORE....:         I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I PIANEZZA                     - VICTORIA ACC. CHIEVO          I   I PRO COLLEGNO COLLEGNESQ.B      - VICTORIA ACC. CHIEVO        I
+I PRO COLLEGNO COLLEGNESQ.B    - VILLARBASSE                   I   I SISPORT S.P.A.        SQ.D     - PIANEZZA                    I
+I ROSTA CALCIO                 - TORINO F.C. S.P.A.    SQ.B    I   I USD CASELETTE APS              - TORINO F.C. S.P.A.     SQ.B I
+I SISPORT S.P.A.       SQ.D    - USD CASELETTE APS             I   I VALLE DI SUSA S.C.             - ROSTA CALCIO                I
+I      Riposa................ - VALLE DI SUSA S.C.             I   I       Riposa................ - VILLARBASSE                   I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                        ! RITORNO:         I
+I ORE...:           !  2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A      ! ORE....:         I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I TORINO F.C. S.P.A.   SQ.B    - PIANEZZA                      I   I PIANEZZA                       - VALLE DI SUSA S.C.          I
+I USD CASELETTE APS            - VALLE DI SUSA S.C.            I   I ROSTA CALCIO                   - PRO COLLEGNO COLLEGNESQ.B   I
+I VICTORIA ACC. CHIEVO         - SISPORT S.P.A.        SQ.D    I   I TORINO F.C. S.P.A.    SQ.B     - SISPORT S.P.A.         SQ.D I
+I VILLARBASSE                  - ROSTA CALCIO                  I   I VILLARBASSE                    - USD CASELETTE APS           I
+I      Riposa................ - PRO COLLEGNO COLLEGNESQ.B      I   I       Riposa................ - VICTORIA ACC. CHIEVO          I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                        ! RITORNO:         I
+I ORE...:           !  3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A      ! ORE....:         I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I PIANEZZA                     - VILLARBASSE                   I   I PRO COLLEGNO COLLEGNESQ.B      - PIANEZZA                    I
+I PRO COLLEGNO COLLEGNESQ.B    - USD CASELETTE APS             I   I ROSTA CALCIO                   - VICTORIA ACC. CHIEVO        I
+I VALLE DI SUSA S.C.           - SISPORT S.P.A.        SQ.D    I   I SISPORT S.P.A.        SQ.D     - VILLARBASSE                 I
+I VICTORIA ACC. CHIEVO         - TORINO F.C. S.P.A.    SQ.B    I   I VALLE DI SUSA S.C.             - TORINO F.C. S.P.A.     SQ.B I
+I      Riposa................ - ROSTA CALCIO                   I   I       Riposa................ - USD CASELETTE APS             I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                         ! RITORNO:         I
+I ORE...:           !  4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A      ! ORE....:         I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I SISPORT S.P.A.       SQ.D    - PRO COLLEGNO COLLEGNESQ.B     I   I PIANEZZA                       - ROSTA CALCIO                I
+I USD CASELETTE APS            - ROSTA CALCIO                  I   I TORINO F.C. S.P.A.    SQ.B     - PRO COLLEGNO COLLEGNESQ.B   I
+I VALLE DI SUSA S.C.           - VICTORIA ACC. CHIEVO          I   I VICTORIA ACC. CHIEVO           - USD CASELETTE APS           I
+I VILLARBASSE                  - TORINO F.C. S.P.A.    SQ.B    I   I VILLARBASSE                    - VALLE DI SUSA S.C.          I
+I      Riposa................ - PIANEZZA                       I   I       Riposa................ - SISPORT S.P.A.           SQ.D I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:           !  5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I PIANEZZA                     - USD CASELETTE APS             I
+I PRO COLLEGNO COLLEGNESQ.B    - VALLE DI SUSA S.C.            I
+I ROSTA CALCIO                 - SISPORT S.P.A.        SQ.D    I
+I VICTORIA ACC. CHIEVO         - VILLARBASSE                   I
+I      Riposa................ - TORINO F.C. S.P.A.     SQ.B    I
+I--------------------------------------------------------------I
+*---------------------------*                                                       *-----------------------------------*
+|                    |      **   E L E N C O     C A M P I     D A     G I O C O **                                     |
+| COMITATO           |                                                                                                  |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:    E                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO               LOCALITA' CAMPO               | ORA | INDIRIZZO                                       |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                 |       |
+| PIANEZZA                             | 9028 | SINTETICO "COMUNALE B"            PIANEZZA                      | 13:00 | VIA FERRARI 3                |                |
+|                                      |      |                                                                 |       |                              |                |
+| PRO COLLEGNO COLLEGNESQ.B            | 207 | BENDINI                            COLLEGNO                  DOM | 10:30 | VIA ANTICA DI RIVOLI, 15     |                |
+|                                      |      |                                                                 |       |                              |                |
+| ROSTA CALCIO                         | 474 | SINTETICO "COMUNALE"               ROSTA                         | 18:00 | VIA PONATA, 65               |                |
+|                                      |      |                                                                 |       |                              |                |
+| SISPORT S.P.A.       SQ.D            | 828 | SINTETICO ADB C8 "FORTUNATO"       GRUGLIASCO                DOM | 10:00 | VIA ALBERTO SORDI, 13        |                |
+|                                      |      |                                                                 |       |                              |                |
+| TORINO F.C. S.P.A.   SQ.B            | 9054 | SINTETICO ADB C9 ORBASSANO N.3 ORBASSANO                        | 14:00 | VIA GOZZANO 11               |                |
+|                                      |      |                                                                 |       |                              |                |
+| VALLE DI SUSA S.C.                   | 100 | LUIGI PORTIGLIATTI                 BUSSOLENO                     | 15:00 | VIA CASCINA DEL GALLO 2      |                |
+|                                      |      |                                                                 |       |                              |                |
+| VICTORIA ACC. CHIEVO                 | 9040 | SINTETICO ADB C7 "ALLENDE"        COLLEGNO                      | 16:00 | VIA TAMPELLINI 41            |                |
+|                                      |      |                                                                 |       |                              |                |
+| VILLARBASSE                          | 1064 | COMUNALE                          VILLARBASSE               DOM | 10:30 | VIA SAN MARTINO, 1           |                |
+|                                      |      |                                                                 |       |                              |                |
+| USD CASELETTE APS                    | 9107 | SINTETICO ADB C7 "GHIROTTO 2"     CASELETTE                 DOM | 14:00 | VIALE SANT'ABACO, 3          |                |
+|                                      |      |                                                                 |       |                              |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   F                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:          !   1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CBS SCUOLA CALCIO A.SSQ.C    - SAN GIORGIO TORINO            I   I MIRAFIORI A.S.D.      SQ.B     - ONNISPORT CLUB        SQ.C  I
+I MIRAFIORI A.S.D.     SQ.B    - TOP PLAYER ACADEMY    SQ.B    I   I SAN GIORGIO TORINO             - JUVENTUS WOMEN              I
+I ONNISPORT CLUB       SQ.C    - CHIERI                SQ.C    I   I TOP PLAYER ACADEMY    SQ.B     - CHISOLA CALCIO        SQ.C  I
+I VIANNEY                      - JUVENTUS WOMEN                I   I VIANNEY                        - CHIERI                SQ.C  I
+I      Riposa................ - CHISOLA CALCIO         SQ.C    I   I       Riposa................ - CBS SCUOLA CALCIO A.SSQ.C     I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:          !   2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CHIERI               SQ.C    - MIRAFIORI A.S.D.      SQ.B    I   I CHIERI                SQ.C     - SAN GIORGIO TORINO          I
+I CHISOLA CALCIO       SQ.C    - ONNISPORT CLUB        SQ.C    I   I CHISOLA CALCIO        SQ.C     - MIRAFIORI A.S.D.      SQ.B  I
+I SAN GIORGIO TORINO           - VIANNEY                       I   I JUVENTUS WOMEN                 - TOP PLAYER ACADEMY    SQ.B  I
+I TOP PLAYER ACADEMY   SQ.B    - CBS SCUOLA CALCIO A.SSQ.C     I   I ONNISPORT CLUB        SQ.C     - CBS SCUOLA CALCIO A.SSQ.C   I
+I      Riposa................ - JUVENTUS WOMEN                 I   I       Riposa................ - VIANNEY                       I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:          !   3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CBS SCUOLA CALCIO A.SSQ.C    - MIRAFIORI A.S.D.      SQ.B    I   I CBS SCUOLA CALCIO A.SSQ.C      - CHISOLA CALCIO        SQ.C  I
+I CHIERI               SQ.C    - CHISOLA CALCIO        SQ.C    I   I MIRAFIORI A.S.D.      SQ.B     - JUVENTUS WOMEN              I
+I ONNISPORT CLUB       SQ.C    - JUVENTUS WOMEN                I   I TOP PLAYER ACADEMY    SQ.B     - SAN GIORGIO TORINO          I
+I VIANNEY                      - TOP PLAYER ACADEMY    SQ.B    I   I VIANNEY                        - ONNISPORT CLUB        SQ.C  I
+I      Riposa................ - SAN GIORGIO TORINO             I   I       Riposa................ - CHIERI                  SQ.C  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:          !   4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CBS SCUOLA CALCIO A.SSQ.C    - CHIERI                SQ.C    I   I CHIERI                SQ.C     - TOP PLAYER ACADEMY    SQ.B  I
+I JUVENTUS WOMEN               - CHISOLA CALCIO        SQ.C    I   I CHISOLA CALCIO        SQ.C     - VIANNEY                     I
+I MIRAFIORI A.S.D.     SQ.B    - VIANNEY                       I   I JUVENTUS WOMEN                 - CBS SCUOLA CALCIO A.SSQ.C   I
+I SAN GIORGIO TORINO           - ONNISPORT CLUB        SQ.C    I   I SAN GIORGIO TORINO             - MIRAFIORI A.S.D.      SQ.B  I
+I      Riposa................ - TOP PLAYER ACADEMY     SQ.B    I   I       Riposa................ - ONNISPORT CLUB          SQ.C  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:          !   5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I CHIERI               SQ.C    - JUVENTUS WOMEN                I
+I CHISOLA CALCIO       SQ.C    - SAN GIORGIO TORINO            I
+I ONNISPORT CLUB       SQ.C    - TOP PLAYER ACADEMY    SQ.B    I
+I VIANNEY                      - CBS SCUOLA CALCIO A.SSQ.C     I
+I      Riposa................ - MIRAFIORI A.S.D.       SQ.B    I
+I--------------------------------------------------------------I
+*---------------------------*                                                      *-----------------------------------*
+|                    |      **   E L E N C O     C A M P I     D A    G I O C O **                                     |
+| COMITATO           |                                                                                                 |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:   F                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO              LOCALITA' CAMPO               | ORA | INDIRIZZO                                        |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                |       |
+| CBS SCUOLA CALCIO A.SSQ.C            | 638 | SINTETICO "CAVORETTO"             TORINO                    DOM | 14:30 | CORSO SICILIA, 58             |                |
+|                                      |      |                                                                |       |                               |                |
+| MIRAFIORI A.S.D.     SQ.B            | 695 | SINTETICO "CORBO-MONTEPONI"       TORINO                    DOM | 15:30 | VIA LUDOVICO GEYMONAT 11      |                |
+|                                      |      |                                                                |       |                               |                |
+| ONNISPORT CLUB       SQ.C            | 364 | SINTETICO "GAETANO SCIREA"        NICHELINO                     | 14:15 | VIA BERLINGUER, 40            |                |
+|                                      |      |                                                                |       |                               |                |
+| VIANNEY                              | 1460 | SINTETICO "VIANNEY"              TORINO                        | 15:30 | VIA GIANELLI 8                |                |
+|                                      |      |                                                                |       |                               |                |
+| CHIERI               SQ.C            | 9096 | ERBA NATURALE ADB C7 "ROSATO"    CHIERI                    DOM | 13:00 | STRADA ANDEZENO, 76           |                |
+|                                      |      |                                                                |       |                               |                |
+| CHISOLA CALCIO       SQ.C            | 909 | SINTETICO "DINO MAROLA"           VINOVO                        | 16:00 | VIA DEL CASTELLO, 3           |                |
+|                                      |      |                                                                |       |                               |                |
+| SAN GIORGIO TORINO                   | 674 | SINTETICO "NITTI"                 TORINO                        | 15:00 | VIA NITTI 6                   |                |
+|                                      |      |                                                                |       |                               |                |
+| TOP PLAYER ACADEMY   SQ.B            | 661 | ARISTIDE FACCIOLI                 TORINO                        | 16:30 | VIA FACCIOLI, 72/A            |                |
+|                                      |      |                                                                |       |                               |                |
+| JUVENTUS WOMEN                       | 1278 | SINTETICO "GARINO"               GARINO - VINOVO               | 14:00 | VIA SOTTI 22                  |                |
+|                                      |      |                                                                |       |                               |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   G                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:           !  1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CHISOLA CALCIO               - JUVENTUS F.C. SPA             I   I CHISOLA CALCIO                 - MONCALIERI CALCIO 1953      I
+I MIRAFIORI A.S.D.             - ONNISPORT CLUB                I   I MIRAFIORI A.S.D.               - TOP PLAYER ACADEMY          I
+I MONCALIERI CALCIO 1953       - CBS SCUOLA CALCIO A.S.D.      I   I ONNISPORT CLUB                 - CBS SCUOLA CALCIO A.S.D.    I
+I TOP PLAYER ACADEMY           - CHIERI                        I   I POLISPORTIVA GARINO            - CHIERI                      I
+I      Riposa................ - POLISPORTIVA GARINO            I   I       Riposa................ - JUVENTUS F.C. SPA             I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:           !  2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CBS SCUOLA CALCIO A.S.D.     - TOP PLAYER ACADEMY            I   I CBS SCUOLA CALCIO A.S.D.       - MIRAFIORI A.S.D.            I
+I CHIERI                       - MIRAFIORI A.S.D.              I   I CHIERI                         - JUVENTUS F.C. SPA           I
+I JUVENTUS F.C. SPA            - POLISPORTIVA GARINO           I   I MONCALIERI CALCIO 1953         - POLISPORTIVA GARINO         I
+I ONNISPORT CLUB               - CHISOLA CALCIO                I   I TOP PLAYER ACADEMY             - CHISOLA CALCIO              I
+I      Riposa................ - MONCALIERI CALCIO 1953         I   I       Riposa................ - ONNISPORT CLUB                I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:           !  3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CHIERI                       - CBS SCUOLA CALCIO A.S.D.      I   I CHISOLA CALCIO                 - CBS SCUOLA CALCIO A.S.D.    I
+I CHISOLA CALCIO               - MIRAFIORI A.S.D.              I   I MONCALIERI CALCIO 1953         - CHIERI                      I
+I MONCALIERI CALCIO 1953       - JUVENTUS F.C. SPA             I   I ONNISPORT CLUB                 - JUVENTUS F.C. SPA           I
+I POLISPORTIVA GARINO          - ONNISPORT CLUB                I   I POLISPORTIVA GARINO            - TOP PLAYER ACADEMY          I
+I      Riposa................ - TOP PLAYER ACADEMY             I   I       Riposa................ - MIRAFIORI A.S.D.              I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:           !  4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CHISOLA CALCIO               - CHIERI                        I   I CBS SCUOLA CALCIO A.S.D.       - POLISPORTIVA GARINO         I
+I JUVENTUS F.C. SPA            - TOP PLAYER ACADEMY            I   I CHIERI                         - ONNISPORT CLUB              I
+I MIRAFIORI A.S.D.             - POLISPORTIVA GARINO           I   I JUVENTUS F.C. SPA              - MIRAFIORI A.S.D.            I
+I ONNISPORT CLUB               - MONCALIERI CALCIO 1953        I   I TOP PLAYER ACADEMY             - MONCALIERI CALCIO 1953      I
+I      Riposa................ - CBS SCUOLA CALCIO A.S.D.       I   I       Riposa................ - CHISOLA CALCIO                I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:           !  5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I CBS SCUOLA CALCIO A.S.D.     - JUVENTUS F.C. SPA             I
+I MONCALIERI CALCIO 1953       - MIRAFIORI A.S.D.              I
+I POLISPORTIVA GARINO          - CHISOLA CALCIO                I
+I TOP PLAYER ACADEMY           - ONNISPORT CLUB                I
+I      Riposa................ - CHIERI                         I
+I--------------------------------------------------------------I
+*---------------------------*                                                      *-----------------------------------*
+|                    |      **   E L E N C O     C A M P I     D A    G I O C O **                                     |
+| COMITATO           |                                                                                                 |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:   G                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO              LOCALITA' CAMPO               | ORA | INDIRIZZO                                        |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                |       |
+| CHISOLA CALCIO                       | 909 | SINTETICO "DINO MAROLA"           VINOVO                        | 14:00 | VIA DEL CASTELLO, 3           |                |
+|                                      |      |                                                                |       |                               |                |
+| MIRAFIORI A.S.D.                     | 695 | SINTETICO "CORBO-MONTEPONI"       TORINO                        | 15:30 | VIA LUDOVICO GEYMONAT 11      |                |
+|                                      |      |                                                                |       |                               |                |
+| MONCALIERI CALCIO 1953               | 340 | TESTONA                           MONCALIERI - LOC. TESTONA     | 15:00 | VIA F. CONFALONIERI, 9        |                |
+|                                      |      |                                                                |       |                               |                |
+| TOP PLAYER ACADEMY                   | 661 | ARISTIDE FACCIOLI                 TORINO                    DOM | 14:00 | VIA FACCIOLI, 72/A            |                |
+|                                      |      |                                                                |       |                               |                |
+| CBS SCUOLA CALCIO A.S.D.             | 638 | SINTETICO "CAVORETTO"             TORINO                    DOM | 9:30 | CORSO SICILIA, 58              |                |
+|                                      |      |                                                                |       |                               |                |
+| CHIERI                               | 9096 | ERBA NATURALE ADB C7 "ROSATO"    CHIERI                    DOM | 11:00 | STRADA ANDEZENO, 76           |                |
+|                                      |      |                                                                |       |                               |                |
+| JUVENTUS F.C. SPA                    | 909 | SINTETICO "DINO MAROLA"           VINOVO                        | 10:30 | VIA DEL CASTELLO, 3           |                |
+|                                      |      |                                                                |       |                               |                |
+| ONNISPORT CLUB                       | 364 | SINTETICO "GAETANO SCIREA"        NICHELINO                 DOM | 15:00 | VIA BERLINGUER, 40            |                |
+|                                      |      |                                                                |       |                               |                |
+| POLISPORTIVA GARINO                  | 1278 | SINTETICO "GARINO"               GARINO - VINOVO               | 14:00 | VIA SOTTI 22                  |                |
+|                                      |      |                                                                |       |                               |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   H                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:           !  1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I BORGO VITTORIA CIT TURIN     - CARRARA 90            SQ.B    I   I BORGO VITTORIA CIT TURIN       - TORINO F.C. S.P.A.          I
+I CENISIA A R.L.       SQ.B    - G.A.R. REBAUDENGO             I   I CENTROCAMPO                    - CENISIA A R.L.        SQ.B  I
+I CENTROCAMPO                  - LASCARIS 1954 ASD     SQ.C    I   I LASCARIS 1954 ASD     SQ.C     - CARRARA 90            SQ.B  I
+I CIT TURIN LDE        sq.B    - TORINO F.C. S.P.A.            I   I POZZOMAINA S.R.L. S.SSQ.B      - G.A.R. REBAUDENGO           I
+I ROSTA CALCIO         SQ.B    - POZZOMAINA S.R.L. S.SSQ.B     I   I ROSTA CALCIO          SQ.B     - CIT TURIN LDE         sq.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:           !  2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CARRARA 90           SQ.B    - CENISIA A R.L.        SQ.B    I   I CARRARA 90            SQ.B     - POZZOMAINA S.R.L. S.SSQ.B   I
+I G.A.R. REBAUDENGO            - CIT TURIN LDE         sq.B    I   I CENISIA A R.L.        SQ.B     - BORGO VITTORIA CIT TURIN    I
+I LASCARIS 1954 ASD    SQ.C    - BORGO VITTORIA CIT TURIN      I   I CIT TURIN LDE         sq.B     - CENTROCAMPO                 I
+I POZZOMAINA S.R.L. S.SSQ.B    - CENTROCAMPO                   I   I G.A.R. REBAUDENGO              - ROSTA CALCIO          SQ.B  I
+I TORINO F.C. S.P.A.           - ROSTA CALCIO          SQ.B    I   I TORINO F.C. S.P.A.             - LASCARIS 1954 ASD     SQ.C  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:           !  3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I BORGO VITTORIA CIT TURIN     - POZZOMAINA S.R.L. S.SSQ.B     I   I BORGO VITTORIA CIT TURIN       - CIT TURIN LDE         sq.B  I
+I CENISIA A R.L.       SQ.B    - LASCARIS 1954 ASD     SQ.C    I   I CENISIA A R.L.        SQ.B     - TORINO F.C. S.P.A.          I
+I CENTROCAMPO                  - ROSTA CALCIO          SQ.B    I   I CENTROCAMPO                    - G.A.R. REBAUDENGO           I
+I CIT TURIN LDE        sq.B    - CARRARA 90            SQ.B    I   I POZZOMAINA S.R.L. S.SSQ.B      - LASCARIS 1954 ASD     SQ.C  I
+I TORINO F.C. S.P.A.           - G.A.R. REBAUDENGO             I   I ROSTA CALCIO          SQ.B     - CARRARA 90            SQ.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:           !  4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CARRARA 90           SQ.B    - G.A.R. REBAUDENGO             I   I CARRARA 90            SQ.B     - CENTROCAMPO                 I
+I CENTROCAMPO                  - TORINO F.C. S.P.A.            I   I CIT TURIN LDE         sq.B     - CENISIA A R.L.        SQ.B  I
+I LASCARIS 1954 ASD    SQ.C    - CIT TURIN LDE         sq.B    I   I G.A.R. REBAUDENGO              - BORGO VITTORIA CIT TURIN    I
+I POZZOMAINA S.R.L. S.SSQ.B    - CENISIA A R.L.        SQ.B    I   I LASCARIS 1954 ASD     SQ.C     - ROSTA CALCIO          SQ.B  I
+I ROSTA CALCIO         SQ.B    - BORGO VITTORIA CIT TURIN      I   I TORINO F.C. S.P.A.             - POZZOMAINA S.R.L. S.SSQ.B   I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:           !  5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I BORGO VITTORIA CIT TURIN     - CENTROCAMPO                   I
+I CENISIA A R.L.       SQ.B    - ROSTA CALCIO          SQ.B    I
+I CIT TURIN LDE        sq.B    - POZZOMAINA S.R.L. S.SSQ.B     I
+I G.A.R. REBAUDENGO            - LASCARIS 1954 ASD     SQ.C    I
+I TORINO F.C. S.P.A.           - CARRARA 90            SQ.B    I
+I--------------------------------------------------------------I
+*---------------------------*                                                       *-----------------------------------*
+|                   |       **   E L E N C O     C A M P I     D A     G I O C O **                                     |
+| COMITATO          |                                                                                                   |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.      GIRONE:   H                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO               LOCALITA' CAMPO               | ORA | INDIRIZZO                                         |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                 |       |
+| BORGO VITTORIA CIT TURIN             | 5623 | SINTETICO C11 "IVEST"             TORINO                    DOM | 10:30 | VIA MASSARI                  |                |
+|                                      |      |                                                                 |       |                              |                |
+| CENISIA A R.L.       SQ.B            | 654 | SINTETICO "CENISIA"                TORINO                        | 16:00 | VIA REVELLO                  |                |
+|                                      |      |                                                                 |       |                              |                |
+| CIT TURIN LDE        sq.B            | 636 | SINTETICO "CIT TURIN"              TORINO                    DOM | 9:30 | CORSO FERRUCCI 63             |                |
+|                                      |      |                                                                 |       |                              |                |
+| ROSTA CALCIO         SQ.B            | 474 | SINTETICO "COMUNALE"               ROSTA                     DOM | 18:00 | VIA PONATA, 65               |                |
+|                                      |      |                                                                 |       |                              |                |
+| CARRARA 90           SQ.B            | 634 | SINTETICO "CARRARA 90"             TORINO                    DOM | 11:15 | CORSO APPIO CLAUDIO,192/A    |                |
+|                                      |      |                                                                 |       |                              |                |
+| G.A.R. REBAUDENGO                    | 1079 | SINTETICO "SEMPIONE"              TORINO                        | 16:00 | VIA GOTTARDO, 10             |                |
+|                                      |      |                                                                 |       |                              |                |
+| POZZOMAINA S.R.L. S.SSQ.B            | 673 | SINTETICO "OTTAVIO PORTA"          TORINO                        | 14:00 | VIA MONTE ORTIGARA 78        |                |
+|                                      |      |                                                                 |       |                              |                |
+| TORINO F.C. S.P.A. (SQ. FEMM.)       | 754 | SINTETICO C7 ADB SPORT VILLAGE COLLEGNO                          | 14:30 | VIA SERGIO ALLEGRI,15        |                |
+|                                      |      |                                                                 |       |                              |                |
+| CENTROCAMPO                          | 684 | SINTETICO"CENTROCAMPO"             TORINO                    DOM | 10:00 | VIA PETRELLA 40              |                |
+|                                      |      |                                                                 |       |                              |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                       *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   I                    *
+                                                   *                                                                       *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:          !   1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CARRARA 90                   - POZZOMAINA S.R.L. S.S.D.      I   I CARRARA 90                     - SPAZIO TALENT SOCCER        I
+I CBS SCUOLA CALCIO A.SSQ.B    - CIT TURIN LDE                 I   I CBS SCUOLA CALCIO A.SSQ.B      - CENISIA A R.L.              I
+I LUCENTO              SQ.B    - SIS LESNA TORINO              I   I CIT TURIN LDE                  - SIS LESNA TORINO            I
+I SPAZIO TALENT SOCCER         - SISPORT S.P.A.                I   I LUCENTO               SQ.B     - SISPORT S.P.A.              I
+I      Riposa................ - CENISIA A R.L.                 I   I       Riposa................ - POZZOMAINA S.R.L. S.S.D.      I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:          !   2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CIT TURIN LDE                - LUCENTO               SQ.B    I   I CENISIA A R.L.                 - LUCENTO                SQ.B I
+I POZZOMAINA S.R.L. S.S.D.     - CBS SCUOLA CALCIO A.SSQ.B     I   I SIS LESNA TORINO               - POZZOMAINA S.R.L. S.S.D.    I
+I SIS LESNA TORINO             - CENISIA A R.L.                I   I SISPORT S.P.A.                 - CIT TURIN LDE               I
+I SISPORT S.P.A.               - CARRARA 90                    I   I SPAZIO TALENT SOCCER           - CBS SCUOLA CALCIO A.SSQ.B   I
+I      Riposa................ - SPAZIO TALENT SOCCER           I   I       Riposa................ - CARRARA 90                    I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:          !   3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CBS SCUOLA CALCIO A.SSQ.B    - CARRARA 90                    I   I CARRARA 90                     - SIS LESNA TORINO            I
+I CENISIA A R.L.               - CIT TURIN LDE                 I   I CENISIA A R.L.                 - SISPORT S.P.A.              I
+I LUCENTO              SQ.B    - POZZOMAINA S.R.L. S.S.D.      I   I LUCENTO               SQ.B     - SPAZIO TALENT SOCCER        I
+I SPAZIO TALENT SOCCER         - SIS LESNA TORINO              I   I POZZOMAINA S.R.L. S.S.D.       - CIT TURIN LDE               I
+I      Riposa................ - SISPORT S.P.A.                 I   I       Riposa................ - CBS SCUOLA CALCIO A.SSQ.B     I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:          !   4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CARRARA 90                   - LUCENTO               SQ.B    I   I CIT TURIN LDE                  - CARRARA 90                  I
+I CBS SCUOLA CALCIO A.SSQ.B    - SISPORT S.P.A.                I   I SIS LESNA TORINO               - CBS SCUOLA CALCIO A.SSQ.B   I
+I CIT TURIN LDE                - SPAZIO TALENT SOCCER          I   I SISPORT S.P.A.                 - POZZOMAINA S.R.L. S.S.D.    I
+I POZZOMAINA S.R.L. S.S.D.     - CENISIA A R.L.                I   I SPAZIO TALENT SOCCER           - CENISIA A R.L.              I
+I      Riposa................ - SIS LESNA TORINO               I   I       Riposa................ - LUCENTO                  SQ.B I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:          !   5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I CENISIA A R.L.               - CARRARA 90                    I
+I LUCENTO              SQ.B    - CBS SCUOLA CALCIO A.SSQ.B     I
+I SISPORT S.P.A.               - SIS LESNA TORINO              I
+I SPAZIO TALENT SOCCER         - POZZOMAINA S.R.L. S.S.D.      I
+I      Riposa................ - CIT TURIN LDE                  I
+I--------------------------------------------------------------I
+*---------------------------*                                                      *-----------------------------------*
+|                   |       **   E L E N C O     C A M P I     D A    G I O C O **                                     |
+| COMITATO          |                                                                                                  |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:   I                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO              LOCALITA' CAMPO               | ORA | INDIRIZZO                                        |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                |       |
+| CARRARA 90                           | 634 | SINTETICO "CARRARA 90"            TORINO                        | 15:45 | CORSO APPIO CLAUDIO,192/A     |                |
+|                                      |      |                                                                |       |                               |                |
+| CBS SCUOLA CALCIO A.SSQ.B            | 638 | SINTETICO "CAVORETTO"             TORINO                    DOM | 9:30 | CORSO SICILIA, 58              |                |
+|                                      |      |                                                                |       |                               |                |
+| CENISIA A R.L.                       | 654 | SINTETICO "CENISIA"               TORINO                        | 14:30 | VIA REVELLO                   |                |
+|                                      |      |                                                                |       |                               |                |
+| LUCENTO              SQ.B            | 637 | SINTETICO "RICONDA"               TORINO                    DOM | 12:15 | CORSO LOMBARDIA 107           |                |
+|                                      |      |                                                                |       |                               |                |
+| SPAZIO TALENT SOCCER                 | 799 | SINTETICO"PELLERINA 1"            TORINO                    DOM | 17:00 | C.APPIO CLAUDIO 106           |                |
+|                                      |      |                                                                |       |                               |                |
+| CIT TURIN LDE                        | 636 | SINTETICO "CIT TURIN"             TORINO                        | 14:30 | CORSO FERRUCCI 63             |                |
+|                                      |      |                                                                |       |                               |                |
+| POZZOMAINA S.R.L. S.S.D.             | 673 | SINTETICO "OTTAVIO PORTA"         TORINO                    DOM | 16:00 | VIA MONTE ORTIGARA 78         |                |
+|                                      |      |                                                                |       |                               |                |
+| SIS LESNA TORINO                     | 9057 | SINTETICO ADB C8 S.IGNAZIO       TORINO                        | 16:00 | VIA MONFALCONE, 150           |                |
+|                                      |      |                                                                |       |                               |                |
+| SISPORT S.P.A.                       | 1020 | SINTETICO ADB C9 "POLIGRU" N.1 GRUGLIASCO                      | 14:30 | CORSO ALLAMANO, 125           |                |
+|                                      |      |                                                                |       |                               |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   L                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:          !   1 G I O R N A T A ! ORE....:            I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I ABSOLUTE MONCALIERI          - CHIERI                SQ.B    I   I CHISOLA CALCIO        SQ.B     - CENISIA A R.L.        SQ.C  I
+I CENISIA A R.L.       SQ.C    - TORINO F.C. S.P.A.    SQ.C    I   I CSF CARMAGNOLA QUEENCSQ.B      - ABSOLUTE MONCALIERI         I
+I CHISOLA CALCIO       SQ.B    - VIANNEY               sq.B    I   I PSG SSDARL            SQ.B     - CHIERI                SQ.B  I
+I CSF CARMAGNOLA QUEENCSQ.B    - VANCHIGLIA 1915       SQ.B    I   I VANCHIGLIA 1915       SQ.B     - TORINO F.C. S.P.A.    SQ.C  I
+I PSG SSDARL           SQ.B    - SAN GIACOMO CHIERI    SQ.B    I   I VIANNEY               sq.B     - SAN GIACOMO CHIERI    SQ.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:          !   2 G I O R N A T A ! ORE....:            I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CHIERI               SQ.B    - CSF CARMAGNOLA QUEENCSQ.B     I   I ABSOLUTE MONCALIERI            - CHISOLA CALCIO        SQ.B  I
+I SAN GIACOMO CHIERI   SQ.B    - CENISIA A R.L.        SQ.C    I   I CENISIA A R.L.        SQ.C     - PSG SSDARL            SQ.B  I
+I TORINO F.C. S.P.A.   SQ.C    - ABSOLUTE MONCALIERI           I   I CHIERI                SQ.B     - VIANNEY               sq.B  I
+I VANCHIGLIA 1915      SQ.B    - CHISOLA CALCIO        SQ.B    I   I SAN GIACOMO CHIERI    SQ.B     - VANCHIGLIA 1915       SQ.B  I
+I VIANNEY              sq.B    - PSG SSDARL            SQ.B    I   I TORINO F.C. S.P.A.    SQ.C     - CSF CARMAGNOLA QUEENCSQ.B   I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:          !   3 G I O R N A T A ! ORE....:            I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I ABSOLUTE MONCALIERI          - SAN GIACOMO CHIERI    SQ.B    I   I CENISIA A R.L.        SQ.C     - CHIERI                SQ.B  I
+I CENISIA A R.L.       SQ.C    - VIANNEY               sq.B    I   I CHISOLA CALCIO        SQ.B     - TORINO F.C. S.P.A.    SQ.C  I
+I CHIERI               SQ.B    - TORINO F.C. S.P.A.    SQ.C    I   I CSF CARMAGNOLA QUEENCSQ.B      - SAN GIACOMO CHIERI    SQ.B  I
+I CHISOLA CALCIO       SQ.B    - CSF CARMAGNOLA QUEENCSQ.B     I   I PSG SSDARL            SQ.B     - ABSOLUTE MONCALIERI         I
+I PSG SSDARL           SQ.B    - VANCHIGLIA 1915       SQ.B    I   I VANCHIGLIA 1915       SQ.B     - VIANNEY               sq.B  I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:          !   4 G I O R N A T A ! ORE....:            I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CHISOLA CALCIO       SQ.B    - CHIERI                SQ.B    I   I ABSOLUTE MONCALIERI            - CENISIA A R.L.        SQ.C  I
+I CSF CARMAGNOLA QUEENCSQ.B    - PSG SSDARL            SQ.B    I   I CHIERI                SQ.B     - VANCHIGLIA 1915       SQ.B  I
+I SAN GIACOMO CHIERI   SQ.B    - TORINO F.C. S.P.A.    SQ.C    I   I SAN GIACOMO CHIERI    SQ.B     - CHISOLA CALCIO        SQ.B  I
+I VANCHIGLIA 1915      SQ.B    - CENISIA A R.L.        SQ.C    I   I TORINO F.C. S.P.A.    SQ.C     - PSG SSDARL            SQ.B  I
+I VIANNEY              sq.B    - ABSOLUTE MONCALIERI           I   I VIANNEY               sq.B     - CSF CARMAGNOLA QUEENCSQ.B   I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:          !   5 G I O R N A T A ! ORE....:            I
+I--------------------------------------------------------------I
+I ABSOLUTE MONCALIERI          - VANCHIGLIA 1915       SQ.B    I
+I CENISIA A R.L.       SQ.C    - CSF CARMAGNOLA QUEENCSQ.B     I
+I CHIERI               SQ.B    - SAN GIACOMO CHIERI    SQ.B    I
+I PSG SSDARL           SQ.B    - CHISOLA CALCIO        SQ.B    I
+I TORINO F.C. S.P.A.   SQ.C    - VIANNEY               sq.B    I
+I--------------------------------------------------------------I
+*---------------------------*                                                      *-----------------------------------*
+|                    |      **   E L E N C O     C A M P I     D A    G I O C O **                                     |
+| COMITATO           |                                                                                                 |
+| PIEMONTE V.AOSTA |        **    ESORDIENTI 1° anno TORINO AUT.     GIRONE:   L                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO              LOCALITA' CAMPO               | ORA | INDIRIZZO                                        |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                |       |
+| ABSOLUTE MONCALIERI                  | 4899 | SINTETICO ADB C7                 LA LOGGIA                     | 17:00 | VIA DELLA CHIESA, 36          |                |
+|                                      |      |                                                                |       |                               |                |
+| CENISIA A R.L.       SQ.C            | 654 | SINTETICO "CENISIA"               TORINO                        | 16:00 | VIA REVELLO                   |                |
+|                                      |      |                                                                |       |                               |                |
+| CHISOLA CALCIO       SQ.B            | 909 | SINTETICO "DINO MAROLA"           VINOVO                        | 16:00 | VIA DEL CASTELLO, 3           |                |
+|                                      |      |                                                                |       |                               |                |
+| CSF CARMAGNOLA QUEENCSQ.B            | 125 | COMUNALE                          CARMAGNOLA                    | 14:30 | CORSO ROMA, 24                |                |
+|                                      |      |                                                                |       |                               |                |
+| PSG SSDARL           SQ.B            | 9182 | SINTETICO ADB A9- GARRONE "B"    RIVA PRESSO CHIERI        DOM | 10:00 | VIA FAUSTINA MAZZETTI, 11     |                |
+|                                      |      |                                                                |       |                               |                |
+| CHIERI               SQ.B            | 9096 | ERBA NATURALE ADB C7 "ROSATO"    CHIERI                        | 17:00 | STRADA ANDEZENO, 76           |                |
+|                                      |      |                                                                |       |                               |                |
+| SAN GIACOMO CHIERI   SQ.B            | 1505 | FONTANETO N.1                    CHIERI                    DOM | 10:15 | STRADA FONTANETO, 73          |                |
+|                                      |      |                                                                |       |                               |                |
+| TORINO F.C. S.P.A.   SQ.C            | 9054 | SINTETICO ADB C9 ORBASSANO N.3 ORBASSANO                       | 16:00 | VIA GOZZANO 11                |                |
+|                                      |      |                                                                |       |                               |                |
+| VANCHIGLIA 1915      SQ.B            | 641 | SINTETICO "GASPARE TALLIA"        TORINO                    DOM | 10:00 | VIA E.RAGAZZONI, 2            |                |
+|                                      |      |                                                                |       |                               |                |
+| VIANNEY              sq.B            | 1460 | SINTETICO "VIANNEY"              TORINO                    DOM | 16:00 | VIA GIANELLI 8                |                |
+|                                      |      |                                                                |       |                               |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+                                                   ************************************************************************
+                                                   *                                                                      *
+                                                   *   ESORDIENTI 1° anno TORINO AUT.       GIRONE:   M                   *
+                                                   *                                                                      *
+                                                   ************************************************************************
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 10/10/26 !                       ! RITORNO:          I   I ANDATA: 14/11/26 !                       ! RITORNO:          I
+I ORE...:          !    1 G I O R N A T A ! ORE....:           I   I ORE...:          ! 6 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I DORINA                       - DUOMO CHIERI A.S.D.           I   I DUOMO CHIERI A.S.D.            - SAN GIACOMO CHIERI          I
+I PSG SSDARL                   - SAN GIACOMO CHIERI            I   I ONNISPORT CLUB        SQ.B     - CSF CARMAGNOLA QUEENCAR     I
+I TROFARELLO 1927              - ONNISPORT CLUB        SQ.B    I   I PSG SSDARL                     - SAN LUIGI SANTENA APS       I
+I VANCHIGLIA 1915              - SAN LUIGI SANTENA APS         I   I TROFARELLO 1927                - VANCHIGLIA 1915             I
+I      Riposa................ - CSF CARMAGNOLA QUEENCAR        I   I       Riposa................ - DORINA                        I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 17/10/26 !                       ! RITORNO:          I   I ANDATA: 21/11/26 !                       ! RITORNO:          I
+I ORE...:          !    2 G I O R N A T A ! ORE....:           I   I ORE...:          ! 7 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I CSF CARMAGNOLA QUEENCAR      - VANCHIGLIA 1915               I   I CSF CARMAGNOLA QUEENCAR        - TROFARELLO 1927             I
+I DUOMO CHIERI A.S.D.          - PSG SSDARL                    I   I SAN GIACOMO CHIERI             - ONNISPORT CLUB        SQ.B  I
+I ONNISPORT CLUB        SQ.B   - DORINA                        I   I SAN LUIGI SANTENA APS          - DUOMO CHIERI A.S.D.         I
+I SAN LUIGI SANTENA APS        - TROFARELLO 1927               I   I VANCHIGLIA 1915                - DORINA                      I
+I      Riposa................ - SAN GIACOMO CHIERI             I   I       Riposa................ - PSG SSDARL                    I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 24/10/26 !                       ! RITORNO:          I   I ANDATA: 28/11/26 !                       ! RITORNO:          I
+I ORE...:          !    3 G I O R N A T A ! ORE....:           I   I ORE...:          ! 8 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I DORINA                       - TROFARELLO 1927               I   I DORINA                         - CSF CARMAGNOLA QUEENCAR     I
+I PSG SSDARL                   - ONNISPORT CLUB        SQ.B    I   I ONNISPORT CLUB        SQ.B     - DUOMO CHIERI A.S.D.         I
+I SAN LUIGI SANTENA APS        - CSF CARMAGNOLA QUEENCAR       I   I PSG SSDARL                     - VANCHIGLIA 1915             I
+I VANCHIGLIA 1915              - SAN GIACOMO CHIERI            I   I TROFARELLO 1927                - SAN GIACOMO CHIERI          I
+I      Riposa................ - DUOMO CHIERI A.S.D.            I   I       Riposa................ - SAN LUIGI SANTENA APS         I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 31/10/26 !                       ! RITORNO:          I   I ANDATA: 5/12/26 !                        ! RITORNO:          I
+I ORE...:          !    4 G I O R N A T A ! ORE....:           I   I ORE...:          ! 9 G I O R N A T A     ! ORE....:          I
+I--------------------------------------------------------------I   I--------------------------------------------------------------I
+I DORINA                       - SAN LUIGI SANTENA APS         I   I CSF CARMAGNOLA QUEENCAR        - PSG SSDARL                  I
+I DUOMO CHIERI A.S.D.          - VANCHIGLIA 1915               I   I DUOMO CHIERI A.S.D.            - TROFARELLO 1927             I
+I SAN GIACOMO CHIERI           - CSF CARMAGNOLA QUEENCAR       I   I SAN GIACOMO CHIERI             - DORINA                      I
+I TROFARELLO 1927              - PSG SSDARL                    I   I SAN LUIGI SANTENA APS          - ONNISPORT CLUB        SQ.B  I
+I      Riposa................ - ONNISPORT CLUB         SQ.B    I   I       Riposa................ - VANCHIGLIA 1915               I
+.--------------------------------------------------------------.   .--------------------------------------------------------------.
+I ANDATA: 7/11/26 !                        ! RITORNO:          I
+I ORE...:          !    5 G I O R N A T A ! ORE....:           I
+I--------------------------------------------------------------I
+I CSF CARMAGNOLA QUEENCAR      - DUOMO CHIERI A.S.D.           I
+I PSG SSDARL                   - DORINA                        I
+I SAN LUIGI SANTENA APS        - SAN GIACOMO CHIERI            I
+I VANCHIGLIA 1915              - ONNISPORT CLUB        SQ.B    I
+I      Riposa................ - TROFARELLO 1927                I
+I--------------------------------------------------------------I
+*---------------------------*                                                       *-----------------------------------*
+|                    |       **  E L E N C O     C A M P I     D A     G I O C O **                                     |
+| COMITATO           |                                                                                                  |
+| PIEMONTE V.AOSTA |         **   ESORDIENTI 1° anno TORINO AUT.     GIRONE:    M                                       |
+|---------------------------------------------------------------------------------------------------------------------| -------------------------------------------------
+| SOCIETA'                             | CAMPO| DENOMINAZIONE CAMPO               LOCALITA' CAMPO               | ORA | INDIRIZZO                                       |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+|                                      |      |                                                                 |       |
+| DORINA                               | 1216 | SINTETICO ADB C9 VARANO           TORINO                        | 17:15 | VIA ALFONSO VARANO, 64       |                |
+|                                      |      |                                                                 |       |                              |                |
+| PSG SSDARL                           | 9182 | SINTETICO ADB A9- GARRONE "B"     RIVA PRESSO CHIERI            | 15:00 | VIA FAUSTINA MAZZETTI, 11    |                |
+|                                      |      |                                                                 |       |                              |                |
+| TROFARELLO 1927                      | 561 | VALENTINO MAZZOLA                  TROFARELLO                DOM | 10:30 | VIA TORRICELLI 22            |                |
+|                                      |      |                                                                 |       |                              |                |
+| VANCHIGLIA 1915                      | 641 | SINTETICO "GASPARE TALLIA"         TORINO                    DOM | 10:00 | VIA E.RAGAZZONI, 2           |                |
+|                                      |      |                                                                 |       |                              |                |
+| CSF CARMAGNOLA QUEENCAR              | 125 | COMUNALE                           CARMAGNOLA                    | 14:30 | CORSO ROMA, 24               |                |
+|                                      |      |                                                                 |       |                              |                |
+| DUOMO CHIERI A.S.D.                  | 9182 | SINTETICO ADB A9- GARRONE "B"     RIVA PRESSO CHIERI            | 10:30 | VIA FAUSTINA MAZZETTI, 11    |                |
+|                                      |      |                                                                 |       |                              |                |
+| ONNISPORT CLUB        SQ.B           | 364 | SINTETICO "GAETANO SCIREA"         NICHELINO                     | 14:15 | VIA BERLINGUER, 40           |                |
+|                                      |      |                                                                 |       |                              |                |
+| SAN LUIGI SANTENA APS                | 1511 | CAV. BALDASSARRE TESIO            SANTENA                       | 14:00 | VIA VITTORIO VENETO, 31      |                |
+|                                      |      |                                                                 |       |                              |                |
+| SAN GIACOMO CHIERI                   | 1505 | FONTANETO N.1                     CHIERI                        | 16:15 | STRADA FONTANETO, 73         |                |
+|                                      |      |                                                                 |       |                              |                |
+|--------------------------------------|------|---------------------------------------------------------------|-------| -------------------------------------------------
+
