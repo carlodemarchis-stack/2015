@@ -290,7 +290,11 @@ function openTable(g){
  const cd=document.getElementById("cdlg");if(!cd.open){if(cd.showModal)cd.showModal();else cd.setAttribute("open","")}
 }
 document.getElementById("tabBtn").onclick=()=>{openTable();setHash()};
-(()=>{const cd=document.getElementById("cdlg");document.getElementById("cX").onclick=()=>cd.close();cd.addEventListener("click",e=>{if(e.target===cd)cd.close()});})();
+(()=>{const cd=document.getElementById("cdlg");
+ // Left/right arrows step through the gironi (wrapping).
+ cd.addEventListener("keydown",e=>{if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;const K=Object.keys(D),k=K.indexOf(CG);if(k<0)return;e.preventDefault();
+  const n=K[(k+(e.key==="ArrowRight"?1:-1)+K.length)%K.length];drawTable(n);setHash();const b=document.querySelector(`#cSel button[data-g="${n}"]`);if(b)b.focus()});
+ document.getElementById("cX").onclick=()=>cd.close();cd.addEventListener("click",e=>{if(e.target===cd)cd.close()});})();
 
 if(LIVE.updated){const u=new Date(LIVE.updated);document.getElementById("upd").textContent=`Dati aggiornati il ${u.getDate()}/${u.getMonth()+1} alle ${String(u.getHours()).padStart(2,"0")}:${String(u.getMinutes()).padStart(2,"0")}.`}
 
