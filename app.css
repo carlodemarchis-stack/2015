@@ -55,3 +55,21 @@ footer a{color:#8cc8ff}
 .card header[data-cg]{transition:background .15s,color .15s}
 .card header[data-cg]:hover,.card header[data-cg]:focus-visible{background:rgba(111,208,161,.22);border-bottom-color:rgba(111,208,161,.6)}
 .card header[data-cg]:hover h2,.card header[data-cg]:hover .gp{color:#6fd0a1}
+/* Classifica: partite left, table right; compact so a whole girone fits on screen. */
+#cdlg .dh{padding:12px 20px 10px}
+#cdlg .dh h3{font-size:24px;margin:0}
+.cbody{padding:10px 20px 16px;gap:10px}
+.ccols{display:flex;flex-direction:column-reverse;gap:16px}
+.rounds{grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.rnd{padding:6px 8px}
+.rnd h4{font-size:14px;margin:0 0 3px}
+.rnd .mr{font-size:12px;line-height:1.25;padding:1px 0;gap:4px}
+.rnd .mr span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rnd .mr b,.rnd .mr em{min-width:28px}
+@media (min-width:1000px) and (min-height:521px){
+ #cdlg{width:min(1600px,calc(100vw - 32px))}
+ .ccols{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:20px;align-items:start}
+ .rounds{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .ctbl{position:sticky;top:0}
+ .ctab th,.ctab td{padding:5px 6px}
+}
