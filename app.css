@@ -32,3 +32,5 @@ footer a{color:#8cc8ff}
 .book{color:#ff9f5a;border-color:rgba(255,159,90,.5);background:rgba(255,159,90,.10)}
 .book:hover{border-color:#ff9f5a}
 .book:focus-visible{outline-color:#ff9f5a}
+.card li .pts{margin-left:auto;flex:none;min-width:2ch;text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.card li .fstar+.pts{margin-left:4px}
