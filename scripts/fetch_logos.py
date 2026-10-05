@@ -13,6 +13,8 @@ OUT = os.path.join(ROOT, "data", "logos.json")
 
 URL = "https://giocaacalcio.it/index.php/component/joomsport/teamlist/4982-campionato-2015-torino-esordienti-1-anno-autunno-2026-2027"
 UA = {"User-Agent": "Mozilla/5.0"}
+# Clubs missing from the giocaacalcio team list: (girone, teamIndex) -> file already in logos/.
+MANUAL = {("M", 2): "logos/trofarello.png"}  # Trofarello 1927, from tuttocampo.it
 
 
 def get(url):
@@ -39,6 +41,8 @@ def main():
             if not os.path.exists(dst):
                 open(dst, "wb").write(get("https://giocaacalcio.it/" + src))
             out.setdefault(g, {})[str(i)] = rel
+    for (g, i), rel in MANUAL.items():
+        out.setdefault(g, {})[str(i)] = rel
     json.dump(out, open(OUT, "w"), separators=(",", ":"))
     print(f"{len(logo)} logos listed, {len(os.listdir(os.path.join(ROOT, 'logos')))} files; missing: {missing or 'none'}")
 
