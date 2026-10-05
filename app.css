@@ -113,3 +113,14 @@ footer a{color:#8cc8ff}
 .gd.p{color:#6fd0a1}.gd.n{color:#e2826f}
 .ctip{position:fixed;z-index:10;pointer-events:none;background:var(--fg);color:var(--bg);font-size:12px;padding:5px 8px;border-radius:5px;max-width:320px;box-shadow:0 4px 14px rgba(0,0,0,.4)}
 @media (max-width:600px){.hb{grid-template-columns:1fr 70px}.hb .hl{grid-column:1/-1}.gr{grid-template-columns:minmax(0,1.2fr) 1fr 1fr 34px}.gn2 em{display:none}}
+/* Phone readability pass */
+.book>span{display:inline}
+@media (max-width:600px),(max-height:520px){#cdlg,#vdlg,#mdlg,#sdlg,#dlg{width:100vw;max-width:none}}
+@media (max-width:600px){
+ .day .eo{font-size:10.5px}
+ .day .eopp{font-size:11px}
+ .ctab .ologo{display:none}
+ .gr{grid-template-columns:1fr 1fr 40px;row-gap:1px;padding:4px}
+ .gn2{grid-column:1/-1}
+ .gn2 em{display:inline;margin-left:6px}
+}
