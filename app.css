@@ -22,3 +22,5 @@ footer a{color:#8cc8ff}
 .rnd .mr b{font-variant-numeric:tabular-nums;min-width:36px;text-align:center}
 .rnd .mr em{color:var(--muted);font-style:normal;text-align:center}
 @media (max-width:600px){.ctab .opt{display:none}}
+.tlogo{width:44px;height:44px;object-fit:contain;flex:none;background:#fff;border-radius:6px;padding:3px}
+.ologo{width:22px;height:22px;object-fit:contain;flex:none;background:#fff;border-radius:4px;padding:1px;margin-right:6px;vertical-align:middle}

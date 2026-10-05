@@ -51,14 +51,14 @@ function when(dt,home,g,mt){
 function open(g,i){
  const v=D[g],t=v.t[i];
  const ms=v.m.filter(m=>m[2]===i||m[3]===i).sort((a,b)=>a[0]-b[0]);
- document.getElementById("dlgT").innerHTML=`<i class="dot s${t.s}" style="width:24px;height:24px;font-size:16px">${t.s}</i><span class="t${t.s}">${esc(label(t))}</span>`;
+ document.getElementById("dlgT").innerHTML=`${t.l?`<img class="tlogo" src="${t.l}" alt="">`:""}<i class="dot s${t.s}" style="width:24px;height:24px;font-size:16px">${t.s}</i><span class="t${t.s}">${esc(label(t))}</span>`;
  document.getElementById("dlgS").innerHTML=`Girone ${g} · ${ms.filter(m=>m[2]!==-1).length} partite`+(t.c?` · Campo di casa: <a class="map" href="${maps(t)}" target="_blank" rel="noopener">${esc(t.c)} · ${esc(t.a)} <span aria-hidden="true">↗</span></a>`:"");
  document.getElementById("dlgL").innerHTML=ms.map(m=>{
   const [n,dt]=m,[h,a]=ha(g,m);
   if(h===-1)return `<li class="rest"><div class="gn">${n}</div><div class="when"><b>${dt.slice(0,-3)}</b></div><div class="opp">Riposo</div></li>`;
   const home=h===i,opp=v.t[home?a:h],ht=v.t[h],w=when(dt,ht,g,m),r=resFor(g,m,i);
   const sf=surf(ht),where=ht.c?`<a class="map" href="${maps(ht)}" target="_blank" rel="noopener">${esc(fieldName(ht))} · ${esc(ht.a)} <span aria-hidden="true">↗</span></a>`:"Campo non indicato nel calendario";
-  return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b><span>${esc(w.o)}</span></div><div class="opp"><i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}" title="Risultato inserito su giocaacalcio.it">${r[0]}-${r[1]}</span>`:""}</div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div><div class="surf ${sf.k}">${sf.l}</div><div class="where">${where}</div></li>`;
+  return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b><span>${esc(w.o)}</span></div><div class="opp">${opp.l?`<img class="ologo" src="${opp.l}" alt="" loading="lazy">`:""}<i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}" title="Risultato inserito su giocaacalcio.it">${r[0]}-${r[1]}</span>`:""}</div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div><div class="surf ${sf.k}">${sf.l}</div><div class="where">${where}</div></li>`;
  }).join("");
  CUR=[g,i];tab("cal");syncFav();
  const dl=document.getElementById("dlg");
