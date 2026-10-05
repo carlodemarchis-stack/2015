@@ -3,7 +3,9 @@
 var FAVK="esordienti2015_mia_squadra";
 (async()=>{
 const get=u=>fetch(u,{cache:"no-cache"}).then(r=>r.json());
-const [D,ROAD,LIVE,REL]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}})),get("data/releases.json").catch(()=>[])]);
+const [D,ROAD,LIVE,REL,LOGO]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}})),get("data/releases.json").catch(()=>[]),get("data/logos.json").catch(()=>({}))]);
+// Logos are kept apart from the LND PDF data; attach them as t.l for rendering.
+Object.entries(LOGO).forEach(([g,m])=>Object.entries(m).forEach(([i,p])=>{if(D[g]&&D[g].t[+i])D[g].t[+i].l=p}));
 const WD=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function myClub(){const f=getFav();if(!f)return null;const [g,i]=f.split("|");const t=D[g]&&D[g].t[+i];return t?clubKey(t):null}
@@ -44,6 +46,10 @@ function dayOf(g,m){
  if(ht.dom)x.setDate(x.getDate()+1);
  return {x,o:ht.o||"",real:false};
 }
+// Giornata weekend from the round's Saturday (dd/mm/yy): "10/11 Ott", or "31 Ott/1 Nov" across months.
+const MB=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
+function weekend(dt){const [d,m,y]=dt.split("/").map(Number),sa=new Date(2000+y,m-1,d),su=new Date(2000+y,m-1,d+1);
+ return sa.getMonth()===su.getMonth()?`${sa.getDate()}/${su.getDate()} ${MB[sa.getMonth()]}`:`${sa.getDate()} ${MB[sa.getMonth()]}/${su.getDate()} ${MB[su.getMonth()]}`}
 function when(dt,home,g,mt){
  if(mt){const r=dayOf(g,mt);return {ds:`${WD[r.x.getDay()]} ${r.x.getDate()}/${r.x.getMonth()+1}`,o:r.o||"orario n.d."}}
  const [d,m,y]=dt.split("/").map(Number);
@@ -59,7 +65,7 @@ function open(g,i){
  document.getElementById("dlgS").innerHTML=`Girone ${g} · ${ms.filter(m=>m[2]!==-1).length} partite`+(t.c?` · Campo di casa: <a class="map" href="${maps(t)}" target="_blank" rel="noopener">${esc(t.c)} · ${esc(t.a)} <span aria-hidden="true">↗</span></a>`:"");
  document.getElementById("dlgL").innerHTML=ms.map(m=>{
   const [n,dt]=m,[h,a]=ha(g,m);
-  if(h===-1)return `<li class="rest"><div class="gn">${n}</div><div class="when"><b>${dt.slice(0,-3)}</b></div><div class="opp">Riposo</div></li>`;
+  if(h===-1)return `<li class="rest"><div class="gn">${n}</div><div class="when"><b>${weekend(dt)}</b></div><div class="opp">Riposo</div></li>`;
   const home=h===i,opp=v.t[home?a:h],ht=v.t[h],w=when(dt,ht,g,m),r=resFor(g,m,i);
   const sf=surf(ht),where=ht.c?`<a class="map" href="${maps(ht)}" target="_blank" rel="noopener">${esc(fieldName(ht))} · ${esc(ht.a)} <span aria-hidden="true">↗</span></a>`:"Campo non indicato nel calendario";
   return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b><span>${esc(w.o)}</span></div><div class="opp">${opp.l?`<img class="ologo" src="${opp.l}" alt="" loading="lazy">`:""}<i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}">${r[0]}-${r[1]}</span>`:""}</div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div><div class="surf ${sf.k}">${sf.l}</div><div class="where">${where}</div></li>`;
@@ -307,8 +313,8 @@ function drawTable(g){
  const tbl=tableHTML(g,T);
  const byR={};v.m.forEach(m=>{(byR[m[0]]=byR[m[0]]||[]).push(m)});
  const rounds=Object.keys(byR).map(Number).sort((a,b)=>a-b).map(n=>{
-  const ms=byR[n].filter(m=>m[2]!==-1),rest=byR[n].find(m=>m[2]===-1),d=dayOf(g,ms[0]).x;
-  return `<section class="rnd"><h4>${n}ª giornata · ${d.getDate()}/${d.getMonth()+1}</h4>${ms.map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));const nm=t=>esc(t.n)+(t.s!=="A"?" "+t.s:"");return `<div class="mr"><span title="${nm(v.t[h])}">${nm(v.t[h])}</span>${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}<span title="${nm(v.t[a])}">${nm(v.t[a])}</span></div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
+  const ms=byR[n].filter(m=>m[2]!==-1),rest=byR[n].find(m=>m[2]===-1);
+  return `<section class="rnd"><h4>${n}ª giornata · ${weekend(byR[n][0][1])}</h4>${ms.map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));const nm=t=>esc(t.n)+(t.s!=="A"?" "+t.s:"");return `<div class="mr"><span title="${nm(v.t[h])}">${nm(v.t[h])}</span>${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}<span title="${nm(v.t[a])}">${nm(v.t[a])}</span></div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
  }).join("");
  document.getElementById("cBody").innerHTML=`<div class="ccols"><div class="cres"><div class="rounds">${rounds}</div></div><div class="ctbl">${tbl}</div></div>`;
  document.querySelectorAll("#cBody tr[data-i]").forEach(r=>r.onclick=()=>{document.getElementById("cdlg").close();open(g,+r.dataset.i)});

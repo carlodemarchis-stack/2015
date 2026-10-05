@@ -5,7 +5,11 @@ match id of every game, keyed to our own team indexes in data/teams_matches.json
 
 live.json: {"updated": iso, "m": {girone: [[giornata, homeIdx, awayIdx, "YYYY-MM-DDTHH:MM", score, id], ...]}}
 Home/away come from giocaacalcio, so a swapped fixture shows up with the real home team.
-Exits non-zero if a team name cannot be matched (see NAME_FIX) so the Action fails loudly."""
+Exits non-zero if a team name cannot be matched (see NAME_FIX) so the Action fails loudly.
+
+Source rule: giocaacalcio supplies only date/time, home/away order and scores. Team names,
+fields, addresses and home times always come from the LND PDF (teams_matches.json), which
+this script only reads."""
 import json, os, re, sys, unicodedata
 from datetime import datetime, timezone
 from difflib import SequenceMatcher

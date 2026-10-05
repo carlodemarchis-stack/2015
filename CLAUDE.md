@@ -13,9 +13,14 @@ and its handoff notes are in `legacy/`.
 - `data/road_distances.json` OSRM car km/min, key "awayLat,awayLon;homeLat,homeLon".
 - `data/live.json` written by `scripts/update.py`: real date/time, score, match id from giocaacalcio.it,
   keyed to our team indexes. The page prefers it over the computed day/time.
+- `data/logos.json` club logo per team, from `scripts/fetch_logos.py` (files in `logos/`).
 - `.github/workflows/update.yml` runs the update every 3h Sat/Sun, daily otherwise; commits only on change.
 
 ## Rules
+- **Data sources.** giocaacalcio.it is used ONLY for standings, calendar (real date/time, home/away)
+  and match results (`data/live.json`), plus club logos (`data/logos.json`). Everything about a team
+  (name, field, address, home time, Sunday flag) comes ONLY from the LND PDF (`teams_matches.json`).
+  Never copy team data from giocaacalcio, even where the PDF is missing it (Lascaris 1954 C has no field).
 - Italian UI. No em-dashes, no "not X but Y" constructions. Plain text.
 - Umami website id 15e9daf4-be09-4ec6-9d6d-eee4b0c92bf3; open the site with `?noumami` (see parent CLAUDE.md).
 - `localStorage['esordienti2015_mia_squadra']` = "G|index" for "Segui questa squadra"; never rename it.
