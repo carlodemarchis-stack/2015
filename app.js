@@ -63,9 +63,12 @@ function open(g,i){
   const sf=surf(ht),where=ht.c?`<a class="map" href="${maps(ht)}" target="_blank" rel="noopener">${esc(fieldName(ht))} · ${esc(ht.a)} <span aria-hidden="true">↗</span></a>`:"Campo non indicato nel calendario";
   return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b><span>${esc(w.o)}</span></div><div class="opp">${opp.l?`<img class="ologo" src="${opp.l}" alt="" loading="lazy">`:""}<i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}">${r[0]}-${r[1]}</span>`:""}</div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div><div class="surf ${sf.k}">${sf.l}</div><div class="where">${where}</div></li>`;
  }).join("");
+ const C=document.getElementById("dlgC");
+ C.innerHTML=`<h4>Classifica girone ${g}</h4>`+tableHTML(g,standings(g),i);
+ C.querySelectorAll("tr[data-i]").forEach(r=>{if(+r.dataset.i!==i)r.onclick=()=>open(g,+r.dataset.i)});
  CUR=[g,i];tab("cal");syncFav();
  const dl=document.getElementById("dlg");
- if(dl.showModal)dl.showModal();else dl.setAttribute("open","");
+ if(dl.open)dl.scrollTop=0;else if(dl.showModal)dl.showModal();else dl.setAttribute("open","");
 }
 grid();
 setTimeout(()=>{grid();syncFav()},0);
@@ -264,10 +267,13 @@ function standings(g){
   if(gl[0]>gl[1]){H.w++;A.l++;H.p+=3}else if(gl[0]<gl[1]){A.w++;H.l++;A.p+=3}else{H.d++;A.d++;H.p++;A.p++}});
  return T.sort((x,y)=>y.p-x.p||(y.f-y.a)-(x.f-x.a)||y.f-x.f||x.t.n.localeCompare(y.t.n));
 }
+function tableHTML(g,T,me){
+ return `<table class="ctab"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${T.map((x,k)=>`<tr data-i="${x.i}" class="${isFav(g,x.i)?"fav":""}${x.i===me?" me":""}"><td>${k+1}</td><td class="tn"><div>${x.t.l?`<img class="ologo" src="${x.t.l}" alt="" loading="lazy">`:""}<i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span></div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>`).join("")}</tbody></table>`;
+}
 function drawTable(g){
  CG=g;const v=D[g],T=standings(g);
  document.querySelectorAll("#cSel button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.g===g));
- const tbl=`<table class="ctab"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${T.map((x,k)=>`<tr data-i="${x.i}"${isFav(g,x.i)?' class="fav"':""}><td>${k+1}</td><td class="tn"><div><i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span></div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>`).join("")}</tbody></table>`;
+ const tbl=tableHTML(g,T);
  const byR={};v.m.forEach(m=>{(byR[m[0]]=byR[m[0]]||[]).push(m)});
  const rounds=Object.keys(byR).map(Number).sort((a,b)=>a-b).map(n=>{
   const ms=byR[n].filter(m=>m[2]!==-1),rest=byR[n].find(m=>m[2]===-1),d=dayOf(g,ms[0]).x;
