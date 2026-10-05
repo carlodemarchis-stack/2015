@@ -262,15 +262,15 @@ function standings(g){
  return T.sort((x,y)=>y.p-x.p||(y.f-y.a)-(x.f-x.a)||y.f-x.f||x.t.n.localeCompare(y.t.n));
 }
 function drawTable(g){
- CG=g;const v=D[g],T=standings(g),played=T.reduce((s,x)=>s+x.g,0)/2;
+ CG=g;const v=D[g],T=standings(g);
  document.querySelectorAll("#cSel button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.g===g));
- const tbl=`<table class="ctab"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${T.map((x,k)=>`<tr data-i="${x.i}"${isFav(g,x.i)?' class="fav"':""}><td>${k+1}</td><td class="tn"><i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>`).join("")}</tbody></table>`;
+ const tbl=`<table class="ctab"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${T.map((x,k)=>`<tr data-i="${x.i}"${isFav(g,x.i)?' class="fav"':""}><td>${k+1}</td><td class="tn"><div><i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span></div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>`).join("")}</tbody></table>`;
  const byR={};v.m.forEach(m=>{(byR[m[0]]=byR[m[0]]||[]).push(m)});
  const rounds=Object.keys(byR).map(Number).sort((a,b)=>a-b).map(n=>{
   const ms=byR[n].filter(m=>m[2]!==-1),rest=byR[n].find(m=>m[2]===-1),d=dayOf(g,ms[0]).x;
   return `<section class="rnd"><h4>${n}ª giornata · ${d.getDate()}/${d.getMonth()+1}</h4>${ms.map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));return `<div class="mr"><span>${esc(v.t[h].n)}${v.t[h].s!=="A"?" "+v.t[h].s:""}</span>${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}<span>${esc(v.t[a].n)}${v.t[a].s!=="A"?" "+v.t[a].s:""}</span></div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
  }).join("");
- document.getElementById("cBody").innerHTML=(played?"":`<p class="mapnote" style="margin:0 0 10px">Nessun risultato ancora inserito per il girone ${g}. La classifica si riempie man mano che arrivano i risultati.</p>`)+tbl+`<h4 style="font-family:var(--display);text-transform:uppercase;font-size:18px;margin:18px 0 8px">Risultati</h4><div class="rounds">${rounds}</div>`;
+ document.getElementById("cBody").innerHTML=tbl+`<h4 style="font-family:var(--display);text-transform:uppercase;font-size:18px;margin:18px 0 8px">Risultati</h4><div class="rounds">${rounds}</div>`;
  document.querySelectorAll("#cBody tr[data-i]").forEach(r=>r.onclick=()=>{document.getElementById("cdlg").close();open(g,+r.dataset.i)});
 }
 function openTable(g){

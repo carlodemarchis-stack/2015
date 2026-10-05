@@ -11,7 +11,8 @@ footer a{color:#8cc8ff}
 .ctab th,.ctab td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
 .ctab th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .ctab td.tn,.ctab th.tn{text-align:left;white-space:normal;width:100%}
-.ctab td.tn{display:flex;align-items:center;gap:8px;cursor:pointer}
+.ctab td.tn{cursor:pointer}
+.ctab td.tn div{display:flex;align-items:center;gap:8px}
 .ctab td.pt{font-weight:700}
 .ctab tr.fav td{background:rgba(242,201,76,.10)}
 .rounds{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
