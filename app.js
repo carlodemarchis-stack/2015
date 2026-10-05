@@ -303,6 +303,9 @@ document.getElementById("tabBtn").onclick=()=>{openTable();setHash()};
 
 if(LIVE.updated){const u=new Date(LIVE.updated);document.getElementById("upd").textContent=`Dati aggiornati il ${u.getDate()}/${u.getMonth()+1} alle ${String(u.getHours()).padStart(2,"0")}:${String(u.getMinutes()).padStart(2,"0")}.`}
 
+// Header: matches played / total across all gironi.
+(()=>{let p=0,n=0;Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[2]===-1)return;n++;if(goals(liveOf(g,m[2],m[3])))p++}));document.getElementById("mPlayed").textContent=`${p}/${n}`})();
+
 // Release notes (data/releases.json, newest first). The footer badge shows the latest version.
 if(REL.length)document.getElementById("verBtn").textContent=`v${REL[0].v} · Novità`;
 function openNotes(){
