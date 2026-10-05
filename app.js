@@ -58,7 +58,7 @@ function open(g,i){
   if(h===-1)return `<li class="rest"><div class="gn">${n}</div><div class="when"><b>${dt.slice(0,-3)}</b></div><div class="opp">Riposo</div></li>`;
   const home=h===i,opp=v.t[home?a:h],ht=v.t[h],w=when(dt,ht,g,m),r=resFor(g,m,i);
   const sf=surf(ht),where=ht.c?`<a class="map" href="${maps(ht)}" target="_blank" rel="noopener">${esc(fieldName(ht))} · ${esc(ht.a)} <span aria-hidden="true">↗</span></a>`:"Campo non indicato nel calendario";
-  return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b><span>${esc(w.o)}</span></div><div class="opp">${opp.l?`<img class="ologo" src="${opp.l}" alt="" loading="lazy">`:""}<i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}" title="Risultato inserito su giocaacalcio.it">${r[0]}-${r[1]}</span>`:""}</div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div><div class="surf ${sf.k}">${sf.l}</div><div class="where">${where}</div></li>`;
+  return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b><span>${esc(w.o)}</span></div><div class="opp">${opp.l?`<img class="ologo" src="${opp.l}" alt="" loading="lazy">`:""}<i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}">${r[0]}-${r[1]}</span>`:""}</div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div><div class="surf ${sf.k}">${sf.l}</div><div class="where">${where}</div></li>`;
  }).join("");
  CUR=[g,i];tab("cal");syncFav();
  const dl=document.getElementById("dlg");
@@ -270,7 +270,7 @@ function drawTable(g){
   const ms=byR[n].filter(m=>m[2]!==-1),rest=byR[n].find(m=>m[2]===-1),d=dayOf(g,ms[0]).x;
   return `<section class="rnd"><h4>${n}ª giornata · ${d.getDate()}/${d.getMonth()+1}</h4>${ms.map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));return `<div class="mr"><span>${esc(v.t[h].n)}${v.t[h].s!=="A"?" "+v.t[h].s:""}</span>${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}<span>${esc(v.t[a].n)}${v.t[a].s!=="A"?" "+v.t[a].s:""}</span></div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
  }).join("");
- document.getElementById("cBody").innerHTML=(played?"":`<p class="mapnote" style="margin:0 0 10px">Nessun risultato ancora inserito per il girone ${g}. La classifica si riempie quando i risultati compaiono su giocaacalcio.it.</p>`)+tbl+`<h4 style="font-family:var(--display);text-transform:uppercase;font-size:18px;margin:18px 0 8px">Risultati</h4><div class="rounds">${rounds}</div>`;
+ document.getElementById("cBody").innerHTML=(played?"":`<p class="mapnote" style="margin:0 0 10px">Nessun risultato ancora inserito per il girone ${g}. La classifica si riempie man mano che arrivano i risultati.</p>`)+tbl+`<h4 style="font-family:var(--display);text-transform:uppercase;font-size:18px;margin:18px 0 8px">Risultati</h4><div class="rounds">${rounds}</div>`;
  document.querySelectorAll("#cBody tr[data-i]").forEach(r=>r.onclick=()=>{document.getElementById("cdlg").close();open(g,+r.dataset.i)});
 }
 function openTable(g){
