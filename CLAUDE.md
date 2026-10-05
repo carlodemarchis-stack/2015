@@ -23,3 +23,5 @@ and its handoff notes are in `legacy/`.
 - If giocaacalcio renames a team, `update.py` fails loudly: add the name to `NAME_FIX`.
 - Social preview: `img/og.png` (1200x630, headless-Chrome screenshot of the main grid), referenced as `og.png?v=1`;
   bump `v` when replacing it. Favicon `favicon.svg`, iOS icon `img/apple-touch-icon.png`.
+- Version + release notes: `data/releases.json` (newest first, Italian). The footer badge and the Novità
+  modal (`#novita`) read it. Add an entry and bump the version when shipping a user-facing change.

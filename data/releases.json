@@ -1,0 +1,29 @@
+[
+ {
+  "v": "1.1",
+  "date": "5 ottobre 2026",
+  "notes": [
+   "Nuovo indirizzo: 2015.aguywithascarf.com",
+   "Giorni e orari reali, aggiornati in automatico più volte al giorno",
+   "Risultati delle partite nella scheda squadra e nel calendario",
+   "Classifica di ogni girone: partite a sinistra, tabella a destra. Usa le frecce ← → per cambiare girone",
+   "Nella scheda squadra le frecce ← → passano alla squadra precedente o successiva del girone",
+   "Punti di ogni squadra nella pagina principale. Dopo i primi risultati il girone si ordina per classifica",
+   "Clic sulla barra del girone per aprire la sua classifica, con le partite giocate sul totale",
+   "Loghi delle società e classifica del girone nella scheda squadra",
+   "Mappe OpenStreetMap sempre aggiornate",
+   "Ricaricando la pagina resta aperta la finestra che stavi guardando",
+   "Anteprima per la condivisione su WhatsApp e social, icona del sito"
+  ]
+ },
+ {
+  "v": "1.0",
+  "date": "",
+  "notes": [
+   "Prima versione: 11 gironi e 102 squadre",
+   "Scheda squadra con partite, calendario e mappa dei campi",
+   "Distanze e tempi in auto per ogni trasferta",
+   "Segui questa squadra, mappa delle società e statistiche"
+  ]
+ }
+]

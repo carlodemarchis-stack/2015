@@ -3,19 +3,20 @@
 var FAVK="esordienti2015_mia_squadra";
 (async()=>{
 const get=u=>fetch(u,{cache:"no-cache"}).then(r=>r.json());
-const [D,ROAD,LIVE]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}}))]);
+const [D,ROAD,LIVE,REL]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}})),get("data/releases.json").catch(()=>[])]);
 const WD=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function myClub(){const f=getFav();if(!f)return null;const [g,i]=f.split("|");const t=D[g]&&D[g].t[+i];return t?clubKey(t):null}
 const isCBS=t=>{const c=myClub();return !!c&&clubKey(t)===c};
 const label=t=>t.n;
+// Team order of a girone card: calendar order until the first result, then standings.
+function cardOrder(g,st){st=st||standings(g);return st.some(x=>x.g)?st.map(x=>x.i):D[g].t.map((t,i)=>i)}
 function grid(){
  const g=document.getElementById("grid");
  g.innerHTML=Object.entries(D).map(([k,v])=>{
   const has=v.t.some((t,i)=>isFav(k,i));
   // Points per team; calendar order until the first result, then standings order.
-  const st=standings(k),pts=new Map(st.map(x=>[x.i,x.p])),started=st.some(x=>x.g);
-  const order=started?st.map(x=>x.i):v.t.map((t,i)=>i);
+  const st=standings(k),pts=new Map(st.map(x=>[x.i,x.p])),order=cardOrder(k,st);
   return `<section class="card${has?" has-cbs":""}"><header data-cg="${k}" tabindex="0" role="button" title="Classifica girone ${k}"><h2>${k}</h2><span class="gp" title="Partite giocate / totale">${(()=>{const ms=v.m.filter(m=>m[2]!==-1);return `${ms.filter(m=>goals(liveOf(k,m[2],m[3]))).length}/${ms.length}`})()}</span><span class="mix">${["A","B","C","D"].map(L=>{const c=v.t.filter(t=>t.s===L).length;return c?`<span class="mc"><i class="dot s${L}">${L}</i>${c}</span>`:""}).join("")}</span><span class="n">${v.t.length} squadre</span></header><ul>${order.map(i=>[v.t[i],i]).map(([t,i])=>`<li tabindex="0" role="button" data-g="${k}" data-i="${i}" class="${isCBS(t)?"cbs":""}${isFav(k,i)?" fav":""}"><i class="dot s${t.s}">${t.s}</i><span class="nm t${t.s}" title="${esc(t.n)}">${esc(t.n)}</span>${isFav(k,i)?'<span class="fstar" aria-label="La tua squadra"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z" fill="currentColor"/></svg></span>':""}<b class="pts">${pts.get(i)}</b></li>`).join("")}</ul></section>`;
  }).join("");
 }
@@ -76,6 +77,10 @@ document.getElementById("grid").addEventListener("click",e=>{const hd=e.target.c
 document.getElementById("grid").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){const hd=e.target.closest("header[data-cg]");if(hd){e.preventDefault();openTable(hd.dataset.cg);setHash();return}const li=e.target.closest("li[data-g]");if(li){e.preventDefault();open(li.dataset.g,+li.dataset.i)}}});
 const dl=document.getElementById("dlg");
 document.getElementById("dlgX").onclick=()=>dl.close();
+// Left/right arrows: previous/next team of the same girone, in the card's order (wrapping).
+// Skipped while the map has focus, where the arrows pan.
+document.addEventListener("keydown",e=>{if((e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||!dl.open||!CUR||e.target.closest&&e.target.closest("#map,input"))return;e.preventDefault();
+ const [g,i]=CUR,o=cardOrder(g),k=o.indexOf(i),t0=CTAB;open(g,o[(k+(e.key==="ArrowRight"?1:-1)+o.length)%o.length]);if(t0!=="cal")tab(t0)});
 dl.addEventListener("click",e=>{if(e.target===dl)dl.close()});
 
 let MAP=null,LAYER=null,CUR=null;
@@ -292,24 +297,33 @@ function openTable(g){
 document.getElementById("tabBtn").onclick=()=>{openTable();setHash()};
 (()=>{const cd=document.getElementById("cdlg");
  // Left/right arrows step through the gironi (wrapping).
- cd.addEventListener("keydown",e=>{if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;const K=Object.keys(D),k=K.indexOf(CG);if(k<0)return;e.preventDefault();
+ document.addEventListener("keydown",e=>{if((e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||!cd.open)return;const K=Object.keys(D),k=K.indexOf(CG);if(k<0)return;e.preventDefault();
   const n=K[(k+(e.key==="ArrowRight"?1:-1)+K.length)%K.length];drawTable(n);setHash();const b=document.querySelector(`#cSel button[data-g="${n}"]`);if(b)b.focus()});
  document.getElementById("cX").onclick=()=>cd.close();cd.addEventListener("click",e=>{if(e.target===cd)cd.close()});})();
 
 if(LIVE.updated){const u=new Date(LIVE.updated);document.getElementById("upd").textContent=`Dati aggiornati il ${u.getDate()}/${u.getMonth()+1} alle ${String(u.getHours()).padStart(2,"0")}:${String(u.getMinutes()).padStart(2,"0")}.`}
 
+// Release notes (data/releases.json, newest first). The footer badge shows the latest version.
+if(REL.length)document.getElementById("verBtn").textContent=`v${REL[0].v} · Novità`;
+function openNotes(){
+ document.getElementById("vBody").innerHTML=REL.map(r=>`<section class="rel"><h4>Versione ${r.v}${r.date?` <small>${r.date}</small>`:""}</h4><ul>${r.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul></section>`).join("");
+ const vd=document.getElementById("vdlg");if(!vd.open){if(vd.showModal)vd.showModal();else vd.setAttribute("open","")}
+}
+document.getElementById("verBtn").onclick=()=>{openNotes();setHash()};
+(()=>{const vd=document.getElementById("vdlg");document.getElementById("vX").onclick=()=>vd.close();vd.addEventListener("click",e=>{if(e.target===vd)vd.close()});})();
+
 // Reload in place: #squadra/I/3/map, #classifica/F, #mappa, #statistiche.
 let CTAB="cal";
 function setHash(){
  const on=id=>document.getElementById(id).open;
- const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("mdlg")?"#mappa":on("sdlg")?"#statistiche":"";
+ const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("mdlg")?"#mappa":on("sdlg")?"#statistiche":on("vdlg")?"#novita":"";
  if(location.hash!==h)history.replaceState(null,"",h||location.pathname+location.search);
 }
-["dlg","cdlg","mdlg","sdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
+["dlg","cdlg","mdlg","sdlg","vdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
 (()=>{const p=decodeURIComponent(location.hash.slice(1)).split("/");
  if(p[0]==="squadra"&&D[p[1]]&&D[p[1]].t[+p[2]]){open(p[1],+p[2]);if(["cal","grid","map"].includes(p[3]))tab(p[3])}
  else if(p[0]==="classifica")openTable(D[p[1]]?p[1]:null);
- else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche")stats();
+ else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche")stats();
 })();
 
 })();
