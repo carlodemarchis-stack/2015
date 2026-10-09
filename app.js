@@ -344,13 +344,13 @@ function curRound(){const t=new Date();t.setHours(0,0,0,0);const R=[...new Set(D
  for(const n of R){const dt=D.A.m.find(m=>m[0]===n)[1],[d,mo,y]=dt.split("/").map(Number);if(new Date(2000+y,mo-1,d+1)>=t)return n}return R[R.length-1]}
 function drawRound(n){
  GN=n;document.querySelectorAll("#gTabs button").forEach(b=>b.setAttribute("aria-selected",+b.dataset.n===n));
- // Away team (right column) carries its letter on the right.
+ // Letters sit next to the score: the home team carries its letter on the right.
  const nm=(g,i,r)=>{const t=D[g].t[i],dot=`<i class="dot s${t.s}">${t.s}</i>`;return `<span class="tk" data-g="${g}" data-i="${i}" title="${esc(t.n)} ${t.s}">${r?"":dot}<span class="tn2">${esc(t.n)}</span>${r?dot:""}</span>`};
  const secs=Object.entries(D).map(([g,v])=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
   const rows=ms.filter(m=>m[2]!==-1).map(m=>({m,d:dayOf(g,m)})).sort((a,b)=>a.d.x-b.d.x||a.d.o.localeCompare(b.d.o,undefined,{numeric:true}));
   return `<section class="gsec"><h4>Girone ${g}</h4>${rows.map(({m,d})=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));
    const w=`<span class="gw">${WD[d.x.getDay()]} <small>${esc(d.o)}</small></span>`;
-   return `<div class="gm1">${w}${nm(g,h)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a,1)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
+   return `<div class="gm1">${w}${nm(g,h,1)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
  document.getElementById("gWk").textContent=`${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])}`;
  document.getElementById("gBody").innerHTML=`<div class="gsecs g3">${secs}</div>`;
  document.querySelectorAll("#gBody .tk").forEach(e=>e.onclick=()=>{document.getElementById("gdlg").close();open(e.dataset.g,+e.dataset.i)});
