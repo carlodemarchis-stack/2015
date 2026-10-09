@@ -124,3 +124,25 @@ footer a{color:#8cc8ff}
  .gn2{grid-column:1/-1}
  .gn2 em{display:inline;margin-left:6px}
 }
+/* Calendario per giornata */
+#gdlg{width:min(1500px,calc(100vw - 32px))}
+#gTabs{flex-wrap:wrap}
+.gbody{padding:10px 20px 20px}
+.gwk{margin:0 0 10px;font-family:var(--display);font-size:20px;text-transform:uppercase}
+.gsecs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:10px}
+.gsec{border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+.gsec h4{font-family:var(--display);font-size:16px;text-transform:uppercase;margin:0 0 4px;color:var(--muted)}
+.gm{display:grid;grid-template-columns:76px minmax(0,1fr) 34px minmax(0,1fr);gap:6px;align-items:center;font-size:13px;padding:3px 0;border-bottom:1px solid var(--line)}
+.gm:last-of-type{border-bottom:0}
+.gw{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted)}
+.gw small{display:block;color:var(--fg);font-size:12px;font-weight:600}
+.gm b,.gm em{text-align:center;font-variant-numeric:tabular-nums}.gm em{color:var(--muted);font-style:normal}
+.tk{display:flex;align-items:center;gap:6px;min-width:0;cursor:pointer}
+.tk .tn2{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk:hover{color:var(--accent)}
+.tk .dot{width:16px;height:16px;font-size:10px;flex:none}
+.gm .tk:last-child{justify-content:flex-end;text-align:right}
+.grest{font-size:12px;color:var(--muted);padding-top:4px}
+@media (max-width:600px),(max-height:520px){#gdlg{width:100vw;max-width:none}}
+@media (max-width:600px){.gm{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);row-gap:2px;font-size:12.5px}.gw{grid-column:1/-1;display:flex;gap:6px}.gw small{display:inline}.gbody{padding:8px 12px 16px}}
+.tbtns{flex-wrap:wrap;max-width:100%}

@@ -338,6 +338,32 @@ if(LIVE.updated){const u=new Date(LIVE.updated);document.getElementById("upd").t
 // Header: matches played / total across all gironi.
 (()=>{let p=0,n=0;Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[2]===-1)return;n++;if(goals(liveOf(g,m[2],m[3])))p++}));document.getElementById("mPlayed").textContent=`${p}/${n}`})();
 
+// Calendario: one tab per giornata, that round's matches grouped by girone.
+let GN=null;
+function curRound(){const t=new Date();t.setHours(0,0,0,0);const R=[...new Set(D.A.m.map(m=>m[0]))].sort((a,b)=>a-b);
+ for(const n of R){const dt=D.A.m.find(m=>m[0]===n)[1],[d,mo,y]=dt.split("/").map(Number);if(new Date(2000+y,mo-1,d+1)>=t)return n}return R[R.length-1]}
+function drawRound(n){
+ GN=n;document.querySelectorAll("#gTabs button").forEach(b=>b.setAttribute("aria-selected",+b.dataset.n===n));
+ const nm=(g,i)=>{const t=D[g].t[i];return `<span class="tk" data-g="${g}" data-i="${i}" title="${esc(t.n)} ${t.s}"><i class="dot s${t.s}">${t.s}</i><span class="tn2">${esc(t.n)}</span></span>`};
+ const secs=Object.entries(D).map(([g,v])=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
+  const rows=ms.filter(m=>m[2]!==-1).map(m=>({m,d:dayOf(g,m)})).sort((a,b)=>a.d.x-b.d.x||a.d.o.localeCompare(b.d.o,undefined,{numeric:true}));
+  return `<section class="gsec"><h4>Girone ${g}</h4>${rows.map(({m,d})=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));
+   return `<div class="gm"><span class="gw">${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1}<small>${esc(d.o)}</small></span>${nm(g,h)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
+ document.getElementById("gBody").innerHTML=`<p class="gwk">${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])}</p><div class="gsecs">${secs}</div>`;
+ document.querySelectorAll("#gBody .tk").forEach(e=>e.onclick=()=>{document.getElementById("gdlg").close();open(e.dataset.g,+e.dataset.i)});
+}
+function openCal(n){
+ const R=[...new Set(D.A.m.map(m=>m[0]))].sort((a,b)=>a-b);
+ document.getElementById("gTabs").innerHTML=R.map(r=>`<button type="button" role="tab" data-n="${r}" aria-selected="false">${r}ª</button>`).join("");
+ document.querySelectorAll("#gTabs button").forEach(b=>b.onclick=()=>{drawRound(+b.dataset.n);setHash()});
+ drawRound(R.includes(n)?n:(GN||curRound()));
+ const gd=document.getElementById("gdlg");if(!gd.open){if(gd.showModal)gd.showModal();else gd.setAttribute("open","")}
+}
+document.getElementById("calBtn").onclick=()=>{openCal();setHash()};
+(()=>{const gd=document.getElementById("gdlg");document.getElementById("gX").onclick=()=>gd.close();gd.addEventListener("click",e=>{if(e.target===gd)gd.close()});
+ document.addEventListener("keydown",e=>{if((e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||!gd.open||GN==null)return;e.preventDefault();
+  const R=[...document.querySelectorAll("#gTabs button")].map(b=>+b.dataset.n),k=R.indexOf(GN);drawRound(R[(k+(e.key==="ArrowRight"?1:-1)+R.length)%R.length]);setHash()});})();
+
 // Release notes (data/releases.json, newest first). The footer badge shows the latest version.
 if(REL.length)document.getElementById("verBtn").textContent=`v${REL[0].v} · Novità`;
 function openNotes(){
@@ -351,14 +377,14 @@ document.getElementById("verBtn").onclick=()=>{openNotes();setHash()};
 let CTAB="cal";
 function setHash(){
  const on=id=>document.getElementById(id).open;
- const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="res"?"#statistiche/risultati":"#statistiche"):on("vdlg")?"#novita":"";
+ const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("gdlg")?`#calendario/${GN}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="res"?"#statistiche/risultati":"#statistiche"):on("vdlg")?"#novita":"";
  if(location.hash!==h)history.replaceState(null,"",h||location.pathname+location.search);
 }
-["dlg","cdlg","mdlg","sdlg","vdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
+["dlg","cdlg","mdlg","sdlg","vdlg","gdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
 (()=>{const p=decodeURIComponent(location.hash.slice(1)).split("/");
  if(p[0]==="squadra"&&D[p[1]]&&D[p[1]].t[+p[2]]){open(p[1],+p[2]);if(["cal","grid","map"].includes(p[3]))tab(p[3])}
  else if(p[0]==="classifica")openTable(D[p[1]]?p[1]:null);
- else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){if(p[1]==="risultati")STAB="res";stats()}
+ else if(p[0]==="calendario")openCal(+p[1]);else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){if(p[1]==="risultati")STAB="res";stats()}
 })();
 
 })();

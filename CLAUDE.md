@@ -24,7 +24,7 @@ and its handoff notes are in `legacy/`.
 - Italian UI. No em-dashes, no "not X but Y" constructions. Plain text.
 - Umami website id 15e9daf4-be09-4ec6-9d6d-eee4b0c92bf3; open the site with `?noumami` (see parent CLAUDE.md).
 - `localStorage['esordienti2015_mia_squadra']` = "G|index" for "Segui questa squadra"; never rename it.
-- Hash state: `#squadra/I/1/cal|grid|map`, `#classifica/F`, `#mappa`, `#statistiche`.
+- Hash state: `#squadra/I/1/cal|grid|map`, `#classifica/F`, `#calendario/3`, `#novita`, `#statistiche/risultati`, `#mappa`, `#statistiche`.
 - If giocaacalcio renames a team, `update.py` fails loudly: add the name to `NAME_FIX`.
 - Social preview: `img/og.png` (1200x630, headless-Chrome screenshot of the main grid), referenced as `og.png?v=1`;
   bump `v` when replacing it. Favicon `favicon.svg`, iOS icon `img/apple-touch-icon.png`.
