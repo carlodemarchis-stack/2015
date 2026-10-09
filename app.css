@@ -156,3 +156,27 @@ footer a{color:#8cc8ff}
 .gm1 .tk:last-child{justify-content:flex-start;text-align:left}
 @media (min-width:1000px){.gsecs.g3{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:20px}}
 @media (max-width:600px){.gm1{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);row-gap:1px}.gm1 .gw{grid-column:1/-1}}
+/* Calendario > Tutte: gironi (rows) x giornate (columns), every match as "VOLa 2-1 EURb" */
+.gmode{margin-left:auto}
+#gdlg.all #gTabs,#gdlg.all .gwk{display:none}
+.mx{display:grid;grid-template-columns:24px repeat(9,minmax(118px,1fr));gap:2px 6px;font-size:11px;line-height:1.1;min-width:1100px}
+#gdlg.all{max-height:calc(100dvh - 12px)}
+#gdlg.all .dh{padding:6px 16px}
+#gdlg.all .gbody{padding:4px 16px 8px}
+.gbody:has(.mx){overflow-x:auto}
+.mxh{font:inherit;background:none;border:0;color:var(--muted);cursor:pointer;text-align:center;padding:2px 0;font-weight:600}
+.mxh small{font-weight:400;font-size:10.5px;margin-left:5px}
+.mxh:hover,.mxg:hover{color:var(--accent)}
+.mxg{font-family:var(--display);font-size:16px;background:none;border:0;color:var(--muted);cursor:pointer;padding:0;align-self:center}
+.mxc{border:1px solid var(--line);border-radius:4px;padding:2px 4px;display:flex;flex-direction:column;gap:0}
+.mxm{display:grid;grid-template-columns:1fr 26px 1fr;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap;cursor:default}
+.mxm:hover{background:var(--hover)}
+.mxm b{text-align:center;font-weight:700}
+.mxm em{text-align:center;color:var(--muted);font-style:normal}
+.mxt{letter-spacing:.02em}
+.mxm .mxt:first-child{text-align:right}
+.mxt i{font-style:normal;font-size:9px;font-weight:700;margin-left:1px;vertical-align:1px}
+.mxt.fav{color:#f2c94c;font-weight:700}
+.lA{color:var(--sA)}.lB{color:var(--sB)}.lC{color:#4cc46e}.lD{color:#fff}
+@media (max-width:600px){.gmode{margin-left:0}}
+.mxg{position:sticky;left:0;z-index:1;background:var(--surface)}

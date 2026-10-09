@@ -3,7 +3,7 @@
 var FAVK="esordienti2015_mia_squadra";
 (async()=>{
 const get=u=>fetch(u,{cache:"no-cache"}).then(r=>r.json());
-const [D,ROAD,LIVE,REL,LOGO]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}})),get("data/releases.json").catch(()=>[]),get("data/logos.json").catch(()=>({}))]);
+const [D,ROAD,LIVE,REL,LOGO,ABBR]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}})),get("data/releases.json").catch(()=>[]),get("data/logos.json").catch(()=>({})),get("data/abbr.json").catch(()=>({}))]);
 // Logos are kept apart from the LND PDF data; attach them as t.l for rendering.
 Object.entries(LOGO).forEach(([g,m])=>Object.entries(m).forEach(([i,p])=>{if(D[g]&&D[g].t[+i])D[g].t[+i].l=p}));
 const WD=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
@@ -187,6 +187,7 @@ function drawRes(){
 // One shared tooltip for chart rows (data-tip).
 (()=>{const tip=document.getElementById("ctip");
  document.addEventListener("mousemove",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(!t){tip.hidden=true;return}
+  const dg=t.closest("dialog");if(dg&&tip.parentNode!==dg)dg.appendChild(tip);// must live in the open modal's top layer
   tip.textContent=t.dataset.tip;tip.hidden=false;const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"});})();
 (()=>{const sd=document.getElementById("sdlg");document.getElementById("sX").onclick=()=>sd.close();sd.addEventListener("click",e=>{if(e.target===sd)sd.close()});})();
 
@@ -339,11 +340,30 @@ if(LIVE.updated){const u=new Date(LIVE.updated);document.getElementById("upd").t
 (()=>{let p=0,n=0;Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[2]===-1)return;n++;if(goals(liveOf(g,m[2],m[3])))p++}));document.getElementById("mPlayed").textContent=`${p}/${n}`})();
 
 // Calendario: one tab per giornata, that round's matches grouped by girone.
-let GN=null;
+let GN=null,GM="g";
+// "Tutte": every match of every girone and giornata in one grid (gironi x giornate), club codes
+// from data/abbr.json + the squad letter in its colour; full names, day and time in the tooltip.
+const ab=t=>ABBR[clubKey(t)]||t.n.slice(0,3).toUpperCase();
+function drawAll(){
+ GM="all";document.getElementById("gdlg").classList.add("all");
+ document.querySelectorAll(".gmode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m==="all"));
+ const R=[...new Set(D.A.m.map(m=>m[0]))].sort((a,b)=>a-b),f=getFav();
+ const code=(g,i)=>{const t=D[g].t[i];return `<span class="mxt${f===`${g}|${i}`?" fav":""}">${ab(t)}<i class="l${t.s}">${t.s}</i></span>`};
+ let html=`<div class="mx"><span></span>${R.map(n=>`<button type="button" class="mxh" data-n="${n}" title="Apri la ${n}ª giornata">${n}ª<small>${weekend(D.A.m.find(m=>m[0]===n)[1])}</small></button>`).join("")}`;
+ Object.entries(D).forEach(([g,v])=>{
+  html+=`<button type="button" class="mxg" data-g="${g}" title="Classifica girone ${g}">${g}</button>`;
+  R.forEach(n=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
+   html+=`<div class="mxc"${rest?` title="Riposa ${esc(v.t[rest[3]].n)}"`:""}>${ms.filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a)),d=dayOf(g,m);
+    return `<div class="mxm" data-tip="${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1} ${esc(d.o)} · ${esc(v.t[h].n)} ${v.t[h].s} - ${esc(v.t[a].n)} ${v.t[a].s}${gl?` · ${gl[0]}-${gl[1]}`:""}">${code(g,h)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${code(g,a)}</div>`}).join("")}</div>`});
+ });
+ document.getElementById("gBody").innerHTML=html+"</div>";
+ document.querySelectorAll("#gBody .mxh").forEach(b=>b.onclick=()=>{GM="g";drawRound(+b.dataset.n);setHash()});
+ document.querySelectorAll("#gBody .mxg").forEach(b=>b.onclick=()=>{document.getElementById("gdlg").close();openTable(b.dataset.g);setHash()});
+}
 function curRound(){const t=new Date();t.setHours(0,0,0,0);const R=[...new Set(D.A.m.map(m=>m[0]))].sort((a,b)=>a-b);
  for(const n of R){const dt=D.A.m.find(m=>m[0]===n)[1],[d,mo,y]=dt.split("/").map(Number);if(new Date(2000+y,mo-1,d+1)>=t)return n}return R[R.length-1]}
 function drawRound(n){
- GN=n;document.querySelectorAll("#gTabs button").forEach(b=>b.setAttribute("aria-selected",+b.dataset.n===n));
+ GN=n;GM="g";document.getElementById("gdlg").classList.remove("all");document.querySelectorAll(".gmode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m==="g"));document.querySelectorAll("#gTabs button").forEach(b=>b.setAttribute("aria-selected",+b.dataset.n===n));
  // Letters sit next to the score: the home team carries its letter on the right.
  const nm=(g,i,r)=>{const t=D[g].t[i],dot=`<i class="dot s${t.s}">${t.s}</i>`;return `<span class="tk" data-g="${g}" data-i="${i}" title="${esc(t.n)} ${t.s}">${r?"":dot}<span class="tn2">${esc(t.n)}</span>${r?dot:""}</span>`};
  const secs=Object.entries(D).map(([g,v])=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
@@ -359,12 +379,13 @@ function openCal(n){
  const R=[...new Set(D.A.m.map(m=>m[0]))].sort((a,b)=>a-b);
  document.getElementById("gTabs").innerHTML=R.map(r=>`<button type="button" role="tab" data-n="${r}" aria-selected="false">${r}ª</button>`).join("");
  document.querySelectorAll("#gTabs button").forEach(b=>b.onclick=()=>{drawRound(+b.dataset.n);setHash()});
- drawRound(R.includes(n)?n:(GN||curRound()));
+ if(n==="all")drawAll();else drawRound(R.includes(n)?n:(GN||curRound()));
  const gd=document.getElementById("gdlg");if(!gd.open){if(gd.showModal)gd.showModal();else gd.setAttribute("open","")}
 }
+document.querySelectorAll(".gmode button").forEach(b=>b.onclick=()=>{if(b.dataset.m==="all")drawAll();else drawRound(GN||curRound());setHash()});
 document.getElementById("calBtn").onclick=()=>{openCal();setHash()};
 (()=>{const gd=document.getElementById("gdlg");document.getElementById("gX").onclick=()=>gd.close();gd.addEventListener("click",e=>{if(e.target===gd)gd.close()});
- document.addEventListener("keydown",e=>{if((e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||!gd.open||GN==null)return;e.preventDefault();
+ document.addEventListener("keydown",e=>{if((e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||!gd.open||GN==null||GM==="all")return;e.preventDefault();
   const R=[...document.querySelectorAll("#gTabs button")].map(b=>+b.dataset.n),k=R.indexOf(GN);drawRound(R[(k+(e.key==="ArrowRight"?1:-1)+R.length)%R.length]);setHash()});})();
 
 // Release notes (data/releases.json, newest first). The footer badge shows the latest version.
@@ -380,14 +401,14 @@ document.getElementById("verBtn").onclick=()=>{openNotes();setHash()};
 let CTAB="cal";
 function setHash(){
  const on=id=>document.getElementById(id).open;
- const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("gdlg")?`#calendario/${GN}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="res"?"#statistiche/risultati":"#statistiche"):on("vdlg")?"#novita":"";
+ const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("gdlg")?`#calendario/${GM==="all"?"tutte":GN}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="res"?"#statistiche/risultati":"#statistiche"):on("vdlg")?"#novita":"";
  if(location.hash!==h)history.replaceState(null,"",h||location.pathname+location.search);
 }
 ["dlg","cdlg","mdlg","sdlg","vdlg","gdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
 (()=>{const p=decodeURIComponent(location.hash.slice(1)).split("/");
  if(p[0]==="squadra"&&D[p[1]]&&D[p[1]].t[+p[2]]){open(p[1],+p[2]);if(["cal","grid","map"].includes(p[3]))tab(p[3])}
  else if(p[0]==="classifica")openTable(D[p[1]]?p[1]:null);
- else if(p[0]==="calendario")openCal(+p[1]);else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){if(p[1]==="risultati")STAB="res";stats()}
+ else if(p[0]==="calendario")openCal(p[1]==="tutte"?"all":+p[1]);else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){if(p[1]==="risultati")STAB="res";stats()}
 })();
 
 })();
