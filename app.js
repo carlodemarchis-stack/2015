@@ -348,8 +348,9 @@ function drawRound(n){
  const secs=Object.entries(D).map(([g,v])=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
   const rows=ms.filter(m=>m[2]!==-1).map(m=>({m,d:dayOf(g,m)})).sort((a,b)=>a.d.x-b.d.x||a.d.o.localeCompare(b.d.o,undefined,{numeric:true}));
   return `<section class="gsec"><h4>Girone ${g}</h4>${rows.map(({m,d})=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));
-   return `<div class="gm"><span class="gw">${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1}<small>${esc(d.o)}</small></span>${nm(g,h)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
- document.getElementById("gBody").innerHTML=`<p class="gwk">${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])}</p><div class="gsecs">${secs}</div>`;
+   return `<div class="gm"><span class="gw">${WD[d.x.getDay()]} <small>${esc(d.o)}</small></span><div class="gt">${nm(g,h)}${nm(g,a)}</div><div class="gs">${gl?`<b>${gl[0]}</b><b>${gl[1]}</b>`:"<em>-</em><em>-</em>"}</div></div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
+ document.getElementById("gWk").textContent=`${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])}`;
+ document.getElementById("gBody").innerHTML=`<div class="gsecs">${secs}</div>`;
  document.querySelectorAll("#gBody .tk").forEach(e=>e.onclick=()=>{document.getElementById("gdlg").close();open(e.dataset.g,+e.dataset.i)});
 }
 function openCal(n){
