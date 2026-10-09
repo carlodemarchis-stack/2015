@@ -50,6 +50,8 @@ def build(D, G):
     live = {}
     for g, v in D.items():
         rows = [m for m in G if m["g"] == g]
+        if len(rows) < len([m for m in v["m"] if m[2] != -1]):
+            raise SystemExit(f"girone {g}: {len(rows)} matches read, calendar has more; not writing")
         idx = map_names(v["t"], {m["h"] for m in rows} | {m["a"] for m in rows})
         rnd = {frozenset((h, a)): n for n, _, h, a in v["m"] if h != -1}
         out = []

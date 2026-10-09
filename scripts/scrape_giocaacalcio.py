@@ -12,11 +12,13 @@ def scrape():
     rows = re.findall(r'<td class="team-h">(.*?)</td>\s*<td class="score"[^>]*>(.*?)</td>\s*<td class="team-a">(.*?)</td>', s, re.S)
     ms = []
     for h, sc, a in rows:
-        g = re.search(r'girone-([a-z])"', sc); d = re.search(r'startDate" content="([^"]+)"', sc); mid = re.search(r'/match/(\d+)/', sc)
+        g = re.search(r'girone-([a-z])\b', sc); d = re.search(r'startDate"?\s+content=[\'"]([^\'"]+)', sc); mid = re.search(r'/match/(\d+)/', sc)
         score = re.sub(r'<[^>]+>', '', re.search(r'<span>(.*?)</span>', sc, re.S).group(1)).strip()
         ms.append(dict(g=g.group(1).upper() if g else None, dt=d.group(1) if d else None, h=name(h), a=name(a), score=score, id=mid.group(1) if mid else None))
-    if len(ms) < 400:
-        raise SystemExit(f"only {len(ms)} rows read, page layout probably changed")
+    # Fail loudly on a layout change instead of letting update.py write an empty live.json.
+    bad = sum(1 for m in ms if not (m["g"] and m["dt"] and m["id"]))
+    if len(ms) < 400 or bad:
+        raise SystemExit(f"{len(ms)} rows read, {bad} without girone/date/id: page layout probably changed")
     return ms
 def main(out="data/giocaacalcio_matches.json"):
     ms = scrape()
