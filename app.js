@@ -340,22 +340,19 @@ if(LIVE.updated){const u=new Date(LIVE.updated);document.getElementById("upd").t
 
 // Calendario: one tab per giornata, that round's matches grouped by girone.
 let GN=null;
-// Layout: "2" = 4 columns, teams on two lines; "1" = 3 columns, one line per match. Remembered per browser.
-let GV=(()=>{try{return localStorage.getItem("esordienti2015_cal_vista")||"2"}catch(e){return "2"}})();
 function curRound(){const t=new Date();t.setHours(0,0,0,0);const R=[...new Set(D.A.m.map(m=>m[0]))].sort((a,b)=>a-b);
  for(const n of R){const dt=D.A.m.find(m=>m[0]===n)[1],[d,mo,y]=dt.split("/").map(Number);if(new Date(2000+y,mo-1,d+1)>=t)return n}return R[R.length-1]}
 function drawRound(n){
  GN=n;document.querySelectorAll("#gTabs button").forEach(b=>b.setAttribute("aria-selected",+b.dataset.n===n));
- const nm=(g,i)=>{const t=D[g].t[i];return `<span class="tk" data-g="${g}" data-i="${i}" title="${esc(t.n)} ${t.s}"><i class="dot s${t.s}">${t.s}</i><span class="tn2">${esc(t.n)}</span></span>`};
+ // Away team (right column) carries its letter on the right.
+ const nm=(g,i,r)=>{const t=D[g].t[i],dot=`<i class="dot s${t.s}">${t.s}</i>`;return `<span class="tk" data-g="${g}" data-i="${i}" title="${esc(t.n)} ${t.s}">${r?"":dot}<span class="tn2">${esc(t.n)}</span>${r?dot:""}</span>`};
  const secs=Object.entries(D).map(([g,v])=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
   const rows=ms.filter(m=>m[2]!==-1).map(m=>({m,d:dayOf(g,m)})).sort((a,b)=>a.d.x-b.d.x||a.d.o.localeCompare(b.d.o,undefined,{numeric:true}));
   return `<section class="gsec"><h4>Girone ${g}</h4>${rows.map(({m,d})=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));
    const w=`<span class="gw">${WD[d.x.getDay()]} <small>${esc(d.o)}</small></span>`;
-   return GV==="1"?`<div class="gm1">${w}${nm(g,h)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a)}</div>`
-    :`<div class="gm">${w}<div class="gt">${nm(g,h)}${nm(g,a)}</div><div class="gs">${gl?`<b>${gl[0]}</b><b>${gl[1]}</b>`:"<em>-</em><em>-</em>"}</div></div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
+   return `<div class="gm1">${w}${nm(g,h)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a,1)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
  document.getElementById("gWk").textContent=`${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])}`;
- document.getElementById("gBody").innerHTML=`<div class="gsecs${GV==="1"?" g3":""}">${secs}</div>`;
- document.querySelectorAll(".gview button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===GV));
+ document.getElementById("gBody").innerHTML=`<div class="gsecs g3">${secs}</div>`;
  document.querySelectorAll("#gBody .tk").forEach(e=>e.onclick=()=>{document.getElementById("gdlg").close();open(e.dataset.g,+e.dataset.i)});
 }
 function openCal(n){
@@ -365,7 +362,6 @@ function openCal(n){
  drawRound(R.includes(n)?n:(GN||curRound()));
  const gd=document.getElementById("gdlg");if(!gd.open){if(gd.showModal)gd.showModal();else gd.setAttribute("open","")}
 }
-document.querySelectorAll(".gview button").forEach(b=>b.onclick=()=>{GV=b.dataset.v;try{localStorage.setItem("esordienti2015_cal_vista",GV)}catch(e){}drawRound(GN)});
 document.getElementById("calBtn").onclick=()=>{openCal();setHash()};
 (()=>{const gd=document.getElementById("gdlg");document.getElementById("gX").onclick=()=>gd.close();gd.addEventListener("click",e=>{if(e.target===gd)gd.close()});
  document.addEventListener("keydown",e=>{if((e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||!gd.open||GN==null)return;e.preventDefault();

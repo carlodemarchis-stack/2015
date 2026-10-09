@@ -124,8 +124,8 @@ footer a{color:#8cc8ff}
  .gn2{grid-column:1/-1}
  .gn2 em{display:inline;margin-left:6px}
 }
-/* Calendario per giornata: title, giornata tabs and weekend in one header row; on wide
-   screens 4 columns of gironi (4+4+3) with one-line rows so a whole giornata fits without scrolling. */
+/* Calendario per giornata: title, giornata tabs and weekend in one header row; gironi in 3 columns
+   (3+3+3+2), one line per match, so a whole giornata fits a laptop screen without scrolling. */
 #gdlg{width:min(1600px,calc(100vw - 32px))}
 #gdlg .dh{align-items:center;padding:10px 20px}
 .ghd{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;min-width:0}
@@ -137,27 +137,20 @@ footer a{color:#8cc8ff}
 .gsecs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:6px}
 .gsec{border:1px solid var(--line);border-radius:6px;padding:5px 8px}
 .gsec h4{font-family:var(--display);font-size:14px;text-transform:uppercase;margin:0 0 1px;color:var(--muted)}
-.gm{display:grid;grid-template-columns:62px minmax(0,1fr) 22px;gap:6px;align-items:center;font-size:12.5px;line-height:1.25;padding:2px 0;border-bottom:1px solid var(--line)}
-.gt,.gs{display:flex;flex-direction:column}
-.gs{text-align:right;font-variant-numeric:tabular-nums}
-.gm:last-of-type{border-bottom:0}
 .gw{font-size:12px;color:var(--muted);white-space:nowrap}
 .gw small{font-size:12px;color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
-.gm em{color:var(--muted);font-style:normal}
 .tk{display:flex;align-items:center;gap:5px;min-width:0;cursor:pointer}
 .tk .tn2{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tk:hover{color:var(--accent)}
 .tk .dot{width:15px;height:15px;font-size:9.5px;flex:none}
 .grest{font-size:12px;color:var(--muted);padding-top:2px}
-@media (min-width:1000px){.gsecs{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:600px),(max-height:520px){#gdlg{width:100vw;max-width:none}}
-@media (max-width:600px){.gm{font-size:13px}.gbody{padding:8px 10px 16px}.gsec{padding:6px 8px}}
+@media (max-width:600px){.gbody{padding:8px 10px 16px}.gsec{padding:6px 8px}}
 .tbtns{flex-wrap:wrap;max-width:100%}
-/* Calendario, vista "3 colonne": one line per match, gironi 3+3+3+2 */
-.gview{margin-left:auto}
+/* Calendario: one line per match, gironi in 3 columns (3+3+3+2) */
 .gm1{display:grid;grid-template-columns:62px minmax(0,1fr) 34px minmax(0,1fr);gap:6px;align-items:center;font-size:12.5px;line-height:1.25;padding:3px 0;border-bottom:1px solid var(--line)}
 .gm1:last-of-type{border-bottom:0}
-.gm1 b,.gm1 em{text-align:center;font-variant-numeric:tabular-nums}
+.gm1 b,.gm1 em{text-align:center;font-variant-numeric:tabular-nums}.gm1 em{color:var(--muted);font-style:normal}
 .gm1 .tk:last-child{justify-content:flex-end;text-align:right}
 @media (min-width:1000px){.gsecs.g3{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:600px){.gm1{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);row-gap:1px}.gm1 .gw{grid-column:1/-1}.gview{display:none}}
+@media (max-width:600px){.gm1{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);row-gap:1px}.gm1 .gw{grid-column:1/-1}}
