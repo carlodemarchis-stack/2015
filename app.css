@@ -153,3 +153,11 @@ footer a{color:#8cc8ff}
 @media (max-width:600px),(max-height:520px){#gdlg{width:100vw;max-width:none}}
 @media (max-width:600px){.gm{font-size:13px}.gbody{padding:8px 10px 16px}.gsec{padding:6px 8px}}
 .tbtns{flex-wrap:wrap;max-width:100%}
+/* Calendario, vista "3 colonne": one line per match, gironi 3+3+3+2 */
+.gview{margin-left:auto}
+.gm1{display:grid;grid-template-columns:62px minmax(0,1fr) 34px minmax(0,1fr);gap:6px;align-items:center;font-size:12.5px;line-height:1.25;padding:3px 0;border-bottom:1px solid var(--line)}
+.gm1:last-of-type{border-bottom:0}
+.gm1 b,.gm1 em{text-align:center;font-variant-numeric:tabular-nums}
+.gm1 .tk:last-child{justify-content:flex-end;text-align:right}
+@media (min-width:1000px){.gsecs.g3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:600px){.gm1{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);row-gap:1px}.gm1 .gw{grid-column:1/-1}.gview{display:none}}
