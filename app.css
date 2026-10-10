@@ -180,3 +180,7 @@ footer a{color:#8cc8ff}
 .lA{color:var(--sA)}.lB{color:var(--sB)}.lC{color:#4cc46e}.lD{color:#fff}
 @media (max-width:600px){.gmode{margin-left:0}}
 .mxg{position:sticky;left:0;z-index:1;background:var(--surface)}
+/* Matches moved outside their giornata weekend */
+.gw.mv{color:#ff9f5a;font-weight:600}.gw.mv small{color:#ff9f5a}
+.mxm.mv{box-shadow:inset 2px 0 0 #ff9f5a}
+.mvtag{display:inline-block;margin-top:3px;font-style:normal;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#ff9f5a;border:1px solid currentColor;border-radius:3px;padding:0 5px}
