@@ -20,6 +20,9 @@ from scrape_giocaacalcio import scrape
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 TEAMS = os.path.join(ROOT, "data", "teams_matches.json")
 OUT = os.path.join(ROOT, "data", "live.json")
+# Results entered by hand (read by Carlo elsewhere): [girone, home, homeSquad, away, awaySquad, score, note].
+# Names and squad letters as in the LND PDF. They only fill matches giocaacalcio has no score for.
+MANUAL = os.path.join(ROOT, "data", "manual.json")
 NAME_FIX = {}  # "GIOCA NAME": "Our name" when the fuzzy match gets one wrong
 
 
@@ -64,7 +67,23 @@ def build(D, G, old=None):
                 raise SystemExit(f"girone {g}: {m['h']} - {m['a']} is not in our calendar")
             out.append([n, h, a, m["dt"] or prev.get(m["id"]), m["score"], m["id"]])
         live[g] = sorted(out)
+    apply_manual(D, live)
     return live
+
+
+def apply_manual(D, live):
+    if not os.path.exists(MANUAL):
+        return
+    for g, hn, hs, an, as_, score, *_ in json.load(open(MANUAL)):
+        idx = {(t["n"], t["s"]): i for i, t in enumerate(D[g]["t"])}
+        if (hn, hs) not in idx or (an, as_) not in idx:
+            raise SystemExit(f"manual.json: unknown team in {g}: {hn} {hs} / {an} {as_}")
+        h, a = idx[(hn, hs)], idx[(an, as_)]
+        row = next((r for r in live[g] if {r[1], r[2]} == {h, a}), None)
+        if row is None:
+            raise SystemExit(f"manual.json: {hn} - {an} is not a match of girone {g}")
+        if not row[4]:
+            row[4] = score if row[1] == h else "-".join(reversed(score.split("-")))
 
 
 def main():
