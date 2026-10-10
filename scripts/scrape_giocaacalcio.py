@@ -16,7 +16,8 @@ def scrape():
         score = re.sub(r'<[^>]+>', '', re.search(r'<span>(.*?)</span>', sc, re.S).group(1)).strip()
         ms.append(dict(g=g.group(1).upper() if g else None, dt=d.group(1) if d else None, h=name(h), a=name(a), score=score, id=mid.group(1) if mid else None))
     # Fail loudly on a layout change instead of letting update.py write an empty live.json.
-    bad = sum(1 for m in ms if not (m["g"] and m["dt"] and m["id"]))
+    # A finished match shows its score in place of the date, so dt is only required without a score.
+    bad = sum(1 for m in ms if not (m["g"] and m["id"] and (m["dt"] or m["score"])))
     if len(ms) < 400 or bad:
         raise SystemExit(f"{len(ms)} rows read, {bad} without girone/date/id: page layout probably changed")
     return ms

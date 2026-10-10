@@ -46,7 +46,9 @@ def map_names(teams, names):
     return out
 
 
-def build(D, G):
+def build(D, G, old=None):
+    # Finished matches lose their date on giocaacalcio: keep the one stored earlier, by match id.
+    prev = {r[5]: r[3] for rows in (old or {}).values() for r in rows}
     live = {}
     for g, v in D.items():
         rows = [m for m in G if m["g"] == g]
@@ -60,15 +62,15 @@ def build(D, G):
             n = rnd.get(frozenset((h, a)))
             if n is None:
                 raise SystemExit(f"girone {g}: {m['h']} - {m['a']} is not in our calendar")
-            out.append([n, h, a, m["dt"], m["score"], m["id"]])
+            out.append([n, h, a, m["dt"] or prev.get(m["id"]), m["score"], m["id"]])
         live[g] = sorted(out)
     return live
 
 
 def main():
     D = json.load(open(TEAMS))
-    live = build(D, scrape())
     old = json.load(open(OUT)) if os.path.exists(OUT) else {}
+    live = build(D, scrape(), old.get("m"))
     if old.get("m") == live:
         print("no change")
         return
