@@ -187,3 +187,22 @@ footer a{color:#8cc8ff}
 /* Scores never wrap: double-digit results ("11-0", "21-2") stay on one line everywhere */
 .res,.gm1 b,.mxm b,.ctab td,.gd,.ga2 b,.gf2 b{white-space:nowrap}
 .res{flex:none}
+/* Partite list, compact: result replaces the time once played; field link on the surface label */
+.games{gap:4px}
+.games li{padding:6px 10px}
+.games .when .res{margin-left:0}
+a.surf{text-decoration:none}
+a.surf:hover{filter:brightness(1.25)}
+@media (min-width:1000px) and (min-height:521px){
+ .games li{grid-template-columns:26px 92px 56px minmax(0,1fr) auto 104px;grid-template-areas:"gn d t opp ha surf";padding:5px 10px;column-gap:10px;align-items:center}
+ .games li.rest{grid-template-areas:"gn d t opp opp opp"}
+ .games .gn{font-size:18px}
+ .games .when .res{grid-area:t;justify-self:start}
+ .games .where,.games .when .mvtag{display:none}
+ .games .surf{justify-self:end}
+}
+.games .when b{white-space:nowrap}
+/* Standings: a little air after Pt and between the match columns (G V N P) and the goal columns (GF GS DR) */
+.ctab th:nth-child(3),.ctab td:nth-child(3){padding-right:16px}
+.ctab th:nth-child(8),.ctab td:nth-child(8){padding-left:18px}
+@media (max-width:600px){.ctab th:nth-child(10),.ctab td:nth-child(10){padding-left:14px}}
