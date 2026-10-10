@@ -31,8 +31,9 @@ function tiles(map){
 }
 // Real date/time and score from giocaacalcio.it (data/live.json), keyed by the pair of teams:
 // each pair meets once per girone. Falls back to the computed day/time when a match is missing.
-const LV=new Map();
-Object.entries(LIVE.m||{}).forEach(([g,rows])=>rows.forEach(([n,h,a,dt,sc,id])=>LV.set(`${g}|${Math.min(h,a)}|${Math.max(h,a)}`,{h,a,dt,sc,id})));
+const LV=new Map();let LUPD=LIVE.updated;
+function setLive(L){LV.clear();Object.entries(L.m||{}).forEach(([g,rows])=>rows.forEach(([n,h,a,dt,sc,id])=>LV.set(`${g}|${Math.min(h,a)}|${Math.max(h,a)}`,{h,a,dt,sc,id})))}
+setLive(LIVE);
 const liveOf=(g,h,a)=>LV.get(`${g}|${Math.min(h,a)}|${Math.max(h,a)}`);
 const ha=(g,m)=>{const lv=m[2]===-1?null:liveOf(g,m[2],m[3]);return lv?[lv.h,lv.a]:[m[2],m[3]]};
 // Score "3 - 1" -> [3,1] as goals of the giocaacalcio home team; null when not entered.
@@ -179,7 +180,7 @@ function drawRes(){
  const rows=(SG?[SG]:K).flatMap(g=>standings(g).map(x=>({...x,gr:g}))).filter(x=>x.g||!pl).sort((a,b)=>(b.f-b.a)-(a.f-a.a)||b.f-a.f||a.t.n.localeCompare(b.t.n));
  const M=Math.max(1,...rows.map(x=>Math.max(x.f,x.a)));
  const sel=`<div class="seg gsel" id="rSel" role="group" aria-label="Girone"><button type="button" data-g="" aria-pressed="${!SG}">Tutti</button>${K.map(k=>`<button type="button" data-g="${k}" aria-pressed="${SG===k}">${k}</button>`).join("")}</div>`;
- const chart=`<section class="sgrp"><h4>Gol fatti e subiti per squadra <small>ordinate per differenza reti</small></h4>${sel}<div class="gleg"><span><i class="sw gf"></i>Gol fatti</span><span><i class="sw ga"></i>Gol subiti</span></div>${pl?"":`<p class="mapnote">Ancora nessun risultato: il grafico si riempie con le prime partite.</p>`}<div class="gfa">${rows.map(x=>{const d=x.f-x.a;return `<div class="gr${isFav(x.gr,x.i)?" fav":""}" data-g="${x.gr}" data-i="${x.i}" data-tip="${esc(x.t.n)} ${x.t.s} · Girone ${x.gr}: ${x.g} partite, ${x.f} fatti, ${x.a} subiti, differenza ${d>0?"+":""}${d}"><span class="gn2"><i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span>${SG?"":`<em>${x.gr}</em>`}</span><span class="ga2"><b>${x.a}</b><i style="width:${x.a/M*100}%"></i></span><span class="gf2"><i style="width:${x.f/M*100}%"></i><b>${x.f}</b></span><span class="gd ${d>0?"p":d<0?"n":""}">${d>0?"+":""}${d}</span></div>`}).join("")}</div></section>`;
+ const chart=`<section class="sgrp"><h4>Gol fatti e subiti per squadra <small>ordinate per differenza reti</small></h4>${sel}<div class="gleg"><span><i class="sw gf"></i>Gol fatti</span><span><i class="sw ga"></i>Gol subiti</span></div>${pl?"":`<p class="mapnote">Ancora nessun risultato: il grafico si riempie con le prime partite.</p>`}<div class="gfa">${rows.map(x=>{const d=x.f-x.a;return `<div class="gr${isFav(x.gr,x.i)?" fav":""}" data-g="${x.gr}" data-i="${x.i}" data-tip="${esc(x.t.n)} ${x.t.s} · Girone ${x.gr}: ${x.g} ${x.g===1?"partita":"partite"}, ${x.f} fatti, ${x.a} subiti, differenza ${d>0?"+":""}${d}"><span class="gn2"><i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span>${SG?"":`<em>${x.gr}</em>`}</span><span class="ga2"><b>${x.a}</b><i style="width:${x.a/M*100}%"></i></span><span class="gf2"><i style="width:${x.f/M*100}%"></i><b>${x.f}</b></span><span class="gd ${d>0?"p":d<0?"n":""}">${d>0?"+":""}${d}</span></div>`}).join("")}</div></section>`;
  const R=document.getElementById("sRes");R.innerHTML=kp+mixc+chart;
  R.querySelectorAll("#rSel button").forEach(b=>b.onclick=()=>{SG=b.dataset.g;drawRes()});
  R.querySelectorAll(".gr").forEach(r=>r.onclick=()=>{document.getElementById("sdlg").close();open(r.dataset.g,+r.dataset.i)});
@@ -334,10 +335,27 @@ document.getElementById("tabBtn").onclick=()=>{openTable();setHash()};
   const n=K[(k+(e.key==="ArrowRight"?1:-1)+K.length)%K.length];drawTable(n);setHash();const b=document.querySelector(`#cSel button[data-g="${n}"]`);if(b)b.focus()});
  document.getElementById("cX").onclick=()=>cd.close();cd.addEventListener("click",e=>{if(e.target===cd)cd.close()});})();
 
-if(LIVE.updated){const u=new Date(LIVE.updated);document.getElementById("upd").textContent=`Dati aggiornati il ${u.getDate()}/${u.getMonth()+1} alle ${String(u.getHours()).padStart(2,"0")}:${String(u.getMinutes()).padStart(2,"0")}.`}
+function showUpd(){if(!LUPD)return;const u=new Date(LUPD);document.getElementById("upd").textContent=`Dati aggiornati il ${u.getDate()}/${u.getMonth()+1} alle ${String(u.getHours()).padStart(2,"0")}:${String(u.getMinutes()).padStart(2,"0")}.`}
+showUpd();
 
 // Header: matches played / total across all gironi.
-(()=>{let p=0,n=0;Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[2]===-1)return;n++;if(goals(liveOf(g,m[2],m[3])))p++}));document.getElementById("mPlayed").textContent=`${p}/${n}`})();
+function showPlayed(){let p=0,n=0;Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[2]===-1)return;n++;if(goals(liveOf(g,m[2],m[3])))p++}));document.getElementById("mPlayed").textContent=`${p}/${n}`}
+showPlayed();
+
+// Live refresh: while the page is open, re-read live.json every 3 minutes (and when the tab comes
+// back into view). When it changed, redraw the grid, the header and whichever window is open.
+async function refreshLive(){
+ let L;try{L=await fetch("data/live.json",{cache:"no-cache"}).then(r=>r.json())}catch(e){return}
+ if(!L||L.updated===LUPD)return;
+ LUPD=L.updated;setLive(L);grid();syncFav();showPlayed();showUpd();
+ const on=id=>document.getElementById(id).open;
+ if(on("dlg")&&CUR){const t0=CTAB,st=document.getElementById("dlg").scrollTop;open(CUR[0],CUR[1]);if(t0!=="cal")tab(t0);document.getElementById("dlg").scrollTop=st}
+ if(on("cdlg")&&CG)drawTable(CG);
+ if(on("gdlg")){if(GM==="all")drawAll();else if(GN!=null)drawRound(GN)}
+ if(on("sdlg")&&STAB==="res")drawRes();
+}
+setInterval(()=>{if(!document.hidden)refreshLive()},180000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshLive()});
 
 // Calendario: one tab per giornata, that round's matches grouped by girone.
 let GN=null,GM="g";
