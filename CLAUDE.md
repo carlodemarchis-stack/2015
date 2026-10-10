@@ -34,3 +34,7 @@ and its handoff notes are in `legacy/`.
   or browsers mix a fresh index.html with a stale app.js. JSON data uses `cache:"no-cache"`.
 - Club codes for the Calendario "Tutte" grid: `data/abbr.json` (57 clubs, 3 letters, unique). A new club
   needs a code there, or the page falls back to the first 3 letters of its name.
+- Manual results: `data/manual.json`, rows `[girone, home, squad, away, squad, "h-a", note]` with LND PDF
+  names. Carlo reads them on Sprint e Sport and dictates them; `update.py` fills only matches giocaacalcio
+  has no score for. Never fetch Sprint e Sport (`/webservices/` is disallowed in its robots.txt) or
+  tuttocampo (403 to bots) from scripts or the Action.
