@@ -219,3 +219,22 @@ a.surf:hover{filter:brightness(1.25)}
 .rnd .mr .sc{font-weight:400}
 .rnd .mr.wh .sc i:first-child,.rnd .mr.wa .sc i:last-child{font-weight:800}
 .rnd .mr.wh>span:first-child,.rnd .mr.wa>span:last-child{font-weight:650}
+/* Standings form strip: one box per match, giornata order */
+.frm{display:inline-flex;gap:2px;margin-left:auto;padding-left:10px;flex:none}
+.fb{display:block;width:9px;height:15px;border-radius:2px;background:var(--line);cursor:default}
+.fb.w{background:#2f9a4f}.fb.d{background:#d8b03a}.fb.l{background:#c0453b}
+.fb.u{background:transparent;box-shadow:inset 0 0 0 1px #4a5650}
+.fb:hover{outline:2px solid var(--fg);outline-offset:1px}
+.ctab td.tn div>span:not(.frm){min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* tighter number columns */
+.ctab th,.ctab td{padding-left:4px;padding-right:4px}
+.ctab th:nth-child(3),.ctab td:nth-child(3){padding-right:12px}
+.ctab th:nth-child(8),.ctab td:nth-child(8){padding-left:12px}
+/* rich tooltip */
+.ctip{line-height:1.45;padding:7px 10px;border-radius:7px;background:#f3f5f4;color:#17201c}
+.ctip b{font-weight:700}
+.ctip .dot{width:14px;height:14px;font-size:9px;display:inline-flex;vertical-align:-2px}
+.ctip .tt{display:inline-block;margin-top:3px;padding:1px 7px;border-radius:4px;font-weight:700;font-size:11.5px;color:#fff}
+.ctip .tt.w{background:#2f9a4f}.ctip .tt.d{background:#b8921c}.ctip .tt.l{background:#c0453b}.ctip .tt.u{background:#6b7570}
+@media (max-width:600px){.fb{width:6px;height:12px}.frm{gap:1px;padding-left:6px}}
+@media (max-width:600px){.ctab th:nth-child(5),.ctab td:nth-child(5),.ctab th:nth-child(6),.ctab td:nth-child(6),.ctab th:nth-child(7),.ctab td:nth-child(7){display:none}}

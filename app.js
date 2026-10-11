@@ -192,9 +192,9 @@ function drawRes(){
 }
 // One shared tooltip for chart rows (data-tip).
 (()=>{const tip=document.getElementById("ctip");
- document.addEventListener("mousemove",e=>{const t=e.target.closest&&e.target.closest("[data-tip]");if(!t){tip.hidden=true;return}
+ document.addEventListener("mousemove",e=>{const t=e.target.closest&&e.target.closest("[data-tip],[data-tiph]");if(!t){tip.hidden=true;return}
   const dg=t.closest("dialog");if(dg&&tip.parentNode!==dg)dg.appendChild(tip);// must live in the open modal's top layer
-  tip.textContent=t.dataset.tip;tip.hidden=false;const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"});})();
+  if(t.dataset.tiph)tip.innerHTML=t.dataset.tiph;else tip.textContent=t.dataset.tip;tip.hidden=false;const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"});})();
 (()=>{const sd=document.getElementById("sdlg");document.getElementById("sX").onclick=()=>sd.close();sd.addEventListener("click",e=>{if(e.target===sd)sd.close()});})();
 
 let AMAP=null,AMK={},AALL=[];
@@ -312,8 +312,18 @@ function standings(g){
   if(gl[0]>gl[1]){H.w++;A.l++;H.p+=3}else if(gl[0]<gl[1]){A.w++;H.l++;A.p+=3}else{H.d++;A.d++;H.p++;A.p++}});
  return T.sort((x,y)=>y.p-x.p||(y.f-y.a)-(x.f-x.a)||y.f-x.f||x.t.n.localeCompare(y.t.n));
 }
+// Form strip: one box per match of team i in giornata order (rest days skipped).
+// Green win, yellow draw, red loss, grey still to play; HTML tooltip via data-tiph.
+function formHTML(g,i){
+ const v=D[g];
+ return `<span class="frm">${v.m.filter(m=>m[2]!==-1&&(m[2]===i||m[3]===i)).sort((a,b)=>a[0]-b[0]).map(m=>{
+  const [h,a]=ha(g,m),opp=v.t[h===i?a:h],r=resFor(g,m,i),d=dayOf(g,m),home=h===i;
+  const k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u",lab={w:"Vittoria",d:"Pareggio",l:"Sconfitta",u:"Da giocare"}[k];
+  const tip=`<b>${m[0]}ª giornata</b> · ${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1}${d.o?" "+esc(d.o):""}<br>${home?"Casa":"Trasferta"} vs <i class="dot s${opp.s}">${opp.s}</i> ${esc(opp.n)}<br><span class="tt ${k}">${lab}${r?` ${r[0]}-${r[1]}`:""}</span>`;
+  return `<i class="fb ${k}" data-tiph="${esc(tip)}"></i>`}).join("")}</span>`;
+}
 function tableHTML(g,T,me){
- return `<table class="ctab"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${T.map((x,k)=>`<tr data-i="${x.i}" class="${isFav(g,x.i)?"fav":""}${x.i===me?" me":""}"><td>${k+1}</td><td class="tn"><div>${x.t.l?`<img class="ologo" src="${x.t.l}" alt="" loading="lazy">`:""}<i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span></div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>`).join("")}</tbody></table>`;
+ return `<table class="ctab"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${T.map((x,k)=>`<tr data-i="${x.i}" class="${isFav(g,x.i)?"fav":""}${x.i===me?" me":""}"><td>${k+1}</td><td class="tn"><div>${x.t.l?`<img class="ologo" src="${x.t.l}" alt="" loading="lazy">`:""}<i class="dot s${x.t.s}">${x.t.s}</i><span>${esc(x.t.n)}</span>${formHTML(g,x.i)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>`).join("")}</tbody></table>`;
 }
 function drawTable(g){
  CG=g;const v=D[g],T=standings(g);
