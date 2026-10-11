@@ -52,6 +52,9 @@ const MB=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic
 function weekend(dt){const [d,m,y]=dt.split("/").map(Number),sa=new Date(2000+y,m-1,d),su=new Date(2000+y,m-1,d+1);
  return sa.getMonth()===su.getMonth()?`${sa.getDate()}/${su.getDate()} ${MB[sa.getMonth()]}`:`${sa.getDate()} ${MB[sa.getMonth()]}/${su.getDate()} ${MB[su.getMonth()]}`}
 // A match whose real date falls outside its giornata weekend (postponed or brought forward).
+// Score markup + row class: winner side bold (team and its number), draws and unplayed plain.
+const scHTML=gl=>`<b class="sc"><i>${gl[0]}</i>-<i>${gl[1]}</i></b>`;
+const winCls=gl=>gl?(gl[0]>gl[1]?" wh":gl[0]<gl[1]?" wa":""):"";
 function moved(g,m){const r=dayOf(g,m);if(!r.real)return false;const [d,mo,y]=m[1].split("/").map(Number),sat=new Date(2000+y,mo-1,d),diff=Math.round((r.x-sat)/864e5);return diff<0||diff>1}
 function when(dt,home,g,mt){
  if(mt){const r=dayOf(g,mt);return {ds:`${WD[r.x.getDay()]} ${r.x.getDate()}/${r.x.getMonth()+1}`,o:r.o||"orario n.d."}}
@@ -375,7 +378,7 @@ function drawAll(){
   html+=`<button type="button" class="mxg" data-g="${g}" title="Classifica girone ${g}">${g}</button>`;
   R.forEach(n=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
    html+=`<div class="mxc"${rest?` title="Riposa ${esc(v.t[rest[3]].n)}"`:""}>${ms.filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a)),d=dayOf(g,m);
-    return `<div class="mxm${moved(g,m)?" mv":""}" data-tip="${moved(g,m)?"Spostata · ":""}${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1} ${esc(d.o)} · ${esc(v.t[h].n)} ${v.t[h].s} - ${esc(v.t[a].n)} ${v.t[a].s}${gl?` · ${gl[0]}-${gl[1]}`:""}">${code(g,h)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${code(g,a)}</div>`}).join("")}</div>`});
+    return `<div class="mxm${moved(g,m)?" mv":""}${winCls(gl)}" data-tip="${moved(g,m)?"Spostata · ":""}${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1} ${esc(d.o)} · ${esc(v.t[h].n)} ${v.t[h].s} - ${esc(v.t[a].n)} ${v.t[a].s}${gl?` · ${gl[0]}-${gl[1]}`:""}">${code(g,h)}${gl?scHTML(gl):"<em>-</em>"}${code(g,a)}</div>`}).join("")}</div>`});
  });
  document.getElementById("gBody").innerHTML=html+"</div>";
  document.querySelectorAll("#gBody .mxh").forEach(b=>b.onclick=()=>{GM="g";drawRound(+b.dataset.n);setHash()});
@@ -391,7 +394,7 @@ function drawRound(n){
   const rows=ms.filter(m=>m[2]!==-1).map(m=>({m,d:dayOf(g,m)})).sort((a,b)=>a.d.x-b.d.x||a.d.o.localeCompare(b.d.o,undefined,{numeric:true}));
   return `<section class="gsec"><h4>Girone ${g}</h4>${rows.map(({m,d})=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));
    const mv=moved(g,m),w=mv?`<span class="gw mv" title="Partita spostata">${d.x.getDate()}/${d.x.getMonth()+1} <small>${esc(d.o)}</small></span>`:`<span class="gw">${WD[d.x.getDay()]} <small>${esc(d.o)}</small></span>`;
-   return `<div class="gm1">${w}${nm(g,h,1)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
+   return `<div class="gm1${winCls(gl)}">${w}${nm(g,h,1)}${gl?scHTML(gl):"<em>-</em>"}${nm(g,a)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
  let tot=0,pl=0;Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[0]!==n||m[2]===-1)return;tot++;if(goals(liveOf(g,m[2],m[3])))pl++}));
  document.getElementById("gWk").innerHTML=`${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])} <span class="gwp" title="Partite giocate / totale">${pl}/${tot}</span>`;
  document.getElementById("gBody").innerHTML=`<div class="gsecs g3">${secs}</div>`;
