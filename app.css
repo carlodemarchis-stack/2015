@@ -238,3 +238,15 @@ a.surf:hover{filter:brightness(1.25)}
 .ctip .tt.w{background:#2f9a4f}.ctip .tt.d{background:#b8921c}.ctip .tt.l{background:#c0453b}.ctip .tt.u{background:#6b7570}
 @media (max-width:600px){.fb{width:6px;height:12px}.frm{gap:1px;padding-left:6px}}
 @media (max-width:600px){.ctab th:nth-child(5),.ctab td:nth-child(5),.ctab th:nth-child(6),.ctab td:nth-child(6),.ctab th:nth-child(7),.ctab td:nth-child(7){display:none}}
+/* Team window, wide: Partite rows as tight as the standings rows on the right (table-like, ruled) */
+@media (min-width:1000px) and (min-height:521px){
+ .dmain .games{gap:0;padding:28px 12px 12px}
+ .dmain .games li{padding:2px 8px;border:0;border-bottom:1px solid var(--line);border-radius:0;min-height:29px;box-sizing:border-box}
+ .dmain .games li:first-child{border-top:1px solid var(--line)}
+ .dmain .games li.rest{border-style:solid;border-width:0 0 1px}
+ .dmain .games .gn{font-size:16px}
+ .dmain .games .tag{padding:1px 6px;font-size:10px}
+ .dmain .games .surf{padding:1px 6px;font-size:10px}
+ .dmain .games .ologo{width:20px;height:20px}
+ .dmain .games .res{padding:0 6px}
+}
