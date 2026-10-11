@@ -91,6 +91,9 @@ const dl=document.getElementById("dlg");
 document.getElementById("dlgX").onclick=()=>dl.close();
 // Left/right arrows: previous/next team of the same girone, in the card's order (wrapping).
 // Skipped while the map has focus, where the arrows pan.
+// Up/down scroll the team window (the page behind a modal does not scroll).
+document.addEventListener("keydown",e=>{if((e.key!=="ArrowUp"&&e.key!=="ArrowDown")||!dl.open||e.target.closest&&e.target.closest("#map,input"))return;
+ e.preventDefault();dl.scrollTop+=e.key==="ArrowDown"?90:-90});
 document.addEventListener("keydown",e=>{if((e.key!=="ArrowLeft"&&e.key!=="ArrowRight")||!dl.open||!CUR||e.target.closest&&e.target.closest("#map,input"))return;e.preventDefault();
  const [g,i]=CUR,o=cardOrder(g),k=o.indexOf(i),t0=CTAB;open(g,o[(k+(e.key==="ArrowRight"?1:-1)+o.length)%o.length]);if(t0!=="cal")tab(t0)});
 dl.addEventListener("click",e=>{if(e.target===dl)dl.close()});
