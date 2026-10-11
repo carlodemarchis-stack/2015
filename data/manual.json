@@ -1,7 +1,7 @@
 [
  ["A", "Volpiano Pianese", "A", "Pro Eureka", "B", "7-1", "Sprint e Sport, letto 10/10 20:45"],
  ["A", "Calcio Settimo", "A", "Sisport", "C", "4-1", "Sprint e Sport, letto 10/10 20:45"],
- ["A", "Caselle Calcio", "A", "Ciriè Calcio 1946", "A", "3-12", "Sprint e Sport, letto 10/10 20:45"],
+ ["A", "Caselle Calcio", "A", "Ciriè Calcio 1946", "A", "3-16", "Sprint e Sport, letto 11/10 12:10"],
  ["A", "Mappanese", "A", "Autovip San Mauro", "A", "1-15", "Sprint e Sport, letto 10/10 20:45"],
  ["B", "Borgaro Autoingros", "B", "Autovip San Mauro", "B", "4-0", "Sprint e Sport, letto 10/10 20:45"],
  ["C", "Sisport", "B", "Gassino San Raffaele", "A", "21-2", "Sprint e Sport, letto 10/10 20:45"],
@@ -23,5 +23,9 @@
  ["L", "Cenisia", "C", "Torino FC", "C", "6-2", "Sprint e Sport, letto 10/10 20:45"],
  ["L", "Absolute Moncalieri", "A", "Chieri", "B", "0-9", "Sprint e Sport, letto 10/10 20:45"],
  ["L", "CSF Carmagnola Queen", "B", "Vanchiglia 1915", "B", "2-24", "Sprint e Sport, letto 10/10 20:45"],
- ["M", "PSG", "A", "San Giacomo Chieri", "A", "5-3", "Sprint e Sport, letto 10/10 20:45"]
+ ["M", "PSG", "A", "San Giacomo Chieri", "A", "5-3", "Sprint e Sport, letto 10/10 20:45"],
+ ["H", "Cit Turin LDE", "B", "Torino FC (femm.)", "A", "2-3", "Sprint e Sport, letto 11/10 12:10"],
+ ["I", "CBS Scuola Calcio", "B", "Cit Turin LDE", "A", "8-2", "Sprint e Sport, letto 11/10 12:10"],
+ ["H", "Centrocampo", "A", "Lascaris 1954", "C", "5-5", "Sprint e Sport, letto 11/10 12:10"],
+ ["L", "PSG", "B", "San Giacomo Chieri", "B", "5-2", "Sprint e Sport, letto 11/10 12:10"]
 ]
