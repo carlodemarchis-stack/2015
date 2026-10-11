@@ -206,3 +206,4 @@ a.surf:hover{filter:brightness(1.25)}
 .ctab th:nth-child(3),.ctab td:nth-child(3){padding-right:16px}
 .ctab th:nth-child(8),.ctab td:nth-child(8){padding-left:18px}
 @media (max-width:600px){.ctab th:nth-child(10),.ctab td:nth-child(10){padding-left:14px}}
+.gwp{margin-left:6px;font-family:var(--body);font-size:13px;font-weight:600;color:var(--fg);text-transform:none;font-variant-numeric:tabular-nums}

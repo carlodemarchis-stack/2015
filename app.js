@@ -392,7 +392,8 @@ function drawRound(n){
   return `<section class="gsec"><h4>Girone ${g}</h4>${rows.map(({m,d})=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));
    const mv=moved(g,m),w=mv?`<span class="gw mv" title="Partita spostata">${d.x.getDate()}/${d.x.getMonth()+1} <small>${esc(d.o)}</small></span>`:`<span class="gw">${WD[d.x.getDay()]} <small>${esc(d.o)}</small></span>`;
    return `<div class="gm1">${w}${nm(g,h,1)}${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}${nm(g,a)}</div>`}).join("")}${rest?`<div class="grest">Riposa ${esc(v.t[rest[3]].n)}</div>`:""}</section>`}).join("");
- document.getElementById("gWk").textContent=`${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])}`;
+ let tot=0,pl=0;Object.entries(D).forEach(([g,v])=>v.m.forEach(m=>{if(m[0]!==n||m[2]===-1)return;tot++;if(goals(liveOf(g,m[2],m[3])))pl++}));
+ document.getElementById("gWk").innerHTML=`${n}ª giornata · ${weekend(D.A.m.find(m=>m[0]===n)[1])} <span class="gwp" title="Partite giocate / totale">${pl}/${tot}</span>`;
  document.getElementById("gBody").innerHTML=`<div class="gsecs g3">${secs}</div>`;
  document.querySelectorAll("#gBody .tk").forEach(e=>e.onclick=()=>{document.getElementById("gdlg").close();open(e.dataset.g,+e.dataset.i)});
 }
