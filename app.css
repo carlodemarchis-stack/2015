@@ -215,3 +215,7 @@ a.surf:hover{filter:brightness(1.25)}
 .gm1 .tn2{font-weight:400}
 .mxm.wh>.mxt:nth-child(1),.mxm.wa>.mxt:nth-child(3){font-weight:800}
 .gm1 .gw{font-size:11.5px}
+/* Classifica giornate: same rule as Calendario, winner's name and goals bold */
+.rnd .mr .sc{font-weight:400}
+.rnd .mr.wh .sc i:first-child,.rnd .mr.wa .sc i:last-child{font-weight:800}
+.rnd .mr.wh>span:first-child,.rnd .mr.wa>span:last-child{font-weight:650}

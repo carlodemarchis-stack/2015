@@ -322,7 +322,7 @@ function drawTable(g){
  const byR={};v.m.forEach(m=>{(byR[m[0]]=byR[m[0]]||[]).push(m)});
  const rounds=Object.keys(byR).map(Number).sort((a,b)=>a-b).map(n=>{
   const ms=byR[n].filter(m=>m[2]!==-1),rest=byR[n].find(m=>m[2]===-1);
-  return `<section class="rnd"><h4>${n}ª giornata · ${weekend(byR[n][0][1])}</h4>${ms.map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));const nm=t=>esc(t.n)+(t.s!=="A"?" "+t.s:"");return `<div class="mr"><span title="${nm(v.t[h])}">${nm(v.t[h])}</span>${gl?`<b>${gl[0]}-${gl[1]}</b>`:"<em>-</em>"}<span title="${nm(v.t[a])}">${nm(v.t[a])}</span></div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
+  return `<section class="rnd"><h4>${n}ª giornata · ${weekend(byR[n][0][1])}</h4>${ms.map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));const nm=t=>esc(t.n)+(t.s!=="A"?" "+t.s:"");return `<div class="mr${winCls(gl)}"><span title="${nm(v.t[h])}">${nm(v.t[h])}</span>${gl?scHTML(gl):"<em>-</em>"}<span title="${nm(v.t[a])}">${nm(v.t[a])}</span></div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
  }).join("");
  document.getElementById("cBody").innerHTML=`<div class="ccols"><div class="cres"><div class="rounds">${rounds}</div></div><div class="ctbl">${tbl}</div></div>`;
  document.querySelectorAll("#cBody tr[data-i]").forEach(r=>r.onclick=()=>{document.getElementById("cdlg").close();open(g,+r.dataset.i)});
