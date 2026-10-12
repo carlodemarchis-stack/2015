@@ -123,13 +123,10 @@ body.mlist .fbook{display:none}
  .ctab .frow .frm{display:flex;gap:1px;margin:0;padding:0 0 3px}
  .ctab .frow .fb{flex:1;width:auto;height:10px}
 }
-@media (max-width:600px) and (orientation:portrait){
- .ctab.full td.tn .frm{display:none}
- .ctab.full tr:not(.frow) td{border-bottom:0}
- .ctab .frow{display:table-row}
- .ctab .frow td{padding-top:0}
- .ctab .frow .frm{display:flex;gap:1px;margin:0;padding:0 0 3px}
- .ctab .frow .fb{flex:1;width:auto;height:10px}
+/* Phones, both orientations: only the 10 boxes around the current giornata, inline */
+@media (max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape){
+ .ctab.full td.tn .fb.ox{display:none}
+ .ctab.full td.tn .fb{width:7px}
 }
 /* Campi del girone: map + list (data/cbs_fields.json and the LND PDF of the 2015 site) */
 .xmapw{border-top:1px solid var(--line);padding-top:12px;margin-bottom:24px}

@@ -44,18 +44,19 @@ const fDist=f=>(FLD.dist||{})[fKey(f)];
 const winCls=sc=>sc?(sc[0]>sc[1]?" wh":sc[0]<sc[1]?" wa":""):"";
 const scHTML=m=>m.sc?`<b class="sc"><i>${m.sc[0]}</i>-<i>${m.sc[1]}</i></b>${m.tav?'<small class="tav" title="Risultato a tavolino">tav</small>':""}`:m.nd?'<em title="Non disputata">N.D.</em>':"<em>-</em>";
 
-function formHTML(M,i,max){
- let list=M.ms.filter(m=>m.h===i||m.a===i).sort((a,b)=>a.n-b.n);
- if(max&&list.length>max){const k=list.findIndex(m=>!m.sc&&!m.nd);const end=k<0?list.length:k;list=list.slice(Math.max(0,end-max+2),Math.max(0,end-max+2)+max)}
- return `<span class="frm">${list.map(m=>{const home=m.h===i,opp=M.teams[home?m.a:m.h],r=m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null;
+// max: keep the last played + next 2 (max boxes in all); mark: keep every box, class "ox" on the others
+function formHTML(M,i,max,mark){
+ let list=M.ms.filter(m=>m.h===i||m.a===i).sort((a,b)=>a.n-b.n),a=0,b=list.length;
+ if(max&&list.length>max){const k=list.findIndex(m=>!m.sc&&!m.nd);const end=k<0?list.length:k;a=Math.max(0,Math.min(end-max+2,list.length-max));b=a+max;if(!mark){list=list.slice(a,b);a=0;b=list.length}}
+ return `<span class="frm">${list.map((m,j)=>{const home=m.h===i,opp=M.teams[home?m.a:m.h],r=m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null;
   const k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u",lab={w:"Vittoria",d:"Pareggio",l:"Sconfitta",u:m.nd?"Non disputata":"Da giocare"}[k];
   const tip=`<b>${m.n}ª giornata</b> · ${fmtD(m.d)}${m.o?" "+esc(m.o):""}<br>${home?"Casa":"Trasferta"} vs ${dot(opp)} ${esc(opp.n)}<br><span class="tt ${k}">${lab}${r?` ${r[0]}-${r[1]}`:""}</span>`;
-  return `<i class="fb ${k}" data-tiph="${esc(tip)}"></i>`}).join("")}</span>`;
+  return `<i class="fb ${k}${j<a||j>=b?" ox":""}" data-tiph="${esc(tip)}"></i>`}).join("")}</span>`;
 }
-// big gironi (Promozione, Under 19-15): every match box; phone portrait moves them to a second row
+// big gironi (Promozione, Under 19-15): every match box; phones show 10 of them, mid-size screens a second row
 function tableHTML(M,big){
  const S=standings(M);
- return `<table class="ctab${big?" full":""}"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span>${esc(x.t.n)}</span>${formHTML(M,x.i,0)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>${big?`<tr class="frow${x.i===M.cbs?" me":""}"><td></td><td colspan="9">${formHTML(M,x.i,0)}</td></tr>`:""}`).join("")}</tbody></table>`;
+ return `<table class="ctab${big?" full":""}"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span>${esc(x.t.n)}</span>${formHTML(M,x.i,big?10:0,true)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>${big?`<tr class="frow${x.i===M.cbs?" me":""}"><td></td><td colspan="9">${formHTML(M,x.i,0)}</td></tr>`:""}`).join("")}</tbody></table>`;
 }
 function roundHTML(M,n){
  const ms=M.ms.filter(m=>m.n===n).sort((a,b)=>a.d-b.d||a.o.localeCompare(b.o,undefined,{numeric:true}));
