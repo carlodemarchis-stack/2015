@@ -58,3 +58,11 @@
  .xcombo select:focus{outline:2px solid #6fd0a1;outline-offset:1px}
  .xhead p{margin-top:5px}
 }
+/* Phone portrait, team list: the title bar stays on top, compact */
+@media (max-width:600px) and (orientation:portrait){
+ body.mlist .mast{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -16px;padding:10px 16px 8px;gap:2px 12px;align-items:center}
+ body.mlist .mast .eyebrow{margin:0 0 2px;font-size:11px}
+ body.mlist .mast h1{font-size:24px}
+ body.mlist .mast .meta{font-size:12px}
+ body.mlist .wrap{padding-top:0}
+}
