@@ -89,3 +89,20 @@
 body.mlist .xbook{display:block}
 body.mlist .fbook{display:none}
 .fbook .book{white-space:normal;max-width:100%}
+/* Big gironi (26-30 giornate): all match boxes. Wide: standings full width above the giornate,
+   boxes inline and narrower. Phone portrait: boxes on their own row under each team. */
+.ctab .frow{display:none}
+.ctab.full td.tn .frm{gap:1px}
+.ctab.full td.tn .fb{width:6px}
+@media (min-width:1000px){
+ .xcols.full{grid-template-columns:minmax(0,1fr)}
+ .xcols.full .xtbl{position:static;order:-1}
+}
+@media (max-width:600px) and (orientation:portrait){
+ .ctab.full td.tn .frm{display:none}
+ .ctab.full tr:not(.frow) td{border-bottom:0}
+ .ctab .frow{display:table-row}
+ .ctab .frow td{padding-top:0}
+ .ctab .frow .frm{display:flex;gap:1px;margin:0;padding:0 0 3px}
+ .ctab .frow .fb{flex:1;width:auto;height:10px}
+}

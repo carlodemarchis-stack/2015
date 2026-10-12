@@ -47,9 +47,10 @@ function formHTML(M,i,max){
   const tip=`<b>${m.n}ª giornata</b> · ${fmtD(m.d)}${m.o?" "+esc(m.o):""}<br>${home?"Casa":"Trasferta"} vs ${dot(opp)} ${esc(opp.n)}<br><span class="tt ${k}">${lab}${r?` ${r[0]}-${r[1]}`:""}</span>`;
   return `<i class="fb ${k}" data-tiph="${esc(tip)}"></i>`}).join("")}</span>`;
 }
+// big gironi (Promozione, Under 19-15): every match box; phone portrait moves them to a second row
 function tableHTML(M,big){
  const S=standings(M);
- return `<table class="ctab"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span>${esc(x.t.n)}</span>${formHTML(M,x.i,big?6:0)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>`).join("")}</tbody></table>`;
+ return `<table class="ctab${big?" full":""}"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span>${esc(x.t.n)}</span>${formHTML(M,x.i,0)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>${big?`<tr class="frow${x.i===M.cbs?" me":""}"><td></td><td colspan="9">${formHTML(M,x.i,0)}</td></tr>`:""}`).join("")}</tbody></table>`;
 }
 function roundHTML(M,n){
  const ms=M.ms.filter(m=>m.n===n).sort((a,b)=>a.d-b.d||a.o.localeCompare(b.o,undefined,{numeric:true}));
@@ -100,7 +101,7 @@ function show(k,n){
  document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><button type="button" class="favbtn xfav" id="xfav" aria-pressed="${getFav()===T.k}">${STAR}<span>${getFav()===T.k?"La tua squadra":"Segui questa squadra"}</span></button><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
  document.getElementById("xfav").onclick=()=>{setFav(getFav()===T.k?null:T.k);show(T.k,RN);paintSel()};
  document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v){if(FROMLIST){FROMLIST=false;history.back()}else showList()}else show(v);scrollTo(0,0)};
- document.getElementById("xtbl").innerHTML=tableHTML(M,big);
+ document.getElementById("xtbl").innerHTML=tableHTML(M,big);document.querySelector(".xcols").classList.toggle("full",big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
   res.innerHTML=`<div class="seg gsel xr" role="group" aria-label="Giornata">${R.map(r=>`<button type="button" data-n="${r}" aria-pressed="${r===RN}">${r}</button>`).join("")}</div>${roundHTML(M,RN)}`;
