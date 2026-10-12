@@ -84,3 +84,8 @@
 .xbook{margin:12px 0 4px}
 .xbook .book{margin-left:0}
 .xbook .book{white-space:normal;max-width:100%}
+/* Book promo: at the top on the first screen (phone team list), in the footer everywhere else */
+.xbook{display:none}
+body.mlist .xbook{display:block}
+body.mlist .fbook{display:none}
+.fbook .book{white-space:normal;max-width:100%}
