@@ -172,9 +172,9 @@ function stats(){
  document.getElementById("sBody").innerHTML=kp+lists+`<p class="mapnote" style="margin:0">Le squadre con lo stesso nome sono contate come una sola società. Torino FC femminile è inclusa in Torino FC; Juventus Women è contata a parte, come nel calendario.</p>`;
  stab(STAB);const sd=document.getElementById("sdlg");if(!sd.open){if(sd.showModal)sd.showModal();else sd.setAttribute("open","")}
 }
-document.getElementById("statsBtn").onclick=()=>{STAB="soc";stats();setHash()};
+document.getElementById("statsBtn").onclick=()=>{STAB="res";stats();setHash()};
 // Statistiche, tab Risultati: outcome mix of all played games + goals for/against per team.
-let STAB="soc",SG="";
+let STAB="res",SG="";
 function stab(t){STAB=t;document.getElementById("sTabC").setAttribute("aria-selected",t==="soc");document.getElementById("sTabR").setAttribute("aria-selected",t==="res");
  document.getElementById("sBody").hidden=t!=="soc";document.getElementById("sRes").hidden=t!=="res";if(t==="res")drawRes();setTimeout(setHash,0)}
 document.getElementById("sTabC").onclick=()=>stab("soc");document.getElementById("sTabR").onclick=()=>stab("res");
@@ -441,14 +441,14 @@ document.getElementById("verBtn").onclick=()=>{openNotes();setHash()};
 let CTAB="cal";
 function setHash(){
  const on=id=>document.getElementById(id).open;
- const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("gdlg")?`#calendario/${GM==="all"?"tutte":GN}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="res"?"#statistiche/risultati":"#statistiche"):on("vdlg")?"#novita":"";
+ const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("gdlg")?`#calendario/${GM==="all"?"tutte":GN}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="soc"?"#statistiche/societa":"#statistiche"):on("vdlg")?"#novita":"";
  if(location.hash!==h)history.replaceState(null,"",h||location.pathname+location.search);
 }
 ["dlg","cdlg","mdlg","sdlg","vdlg","gdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
 (()=>{const p=decodeURIComponent(location.hash.slice(1)).split("/");
  if(p[0]==="squadra"&&D[p[1]]&&D[p[1]].t[+p[2]]){open(p[1],+p[2]);if(["cal","grid","map"].includes(p[3]))tab(p[3])}
  else if(p[0]==="classifica")openTable(D[p[1]]?p[1]:null);
- else if(p[0]==="calendario")openCal(p[1]==="tutte"?"all":+p[1]);else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){if(p[1]==="risultati")STAB="res";stats()}
+ else if(p[0]==="calendario")openCal(p[1]==="tutte"?"all":+p[1]);else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){STAB=p[1]==="societa"?"soc":"res";stats()}
 })();
 
 })();
