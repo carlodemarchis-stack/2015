@@ -7,8 +7,8 @@ const [X,D,LIVE,SHORT,FLD]=await Promise.all([get("data/cbs.json"),get("data/tea
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const WD=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"],MB=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
 const fmtD=d=>d?`${WD[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`:"";
-const KEY="cbs_squadra",FAV="cbs_preferita";
-// Favourite team: pinned first in the phone list, starred in the selector, opened by default.
+const FAV="cbs_preferita";
+// Favourite team: pinned first in the team list, starred in the selector.
 const getFav=()=>{try{return localStorage.getItem(FAV)}catch(e){return null}};
 const setFav=k=>{try{k?localStorage.setItem(FAV,k):localStorage.removeItem(FAV)}catch(e){}};
 const STAR='<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z" fill="currentColor"/></svg>';
@@ -95,9 +95,8 @@ function drawMap(M){
   return `<li${i===M.cbs?' class="me"':""}${f.y!=null?` data-fk="${fKey(f)}"`:""}><div class="vt">${dot(t)}<b>${esc(t.n)}</b>${d&&d[0]?`<small>${d[0]} km · ${d[1]} min</small>`:""}</div><div class="vf">${esc(fName(f))} · ${esc(fTown(f))}</div><div class="va">${esc(f.a)} · in casa ${f.dom?"Dom":"Sab"} ${esc(f.o)} · <a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni ↗</a></div></li>`}).join("");
 }
 function focusField(k){const mk=MK.get(k);if(!mk)return;document.getElementById("xmapw").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{MAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()},250)}
-// Phones (portrait and landscape): first screen is a list of the 18 teams (position, last and next match); tap = detail.
+// Every screen: first screen is a list of the 18 teams (position, last and next match); tap = detail.
 let FROMLIST=false;
-const MOB=matchMedia("(max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape)");
 function summary(T){
  const M=model(T),S=standings(M),k=S.findIndex(x=>x.i===M.cbs),me=S[k];
  const mine=M.ms.filter(m=>m.h===M.cbs||m.a===M.cbs).sort((a,b)=>a.d-b.d||a.n-b.n);
@@ -129,7 +128,7 @@ function curRound(M){const R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),t=n
  for(const n of R){const ds=M.ms.filter(m=>m.n===n).map(m=>m.d);if(Math.max(...ds)>=t-864e5)return n}return R[R.length-1]}
 function show(k,n){
  document.body.classList.remove("mlist");document.getElementById("xlist").hidden=true;
- const T=X.teams.find(t=>t.k===k)||X.teams[0];CUR=T.k;try{localStorage.setItem(KEY,T.k)}catch(e){}
+ const T=X.teams.find(t=>t.k===k)||X.teams[0];CUR=T.k;
  const M=model(T),R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),big=R.length>10;
  document.querySelectorAll("#xsel button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===T.k));
  const pl=M.ms.filter(m=>m.sc).length;
@@ -156,7 +155,7 @@ function show(k,n){
 }
 // a CBS match row or a list entry opens its field on the map
 document.addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.target.closest("#xres .mr[data-fk],#xvl li[data-fk]");if(r)focusField(r.dataset.fk)});
-addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if(MOB.matches&&!X.teams.some(t=>t.k===k)){FROMLIST=false;showList()}else if(X.teams.some(t=>t.k===k))show(k)});
+addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if(!X.teams.some(t=>t.k===k)){FROMLIST=false;showList()}else show(k)});
 const grp=[...new Set(X.teams.map(t=>t.grp))];
 document.getElementById("xsel").innerHTML=grp.map(g=>`<div class="xg"><span>${esc(g)}</span>${X.teams.filter(t=>t.grp===g).map(t=>`<button type="button" data-k="${t.k}" aria-pressed="false">${esc(t.lab)}</button>`).join("")}</div>`).join("");
 document.querySelectorAll("#xsel button").forEach(b=>b.onclick=()=>show(b.dataset.k));
@@ -172,6 +171,5 @@ document.addEventListener("keydown",e=>{if(!CUR)return;const K=X.teams.map(t=>t.
   const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"})})();
 const p=decodeURIComponent(location.hash.slice(1)).split("/");
 let k0=p[0];
-if(MOB.matches&&!X.teams.some(t=>t.k===k0))showList();
-else{if(!X.teams.some(t=>t.k===k0)){k0=getFav();if(!k0){try{k0=localStorage.getItem(KEY)}catch(e){k0=null}}}show(k0||"e15b",+p[1]||null)}
+if(X.teams.some(t=>t.k===k0))show(k0,+p[1]||null);else showList();
 })();
