@@ -156,7 +156,7 @@ function show(k,n){
   res.querySelectorAll(".xr button,.xrsel button").forEach(b=>b.onclick=()=>show(CUR,+b.dataset.n));
   res.querySelector(".xrsel select").onchange=e=>show(CUR,+e.target.value);
   res.classList.add("one");
-  const mine=document.getElementById("xmine");mine.innerHTML=mineHTML(M);mine.querySelectorAll(".km").forEach(b=>b.onclick=()=>show(CUR,+b.dataset.n));
+  const mine=document.getElementById("xmine");mine.innerHTML=mineHTML(M);mine.querySelectorAll(".km").forEach(b=>b.onclick=()=>{show(CUR,+b.dataset.n);document.querySelector("#xres .rnd").scrollIntoView({behavior:"smooth",block:"nearest"})});
  }else{RN=null;res.classList.remove("one");document.getElementById("xmine").innerHTML="";res.innerHTML=`<div class="rounds">${R.map(r=>roundHTML(M,r)).join("")}</div>`}
  const h=`#${T.k}${RN?"/"+RN:""}`;if(location.hash!==h)history.replaceState(null,"",h);
  document.getElementById("xsrc").textContent=T.src==="2015"
