@@ -245,3 +245,10 @@ body.mlist .xmapw{display:none}
  .xpg .xtabs button{padding:4px 14px}
  body:not(.mlist) footer{margin-top:12px}
 }
+/* Laptops, team list: book promo in the title bar instead of its own row */
+.mbook{display:none}
+@media (min-width:1000px){
+ body.mlist .mbook{display:inline-flex}
+ body.mlist .xbook{display:none}
+ .mbook .book{margin:0}
+}

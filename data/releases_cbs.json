@@ -4,6 +4,7 @@
   "date": "12 ottobre 2026",
   "notes": [
    "Prima schermata con il riepilogo di tutte le squadre: posizione, ultima e prossima partita, campo della prossima. Sugli schermi grandi sta tutto in una pagina",
+   "Sugli schermi grandi la promo del libro sta nella barra del titolo",
    "Clic su una squadra per il dettaglio, con la tendina in alto per passare alle altre. Il titolo della pagina riporta al riepilogo",
    "Mappa dei campi del girone per Esordienti e Pulcini, dal calendario LND: indirizzi, orari di casa, km e minuti da Corso Sicilia 58, indicazioni Google Maps",
    "Clic su una partita CBS per vedere il suo campo sulla mappa",
