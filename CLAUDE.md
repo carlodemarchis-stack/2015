@@ -38,3 +38,5 @@ and its handoff notes are in `legacy/`.
   names. Carlo reads them on Sprint e Sport and dictates them; `update.py` fills only matches giocaacalcio
   has no score for. Never fetch Sprint e Sport (`/webservices/` is disallowed in its robots.txt) or
   tuttocampo (403 to bots) from scripts or the Action.
+- Short club names for phone portrait: `data/short.json` (57 clubs, max 13 chars). Portrait-only CSS lives in
+  `@media (max-width:600px) and (orientation:portrait)`; landscape and desktop must not change with it.

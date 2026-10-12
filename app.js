@@ -3,7 +3,9 @@
 var FAVK="esordienti2015_mia_squadra";
 (async()=>{
 const get=u=>fetch(u,{cache:"no-cache"}).then(r=>r.json());
-const [D,ROAD,LIVE,REL,LOGO,ABBR]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}})),get("data/releases.json").catch(()=>[]),get("data/logos.json").catch(()=>({})),get("data/abbr.json").catch(()=>({}))]);
+const [D,ROAD,LIVE,REL,LOGO,ABBR,SHORT]=await Promise.all([get("data/teams_matches.json"),get("data/road_distances.json"),get("data/live.json").catch(()=>({m:{}})),get("data/releases.json").catch(()=>[]),get("data/logos.json").catch(()=>({})),get("data/abbr.json").catch(()=>({})),get("data/short.json").catch(()=>({}))]);
+// Short club name for narrow portrait screens; the women's Torino team keeps an F.
+const short=t=>(SHORT[clubKey(t)]||t.n)+(t.n.includes("(femm.)")?" F":"");
 // Logos are kept apart from the LND PDF data; attach them as t.l for rendering.
 Object.entries(LOGO).forEach(([g,m])=>Object.entries(m).forEach(([i,p])=>{if(D[g]&&D[g].t[+i])D[g].t[+i].l=p}));
 const WD=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
@@ -402,7 +404,7 @@ function curRound(){const t=new Date();t.setHours(0,0,0,0);const R=[...new Set(D
 function drawRound(n){
  GN=n;GM="g";document.getElementById("gdlg").classList.remove("all");document.querySelectorAll(".gmode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m==="g"));document.querySelectorAll("#gTabs button").forEach(b=>b.setAttribute("aria-selected",+b.dataset.n===n));
  // Letters sit next to the score: the home team carries its letter on the right.
- const nm=(g,i,r)=>{const t=D[g].t[i],dot=`<i class="dot s${t.s}">${t.s}</i>`;return `<span class="tk" data-g="${g}" data-i="${i}" title="${esc(t.n)} ${t.s}">${r?"":dot}<span class="tn2">${esc(t.n)}</span>${r?dot:""}</span>`};
+ const nm=(g,i,r)=>{const t=D[g].t[i],dot=`<i class="dot s${t.s}">${t.s}</i>`;return `<span class="tk" data-g="${g}" data-i="${i}" title="${esc(t.n)} ${t.s}">${r?"":dot}<span class="tn2"><span class="fn">${esc(t.n)}</span><span class="sn">${esc(short(t))}</span></span>${r?dot:""}</span>`};
  const secs=Object.entries(D).map(([g,v])=>{const ms=v.m.filter(m=>m[0]===n),rest=ms.find(m=>m[2]===-1);
   const rows=ms.filter(m=>m[2]!==-1).map(m=>({m,d:dayOf(g,m)})).sort((a,b)=>a.d.x-b.d.x||a.d.o.localeCompare(b.d.o,undefined,{numeric:true}));
   return `<section class="gsec"><h4>Girone ${g}</h4>${rows.map(({m,d})=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));

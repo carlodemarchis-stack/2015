@@ -250,3 +250,21 @@ a.surf:hover{filter:brightness(1.25)}
  .dmain .games .ologo{width:20px;height:20px}
  .dmain .games .res{padding:0 6px}
 }
+/* Phone portrait only: each Calendario match on one line, short club names */
+.tn2 .sn{display:none}
+@media (max-width:600px) and (orientation:portrait){
+ .gm1{grid-template-columns:50px minmax(0,1fr) 30px minmax(0,1fr);row-gap:0;gap:4px;font-size:12.5px}
+ .gm1 .gw{grid-column:auto;display:block;font-size:11px;white-space:nowrap}
+ .gm1 .gw small{display:inline;font-size:11px}
+ .tn2 .fn{display:none}.tn2 .sn{display:inline}
+ .gm1 .tk{gap:4px}
+ .gm1 .tk .dot{width:14px;height:14px;font-size:9px}
+}
+.ibtn .ls{display:none}
+@media (max-width:600px) and (orientation:portrait){
+ .ibtn .lf{display:none}.ibtn .ls{display:inline}
+ .tbtns{gap:5px;flex-wrap:nowrap;width:100%}
+ .tbtns .ibtn{flex:1 1 auto;justify-content:center;padding:6px 5px;gap:4px;font-size:12px;min-width:0}
+ .tbtns .ibtn svg{width:14px;height:14px;flex:none}
+ #gTabs button{padding:5px 6px}
+}
