@@ -209,3 +209,6 @@ body.mlist .xmapw{display:none}
  .xm em{width:58px}
  body.mlist .xbook{margin:4px 0 0}
 }
+/* page title: back to the team list */
+.mast h1 a.home{color:inherit;text-decoration:none}
+.mast h1 a.home:hover{color:#6fd0a1}

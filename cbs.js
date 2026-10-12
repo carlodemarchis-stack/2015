@@ -134,6 +134,9 @@ function showList(){
  L.querySelectorAll(".xi").forEach(b=>b.onclick=()=>{FROMLIST=true;history.pushState(null,"","#"+b.dataset.k);show(b.dataset.k);scrollTo(0,0)});
  document.getElementById("xsrc").textContent=`Dati aggiornati il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Giorno e orario sono indicativi: verifica sempre con la società.`;
 }
+// back to the team list (dropdown "Tutte le squadre" or the page title)
+function toList(){if(!CUR)return;if(FROMLIST){FROMLIST=false;history.back()}else showList()}
+document.getElementById("xhome").onclick=e=>{e.preventDefault();toList();scrollTo(0,0)};
 function curRound(M){const R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),t=new Date();t.setHours(0,0,0,0);
  for(const n of R){const ds=M.ms.filter(m=>m.n===n).map(m=>m.d);if(Math.max(...ds)>=t-864e5)return n}return R[R.length-1]}
 function show(k,n){
@@ -146,7 +149,7 @@ function show(k,n){
  const opts=`<option value="">Tutte le squadre</option>${[...new Set(X.teams.map(t=>t.grp))].map(g=>`<optgroup label="${esc(g)}">${X.teams.filter(t=>t.grp===g).map(t=>`<option value="${t.k}"${t.k===T.k?" selected":""}>${esc(t.lab)}</option>`).join("")}</optgroup>`).join("")}`;
  document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><button type="button" class="favbtn xfav" id="xfav" aria-pressed="${getFav()===T.k}">${STAR}<span>${getFav()===T.k?"La tua squadra":"Segui questa squadra"}</span></button><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
  document.getElementById("xfav").onclick=()=>{setFav(getFav()===T.k?null:T.k);show(T.k,RN);paintSel()};
- document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v){if(FROMLIST){FROMLIST=false;history.back()}else showList()}else show(v);scrollTo(0,0)};
+ document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v)toList();else show(v);scrollTo(0,0)};
  drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);fitTable();document.querySelector(".xcols").classList.toggle("full",big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
