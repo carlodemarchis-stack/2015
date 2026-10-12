@@ -141,7 +141,6 @@ body.mlist .fbook{display:none}
 .ctab td.tn .fb.ox{display:none}
 /* Campi del girone: map + list (data/cbs_fields.json and the LND PDF of the 2015 site) */
 .xmapw{border-top:1px solid var(--line);padding-top:12px;margin-bottom:24px}
-.xmapw h3{font-family:var(--display);font-size:20px;text-transform:uppercase;margin:0 0 10px}
 .xmapg{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;align-items:start}
 .xmap{isolation:isolate;height:440px;border-radius:8px;border:1px solid var(--line)}
 .xvl{list-style:none;margin:0;padding:0;max-height:440px;overflow:auto}
