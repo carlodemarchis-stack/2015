@@ -6,7 +6,9 @@ Started as a Cowork artifact (https://claude.ai/artifact/FXF6PXy2bjCJ9r4FAQB5rP)
 and its handoff notes are in `legacy/`.
 
 ## Files
-- `index.html` markup + original styles, `app.css` additions, `app.js` all logic (loads `data/*.json`).
+- `index.html` markup, `base.css` original styles (shared), `app.css` additions, `app.js` all logic (loads `data/*.json`).
+- `cbs.html` + `cbs.js` + `cbs.css`: page with the 18 CBS Scuola Calcio teams (own girone: giornate + standings).
+  15 teams from `data/cbs.json` (Sprint e Sport snapshot), the 3 Esordienti 2015 teams from this site's own data.
 - `data/teams_matches.json` calendar from the FIGC PDF: per girone `t` teams
   {n name, s squad letter, c field, o home time, dom home on Sunday, a address, y/x lat/lon, ap approx},
   `m` = [giornata, Saturday dd/mm/yy, homeIdx, awayIdx], homeIdx -1 = riposo.
@@ -40,3 +42,10 @@ and its handoff notes are in `legacy/`.
   tuttocampo (403 to bots) from scripts or the Action.
 - Short club names for phone portrait: `data/short.json` (57 clubs, max 13 chars). Portrait-only CSS lives in
   `@media (max-width:600px) and (orientation:portrait)`; landscape and desktop must not change with it.
+- CBS page data (`data/cbs.json`): refreshed ONLY when Carlo asks ("leggi Sprint e Sport CBS"), in the
+  browser pane: on sprintesport.it run the page's own getResults fetch for the 15 gironi listed in cbs.json
+  (comitato/categoria/girone ids are in the session notes: Promozione 2/2/4, U19 Torino 4/195/2, U17/U16/U15
+  Elite 2/232|344|233/1, U14 qualif 92/174/56, U15F 2/182/2, Esordienti 2014 4/241/8|7, Pulcini 2016
+  4/249/8|14|12, Pulcini 2017 4/250/9|12|13). Keep only giornata, dataorap, teams, risultato: the feed also
+  carries submitters' emails, never store them. Transfer: set window.name to the JSON, navigate the tab to a
+  local page that POSTs it to a localhost receiver (an https page cannot reach localhost directly).
