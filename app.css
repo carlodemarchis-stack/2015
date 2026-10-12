@@ -268,3 +268,5 @@ a.surf:hover{filter:brightness(1.25)}
  .tbtns .ibtn svg{width:14px;height:14px;flex:none}
  #gTabs button{padding:5px 6px}
 }
+.hint .ls{display:none}
+@media (max-width:600px) and (orientation:portrait){.hint .lf{display:none}.hint .ls{display:inline}}
