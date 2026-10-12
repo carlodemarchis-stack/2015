@@ -54,14 +54,43 @@ function roundHTML(M,n){
  return `<section class="rnd"><h4>${n}ª giornata${d0?" · "+d0.getDate()+" "+MB[d0.getMonth()]:""}</h4>${ms.map(m=>`<div class="mr${winCls(m.sc)}${m.h===M.cbs||m.a===M.cbs?" cb":""}" data-tip="${fmtD(m.d)} ${esc(m.o)} · ${esc(M.teams[m.h].n)} - ${esc(M.teams[m.a].n)}">${nm(M.teams[m.h])}${scHTML(m)}${nm(M.teams[m.a],1)}</div>`).join("")}${rest.length&&rest.length<M.teams.length?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${rest.map(i=>esc(M.teams[i].n)).join(", ")}</em></div>`:""}</section>`;
 }
 let CUR=null,RN=null;
+// Phone portrait: first screen is a list of the 18 teams (position, last and next match); tap = detail.
+let FROMLIST=false;
+const MOB=matchMedia("(max-width:600px) and (orientation:portrait)");
+function summary(T){
+ const M=model(T),S=standings(M),k=S.findIndex(x=>x.i===M.cbs),me=S[k];
+ const mine=M.ms.filter(m=>m.h===M.cbs||m.a===M.cbs).sort((a,b)=>a.d-b.d||a.n-b.n);
+ const last=[...mine].reverse().find(m=>m.sc),next=mine.find(m=>!m.sc&&!m.nd&&m!==last&&(!last||m.d>=last.d));
+ const side=m=>{const home=m.h===M.cbs;return {home,opp:M.teams[home?m.a:m.h],r:m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null}};
+ return {pos:me.g?k+1:null,n:S.length,p:me.p,g:me.g,last:last&&{...side(last),m:last},next:next&&{...side(next),m:next}};
+}
+function showList(){
+ document.body.classList.add("mlist");CUR=null;
+ if(location.hash)history.replaceState(null,"",location.pathname+location.search);
+ const L=document.getElementById("xlist");L.hidden=false;
+ const grp=[...new Set(X.teams.map(t=>t.grp))];
+ L.innerHTML=grp.map(g=>`<h3>${esc(g)}</h3>${X.teams.filter(t=>t.grp===g).map(T=>{const s=summary(T);
+  const res=s.last?(s.last.r[0]>s.last.r[1]?"w":s.last.r[0]<s.last.r[1]?"l":"d"):"";
+  return `<button type="button" class="xi" data-k="${T.k}">
+   <span class="xt"><b>${esc(T.lab)}</b><small>${esc(T.camp)} · Gir. ${esc(T.gir)}</small></span>
+   <span class="xp">${s.pos?`<b>${s.pos}°</b><small>${s.p} pt</small>`:`<b>-</b><small>0 pt</small>`}</span>
+   <span class="xm"><em>Ultima</em>${s.last?`<i class="res ${res}">${s.last.r[0]}-${s.last.r[1]}</i> ${s.last.home?"vs":"@"} ${esc(s.last.opp.sn||s.last.opp.n)}`:"<span class=nx>non ancora giocata</span>"}</span>
+   <span class="xm"><em>Prossima</em>${s.next?`${fmtD(s.next.m.d)} ${esc(s.next.m.o)} · ${s.next.home?"vs":"@"} ${esc(s.next.opp.sn||s.next.opp.n)}`:"<span class=nx>-</span>"}</span>
+  </button>`}).join("")}`).join("");
+ // push a history entry so the phone's back gesture returns to this list
+ L.querySelectorAll(".xi").forEach(b=>b.onclick=()=>{FROMLIST=true;history.pushState(null,"","#"+b.dataset.k);show(b.dataset.k);scrollTo(0,0)});
+ document.getElementById("xsrc").textContent=`Fonti: Sprint e Sport (dati letti il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}); Esordienti 2015 dal sito principale. Verifica sempre con la società.`;
+}
 function curRound(M){const R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),t=new Date();t.setHours(0,0,0,0);
  for(const n of R){const ds=M.ms.filter(m=>m.n===n).map(m=>m.d);if(Math.max(...ds)>=t-864e5)return n}return R[R.length-1]}
 function show(k,n){
+ document.body.classList.remove("mlist");document.getElementById("xlist").hidden=true;
  const T=X.teams.find(t=>t.k===k)||X.teams[0];CUR=T.k;try{localStorage.setItem(KEY,T.k)}catch(e){}
  const M=model(T),R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),big=R.length>10;
  document.querySelectorAll("#xsel button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===T.k));
  const pl=M.ms.filter(m=>m.sc).length;
- document.getElementById("xhead").innerHTML=`<h2>${esc(T.lab)}</h2><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
+ document.getElementById("xhead").innerHTML=`<button type="button" class="xback" id="xback">← Tutte le squadre</button><h2>${esc(T.lab)}</h2><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
+ document.getElementById("xback").onclick=()=>{if(FROMLIST){FROMLIST=false;history.back()}else showList();scrollTo(0,0)};
  document.getElementById("xtbl").innerHTML=tableHTML(M,big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
@@ -74,11 +103,12 @@ function show(k,n){
   ?"Fonti: calendario ufficiale FIGC LND; giorno, orario e risultati da giocaacalcio.it e Sprint e Sport. Giorno e orario sono indicativi: verifica sempre con la società."
   :`Fonte: Sprint e Sport, dati letti il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Risultati inseriti anche dagli utenti: verifica sempre con la società.`;
 }
+addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if(MOB.matches&&!X.teams.some(t=>t.k===k)){FROMLIST=false;showList()}else if(X.teams.some(t=>t.k===k))show(k)});
 const grp=[...new Set(X.teams.map(t=>t.grp))];
 document.getElementById("xsel").innerHTML=grp.map(g=>`<div class="xg"><span>${esc(g)}</span>${X.teams.filter(t=>t.grp===g).map(t=>`<button type="button" data-k="${t.k}" aria-pressed="false">${esc(t.lab)}</button>`).join("")}</div>`).join("");
 document.querySelectorAll("#xsel button").forEach(b=>b.onclick=()=>show(b.dataset.k));
 // left/right arrows: previous/next team; in big gironi up/down change giornata
-document.addEventListener("keydown",e=>{const K=X.teams.map(t=>t.k),i=K.indexOf(CUR);
+document.addEventListener("keydown",e=>{if(!CUR)return;const K=X.teams.map(t=>t.k),i=K.indexOf(CUR);
  if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();show(K[(i+(e.key==="ArrowRight"?1:-1)+K.length)%K.length])}});
 // tooltip (same look as the main site)
 (()=>{const tip=document.getElementById("ctip");
@@ -86,6 +116,7 @@ document.addEventListener("keydown",e=>{const K=X.teams.map(t=>t.k),i=K.indexOf(
   if(t.dataset.tiph)tip.innerHTML=t.dataset.tiph;else tip.textContent=t.dataset.tip;tip.hidden=false;
   const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"})})();
 const p=decodeURIComponent(location.hash.slice(1)).split("/");
-let k0=p[0];if(!X.teams.some(t=>t.k===k0)){try{k0=localStorage.getItem(KEY)}catch(e){k0=null}}
-show(k0||"e15b",+p[1]||null);
+let k0=p[0];
+if(MOB.matches&&!X.teams.some(t=>t.k===k0))showList();
+else{if(!X.teams.some(t=>t.k===k0)){try{k0=localStorage.getItem(KEY)}catch(e){k0=null}}show(k0||"e15b",+p[1]||null)}
 })();

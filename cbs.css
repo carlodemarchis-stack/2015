@@ -26,3 +26,25 @@
  .xhead h2{font-size:24px}
  .xsel{gap:6px 12px}
 }
+/* Phone portrait: team list first screen, detail on tap */
+.xback{display:none}
+@media (max-width:600px) and (orientation:portrait){
+ .xsel{display:none}
+ body.mlist .xhead,body.mlist .xcols{display:none}
+ .xback{display:inline-block;font:inherit;font-size:13px;font-weight:600;color:#8cc8ff;background:none;border:0;padding:0 0 8px;cursor:pointer}
+ .xlist{margin:12px 0 20px}
+ .xlist h3{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:14px 0 6px}
+ .xi{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t p" "l l" "n n";gap:3px 10px;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-bottom:6px;cursor:pointer}
+ .xi:active{border-color:#6fd0a1}
+ .xt{grid-area:t;display:flex;flex-direction:column;min-width:0}
+ .xt b{font-size:15px}
+ .xt small{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .xp{grid-area:p;display:flex;flex-direction:column;align-items:flex-end;justify-content:center}
+ .xp b{font-family:var(--display);font-size:24px;line-height:1}
+ .xp small{font-size:11px;color:var(--muted)}
+ .xm{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .xm:nth-of-type(3){grid-area:l}.xm:nth-of-type(4){grid-area:n}
+ .xm em{font-style:normal;color:var(--muted);display:inline-block;width:62px}
+ .xm .res{font-style:normal;margin:0 2px 0 0;font-size:11.5px}
+ .xm .nx{color:var(--muted)}
+}
