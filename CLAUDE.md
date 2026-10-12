@@ -57,3 +57,6 @@ and its handoff notes are in `legacy/`.
   1° anno). `teams` = per CBS team key, fields aligned to cbs.json `t`; `dist` = car km/min from the CBS field
   (Corso Sicilia 58, Torino; call it that in the UI) via OSRM (curl: the system Python fails its TLS handshake).
   The 7 agonistica teams have no fields yet. Rerun after a CBS refresh if the teams change.
+- CBS page version + release notes: `data/releases_cbs.json` (newest first, Italian), separate from the main
+  site's `releases.json`; footer badge "vX · Novità" opens them. Add an entry or note on every user-facing
+  change to cbs.html/cbs.js/cbs.css.

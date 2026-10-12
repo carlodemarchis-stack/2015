@@ -3,7 +3,7 @@
 // Esordienti 2015 teams come from this site's own data (LND PDF + giocaacalcio/manual results).
 (async()=>{
 const get=u=>fetch(u,{cache:"no-cache"}).then(r=>r.json());
-const [X,D,LIVE,SHORT,FLD]=await Promise.all([get("data/cbs.json"),get("data/teams_matches.json"),get("data/live.json").catch(()=>({m:{}})),get("data/short.json").catch(()=>({})),get("data/cbs_fields.json").catch(()=>({teams:{},dist:{}}))]);
+const [X,D,LIVE,SHORT,FLD,REL]=await Promise.all([get("data/cbs.json"),get("data/teams_matches.json"),get("data/live.json").catch(()=>({m:{}})),get("data/short.json").catch(()=>({})),get("data/cbs_fields.json").catch(()=>({teams:{},dist:{}})),get("data/releases_cbs.json").catch(()=>[])]);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const WD=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"],MB=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
 const fmtD=d=>d?`${WD[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`:"";
@@ -174,6 +174,11 @@ function show(k,n){
 }
 // a CBS match row or a list entry opens its field on the map
 document.addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.target.closest("#xres .mr[data-fk],#xvl li[data-fk]");if(r)focusField(r.dataset.fk)});
+// version + release notes of this page (data/releases_cbs.json, newest first)
+(()=>{const b=document.getElementById("verBtn"),vd=document.getElementById("vdlg");if(!REL.length){b.hidden=true;return}
+ b.textContent=`v${REL[0].v} · Novità`;
+ b.onclick=()=>{document.getElementById("vBody").innerHTML=REL.map(r=>`<section class="rel"><h4>Versione ${r.v}${r.date?` <small>${r.date}</small>`:""}</h4><ul>${r.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul></section>`).join("");if(vd.showModal)vd.showModal();else vd.setAttribute("open","")};
+ document.getElementById("vX").onclick=()=>vd.close();vd.addEventListener("click",e=>{if(e.target===vd)vd.close()})})();
 addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if(!X.teams.some(t=>t.k===k)){FROMLIST=false;showList()}else show(k)});
 const grp=[...new Set(X.teams.map(t=>t.grp))];
 document.getElementById("xsel").innerHTML=grp.map(g=>`<div class="xg"><span>${esc(g)}</span>${X.teams.filter(t=>t.grp===g).map(t=>`<button type="button" data-k="${t.k}" aria-pressed="false">${esc(t.lab)}</button>`).join("")}</div>`).join("");

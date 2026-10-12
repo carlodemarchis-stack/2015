@@ -1,0 +1,25 @@
+[
+ {
+  "v": "1.1",
+  "date": "12 ottobre 2026",
+  "notes": [
+   "Prima schermata con il riepilogo di tutte le squadre: posizione, ultima e prossima partita, campo della prossima. Sugli schermi grandi sta tutto in una pagina",
+   "Clic su una squadra per il dettaglio, con la tendina in alto per passare alle altre. Il titolo della pagina riporta al riepilogo",
+   "Mappa dei campi del girone per Esordienti e Pulcini, dal calendario LND: indirizzi, orari di casa, km e minuti da Corso Sicilia 58, indicazioni Google Maps",
+   "Clic su una partita CBS per vedere il suo campo sulla mappa",
+   "Prima squadra e agonistica: tutte le partite CBS accanto alla classifica, e le giornate 5 alla volta",
+   "In classifica un quadratino per partita, grandi quanto lo spazio permette",
+   "Lettere A, B, C delle squadre per Esordienti 2014 e Pulcini 2016 e 2017",
+   "Segui una squadra: resta in cima al riepilogo",
+   "Icona rossa della pagina"
+  ]
+ },
+ {
+  "v": "1.0",
+  "date": "12 ottobre 2026",
+  "notes": [
+   "Prima versione: le 18 squadre CBS Scuola Calcio della stagione 2026/27",
+   "Per ogni squadra classifica, giornate e risultati del proprio girone"
+  ]
+ }
+]
