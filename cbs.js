@@ -44,19 +44,18 @@ const fDist=f=>(FLD.dist||{})[fKey(f)];
 const winCls=sc=>sc?(sc[0]>sc[1]?" wh":sc[0]<sc[1]?" wa":""):"";
 const scHTML=m=>m.sc?`<b class="sc"><i>${m.sc[0]}</i>-<i>${m.sc[1]}</i></b>${m.tav?'<small class="tav" title="Risultato a tavolino">tav</small>':""}`:m.nd?'<em title="Non disputata">N.D.</em>':"<em>-</em>";
 
-// max: keep the last played + next 2 (max boxes in all); mark: keep every box, class "ox" on the others
-function formHTML(M,i,max,mark){
- let list=M.ms.filter(m=>m.h===i||m.a===i).sort((a,b)=>a.n-b.n),a=0,b=list.length;
- if(max&&list.length>max){const k=list.findIndex(m=>!m.sc&&!m.nd);const end=k<0?list.length:k;a=Math.max(0,Math.min(end-max+2,list.length-max));b=a+max;if(!mark){list=list.slice(a,b);a=0;b=list.length}}
- return `<span class="frm">${list.map((m,j)=>{const home=m.h===i,opp=M.teams[home?m.a:m.h],r=m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null;
+// data-e = index of the first unplayed match: fitTable() keeps the boxes up to it plus the next 2
+function formHTML(M,i){
+ const list=M.ms.filter(m=>m.h===i||m.a===i).sort((a,b)=>a.n-b.n),k=list.findIndex(m=>!m.sc&&!m.nd);
+ return `<span class="frm" data-e="${k<0?list.length:k}">${list.map(m=>{const home=m.h===i,opp=M.teams[home?m.a:m.h],r=m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null;
   const k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u",lab={w:"Vittoria",d:"Pareggio",l:"Sconfitta",u:m.nd?"Non disputata":"Da giocare"}[k];
   const tip=`<b>${m.n}ª giornata</b> · ${fmtD(m.d)}${m.o?" "+esc(m.o):""}<br>${home?"Casa":"Trasferta"} vs ${dot(opp)} ${esc(opp.n)}<br><span class="tt ${k}">${lab}${r?` ${r[0]}-${r[1]}`:""}</span>`;
-  return `<i class="fb ${k}${j<a||j>=b?" ox":""}" data-tiph="${esc(tip)}"></i>`}).join("")}</span>`;
+  return `<i class="fb ${k}" data-tiph="${esc(tip)}"></i>`}).join("")}</span>`;
 }
-// big gironi (Promozione, Under 19-15): every match box; phones show 10 of them, mid-size screens a second row
+// big gironi (Promozione, Under 19-15): every match box that fits; mid-size screens put them on a second row
 function tableHTML(M,big){
  const S=standings(M);
- return `<table class="ctab${big?" full":""}"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span class="tn2"><span class="fn">${esc(x.t.n)}</span><span class="sn">${esc(x.t.sn||x.t.n)}</span></span>${formHTML(M,x.i,big?10:0,true)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>${big?`<tr class="frow${x.i===M.cbs?" me":""}"><td></td><td colspan="9">${formHTML(M,x.i,0)}</td></tr>`:""}`).join("")}</tbody></table>`;
+ return `<table class="ctab${big?" full":""}"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span class="tn2"><span class="fn">${esc(x.t.n)}</span><span class="sn">${esc(x.t.sn||x.t.n)}</span></span>${formHTML(M,x.i)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>${big?`<tr class="frow${x.i===M.cbs?" me":""}"><td></td><td colspan="9">${formHTML(M,x.i)}</td></tr>`:""}`).join("")}</tbody></table>`;
 }
 function roundHTML(M,n){
  const ms=M.ms.filter(m=>m.n===n).sort((a,b)=>a.d-b.d||a.o.localeCompare(b.o,undefined,{numeric:true}));
@@ -72,10 +71,15 @@ function mineHTML(M){
   const k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u";
   return `<button type="button" class="km ${k}${m.n===RN?" on":""}" data-n="${m.n}"><b>${m.n}ª</b><span class="kd"><i>${WD[m.d.getDay()]} </i>${m.d.getDate()}/${m.d.getMonth()+1} ${esc(m.o)}</span><span class="ko">${home?"vs":"@"} ${dot(opp)}${esc(opp.n)}</span><i class="kr">${r?`${r[0]}-${r[1]}`:m.nd?"N.D.":"-"}</i></button>`}).join("")}</div>`;
 }
-// every team name in the standings gets the width of the longest one (boxes then line up)
-function fitNames(){const t=document.querySelector("#xtbl .ctab");if(!t)return;
- const w=Math.max(0,...[...t.querySelectorAll("td.tn div>span:not(.frm)")].map(e=>e.scrollWidth));if(w)t.style.setProperty("--nw",w+"px")}
-addEventListener("resize",fitNames);
+// standings: every team name gets the width of the longest one (boxes then line up); when the
+// boxes would be narrower than 5px, the oldest ones are hidden (last played + next 2 stay)
+function fitTable(){const t=document.querySelector("#xtbl .ctab");if(!t)return;
+ const w=Math.max(0,...[...t.querySelectorAll("td.tn div>span:not(.frm)")].map(e=>e.scrollWidth));if(w)t.style.setProperty("--nw",w+"px");
+ t.querySelectorAll("td.tn .frm").forEach(f=>{const bs=[...f.children];bs.forEach(b=>b.classList.remove("ox"));
+  const W=f.clientWidth-parseFloat(getComputedStyle(f).paddingLeft);if(W<=0)return;
+  const n=Math.max(1,Math.floor((W+1)/6));if(n>=bs.length)return;
+  const a=Math.max(0,Math.min(+f.dataset.e-n+2,bs.length-n));bs.forEach((b,j)=>b.classList.toggle("ox",j<a||j>=a+n))})}
+addEventListener("resize",fitTable);
 let CUR=null,RN=null;
 // "Campi del girone": one pin per field (teams sharing a field share the pin), CBS in red; list beside
 let MAP=null,LAY=null;const MK=new Map();
@@ -143,7 +147,7 @@ function show(k,n){
  document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><button type="button" class="favbtn xfav" id="xfav" aria-pressed="${getFav()===T.k}">${STAR}<span>${getFav()===T.k?"La tua squadra":"Segui questa squadra"}</span></button><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
  document.getElementById("xfav").onclick=()=>{setFav(getFav()===T.k?null:T.k);show(T.k,RN);paintSel()};
  document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v){if(FROMLIST){FROMLIST=false;history.back()}else showList()}else show(v);scrollTo(0,0)};
- drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);fitNames();document.querySelector(".xcols").classList.toggle("full",big);
+ drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);fitTable();document.querySelector(".xcols").classList.toggle("full",big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
   // phone portrait: a dropdown with prev/next arrows replaces the grid of giornata buttons
