@@ -7,7 +7,11 @@ const [X,D,LIVE,SHORT]=await Promise.all([get("data/cbs.json"),get("data/teams_m
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const WD=["Dom","Lun","Mar","Mer","Gio","Ven","Sab"],MB=["Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"];
 const fmtD=d=>d?`${WD[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`:"";
-const KEY="cbs_squadra";
+const KEY="cbs_squadra",FAV="cbs_preferita";
+// Favourite team: pinned first in the phone list, starred in the selector, opened by default.
+const getFav=()=>{try{return localStorage.getItem(FAV)}catch(e){return null}};
+const setFav=k=>{try{k?localStorage.setItem(FAV,k):localStorage.removeItem(FAV)}catch(e){}};
+const STAR='<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z" fill="currentColor"/></svg>';
 
 // Common model: {teams:[{n,sn,s}], cbs, ms:[{n,d,o,h,a,sc,nd,tav}]}
 function model(T){
@@ -23,7 +27,7 @@ function model(T){
  }
  const ms=T.m.map(([n,dt,h,a,sc,tav])=>{const [dd,tt]=dt.split(" "),[y,mo,da]=dd.split("-").map(Number),g=sc.match(/^(\d+)-(\d+)$/);
   return {n,d:new Date(y,mo-1,da),o:tt||"",h,a,sc:g?[+g[1],+g[2]]:null,nd:sc==="N.D.",tav:!!tav}});
- return {teams:T.t.map(n=>({n,sn:n})),cbs:T.cbs,ms};
+ return {teams:T.t.map((n,i)=>({n,sn:n,s:T.s?T.s[i]||undefined:undefined})),cbs:T.cbs,ms};
 }
 function standings(M){
  const S=M.teams.map((t,i)=>({i,t,g:0,w:0,d:0,l:0,f:0,a:0,p:0}));
@@ -69,14 +73,16 @@ function showList(){
  if(location.hash)history.replaceState(null,"",location.pathname+location.search);
  const L=document.getElementById("xlist");L.hidden=false;
  const grp=[...new Set(X.teams.map(t=>t.grp))];
- L.innerHTML=grp.map(g=>`<h3>${esc(g)}</h3>${X.teams.filter(t=>t.grp===g).map(T=>{const s=summary(T);
+ const fav=getFav(),card=T=>{const s=summary(T);
   const res=s.last?(s.last.r[0]>s.last.r[1]?"w":s.last.r[0]<s.last.r[1]?"l":"d"):"";
-  return `<button type="button" class="xi" data-k="${T.k}">
-   <span class="xt"><b>${esc(T.lab)}</b><small>${esc(T.camp)} · Gir. ${esc(T.gir)}</small></span>
+  return `<button type="button" class="xi${T.k===fav?" fav":""}" data-k="${T.k}">
+   <span class="xt"><b>${T.k===fav?`<i class="xstar">${STAR}</i>`:""}${esc(T.lab)}</b><small>${esc(T.camp)} · Gir. ${esc(T.gir)}</small></span>
    <span class="xp">${s.pos?`<b>${s.pos}°</b><small>${s.p} pt</small>`:`<b>-</b><small>0 pt</small>`}</span>
    <span class="xm"><em>Ultima</em>${s.last?`<i class="res ${res}">${s.last.r[0]}-${s.last.r[1]}</i> ${s.last.home?"vs":"@"} ${esc(s.last.opp.sn||s.last.opp.n)}`:"<span class=nx>non ancora giocata</span>"}</span>
    <span class="xm"><em>Prossima</em>${s.next?`${fmtD(s.next.m.d)} ${esc(s.next.m.o)} · ${s.next.home?"vs":"@"} ${esc(s.next.opp.sn||s.next.opp.n)}`:"<span class=nx>-</span>"}</span>
-  </button>`}).join("")}`).join("");
+  </button>`};
+ const F=X.teams.find(t=>t.k===fav);
+ L.innerHTML=(F?`<h3>La tua squadra</h3>${card(F)}`:"")+grp.map(g=>`<h3>${esc(g)}</h3>${X.teams.filter(t=>t.grp===g).map(card).join("")}`).join("");
  // push a history entry so the phone's back gesture returns to this list
  L.querySelectorAll(".xi").forEach(b=>b.onclick=()=>{FROMLIST=true;history.pushState(null,"","#"+b.dataset.k);show(b.dataset.k);scrollTo(0,0)});
  document.getElementById("xsrc").textContent=`Dati aggiornati il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Giorno e orario sono indicativi: verifica sempre con la società.`;
@@ -91,7 +97,8 @@ function show(k,n){
  const pl=M.ms.filter(m=>m.sc).length;
  // phone portrait: the title is a dropdown with every team plus "Tutte le squadre" (back to the list)
  const opts=`<option value="">Tutte le squadre</option>${[...new Set(X.teams.map(t=>t.grp))].map(g=>`<optgroup label="${esc(g)}">${X.teams.filter(t=>t.grp===g).map(t=>`<option value="${t.k}"${t.k===T.k?" selected":""}>${esc(t.lab)}</option>`).join("")}</optgroup>`).join("")}`;
- document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
+ document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><button type="button" class="favbtn xfav" id="xfav" aria-pressed="${getFav()===T.k}">${STAR}<span>${getFav()===T.k?"La tua squadra":"Segui questa squadra"}</span></button><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
+ document.getElementById("xfav").onclick=()=>{setFav(getFav()===T.k?null:T.k);show(T.k,RN);paintSel()};
  document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v){if(FROMLIST){FROMLIST=false;history.back()}else showList()}else show(v);scrollTo(0,0)};
  document.getElementById("xtbl").innerHTML=tableHTML(M,big);
  const res=document.getElementById("xres");
@@ -109,6 +116,8 @@ addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if
 const grp=[...new Set(X.teams.map(t=>t.grp))];
 document.getElementById("xsel").innerHTML=grp.map(g=>`<div class="xg"><span>${esc(g)}</span>${X.teams.filter(t=>t.grp===g).map(t=>`<button type="button" data-k="${t.k}" aria-pressed="false">${esc(t.lab)}</button>`).join("")}</div>`).join("");
 document.querySelectorAll("#xsel button").forEach(b=>b.onclick=()=>show(b.dataset.k));
+function paintSel(){const f=getFav();document.querySelectorAll("#xsel button").forEach(b=>b.classList.toggle("isfav",b.dataset.k===f))}
+paintSel();
 // left/right arrows: previous/next team; in big gironi up/down change giornata
 document.addEventListener("keydown",e=>{if(!CUR)return;const K=X.teams.map(t=>t.k),i=K.indexOf(CUR);
  if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();show(K[(i+(e.key==="ArrowRight"?1:-1)+K.length)%K.length])}});
@@ -120,5 +129,5 @@ document.addEventListener("keydown",e=>{if(!CUR)return;const K=X.teams.map(t=>t.
 const p=decodeURIComponent(location.hash.slice(1)).split("/");
 let k0=p[0];
 if(MOB.matches&&!X.teams.some(t=>t.k===k0))showList();
-else{if(!X.teams.some(t=>t.k===k0)){try{k0=localStorage.getItem(KEY)}catch(e){k0=null}}show(k0||"e15b",+p[1]||null)}
+else{if(!X.teams.some(t=>t.k===k0)){k0=getFav();if(!k0){try{k0=localStorage.getItem(KEY)}catch(e){k0=null}}}show(k0||"e15b",+p[1]||null)}
 })();

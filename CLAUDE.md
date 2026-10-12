@@ -49,3 +49,6 @@ and its handoff notes are in `legacy/`.
   4/249/8|14|12, Pulcini 2017 4/250/9|12|13). Keep only giornata, dataorap, teams, risultato: the feed also
   carries submitters' emails, never store them. Transfer: set window.name to the JSON, navigate the tab to a
   local page that POSTs it to a localhost receiver (an https page cannot reach localhost directly).
+- CBS squad letters: `scripts/cbs_letters.py` adds `s` (A/B/C) to the Esordienti 2014 and Pulcini 2016/2017
+  teams of cbs.json from the giocaacalcio calendars (allowed source); rerun it after every CBS refresh.
+  Official letters: Pulcini 2016 B = girone L, C = girone N. CBS favourite: localStorage `cbs_preferita`.

@@ -7,8 +7,8 @@ import re, html, json, sys, urllib.request
 URL = "https://giocaacalcio.it/index.php/component/joomsport/calendar/4982-campionato-2015-torino-esordienti-1-anno-autunno-2026-2027"
 def name(cell):
     m = re.findall(r'<div>\s*([^<]+?)\s*</div>', cell); return html.unescape(m[-1]) if m else ''
-def scrape():
-    s = urllib.request.urlopen(urllib.request.Request(URL, headers={"User-Agent": "Mozilla/5.0"}), timeout=60).read().decode("utf-8", "ignore")
+def scrape(url=URL):
+    s = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=60).read().decode("utf-8", "ignore")
     rows = re.findall(r'<td class="team-h">(.*?)</td>\s*<td class="score"[^>]*>(.*?)</td>\s*<td class="team-a">(.*?)</td>', s, re.S)
     ms = []
     for h, sc, a in rows:

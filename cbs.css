@@ -66,3 +66,22 @@
  body.mlist .mast .meta{font-size:12px}
  body.mlist .wrap{padding-top:0}
 }
+/* Favourite team */
+.xhead{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px}
+.xhead p{flex-basis:100%}
+.xfav{font-size:12px}
+.xg button.isfav{border-color:#f2c94c;box-shadow:inset 0 0 0 1px #f2c94c}
+.xg button.isfav::before{content:"★ ";color:#f2c94c}
+@media (max-width:600px) and (orientation:portrait){
+ .xhead{flex-wrap:nowrap}
+ .xcombo{flex:1;min-width:0}
+ .xfav span{display:none}
+ .xfav{padding:9px 10px;flex:none}
+ .xhead{flex-wrap:wrap}.xhead .xcombo{flex:1 1 0}.xhead p{flex-basis:100%}
+ .xi.fav{border-color:#f2c94c;box-shadow:inset 0 0 0 1px #f2c94c}
+ .xstar{color:#f2c94c;margin-right:5px;display:inline-flex;vertical-align:-1px}
+}
+.xbook{margin:12px 0 4px}
+.xbook .book{margin-left:0}
+@media (max-width:600px) and (orientation:portrait){body:not(.mlist) .xbook{display:none}}
+.xbook .book{white-space:normal;max-width:100%}
