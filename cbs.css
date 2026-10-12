@@ -218,3 +218,15 @@ body.mlist .xmapw{display:none}
  .mast .meta{position:absolute;top:0;right:0;font-size:12px;line-height:1.35}
  body.mlist .mast .meta{top:10px;right:16px}
 }
+/* Laptops, long gironi: giornate 5 at a time under tabs; the single giornata and its buttons go */
+.xpg{display:none}
+@media (min-width:1000px){
+ .xres.one .xr,.xres.one>.rnd{display:none}
+ .xpg{display:block}
+ .xpg .xtabs{margin-bottom:10px}
+ .xpg .xtabs button{font:inherit;font-size:13px;font-weight:600;padding:6px 14px;min-width:64px}
+ .xpr{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;align-items:start}
+ .xpr .rnd{max-width:none}
+ .xpr .rnd.cur{box-shadow:inset 0 0 0 2px #6fd0a1}
+}
+@media (min-width:1400px){.xpr{grid-template-columns:repeat(5,minmax(0,1fr))}}

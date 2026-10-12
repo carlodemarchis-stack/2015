@@ -80,6 +80,12 @@ function fitTable(){const t=document.querySelector("#xtbl .ctab");if(!t)return;
   const n=Math.max(1,Math.floor((W+1)/6));if(n>=bs.length)return;
   const a=Math.max(0,Math.min(+f.dataset.e-n+2,bs.length-n));bs.forEach((b,j)=>b.classList.toggle("ox",j<a||j>=a+n))})}
 addEventListener("resize",fitTable);
+// laptops, long gironi: giornate 5 at a time under tabs "1-5", "6-10"...; the current one is marked
+function pageHTML(M,R){
+ const pages=[];for(let i=0;i<R.length;i+=5)pages.push(R.slice(i,i+5));
+ const cur=pages.find(p=>p.includes(RN))||pages[0];
+ return `<div class="xpg"><div class="seg xtabs" role="group" aria-label="Giornate">${pages.map(p=>`<button type="button" data-n="${p.includes(RN)?RN:p[0]}" aria-pressed="${p===cur}">${p[0]}-${p[p.length-1]}</button>`).join("")}</div><div class="xpr">${cur.map(n=>roundHTML(M,n).replace('<section class="rnd">',`<section class="rnd${n===RN?" cur":""}">`)).join("")}</div></div>`;
+}
 let CUR=null,RN=null;
 // "Campi del girone": one pin per field (teams sharing a field share the pin), CBS in red; list beside
 let MAP=null,LAY=null;const MK=new Map();
@@ -155,8 +161,8 @@ function show(k,n){
  if(big){RN=R.includes(n)?n:curRound(M);
   // phone portrait: a dropdown with prev/next arrows replaces the grid of giornata buttons
   const d0=r=>{const d=M.ms.filter(m=>m.n===r).map(m=>m.d).sort((a,b)=>a-b)[0];return d?` · ${d.getDate()} ${MB[d.getMonth()]}`:""},k=R.indexOf(RN);
-  res.innerHTML=`<div class="seg gsel xr" role="group" aria-label="Giornata">${R.map(r=>`<button type="button" data-n="${r}" aria-pressed="${r===RN}">${r}</button>`).join("")}</div><div class="xrsel"><button type="button" data-n="${R[k-1]||""}"${k>0?"":" disabled"} aria-label="Giornata precedente">‹</button><label><span class="vh">Giornata</span><select>${R.map(r=>`<option value="${r}"${r===RN?" selected":""}>${r}ª giornata${d0(r)}</option>`).join("")}</select></label><button type="button" data-n="${R[k+1]||""}"${k<R.length-1?"":" disabled"} aria-label="Giornata successiva">›</button></div>${roundHTML(M,RN)}`;
-  res.querySelectorAll(".xr button,.xrsel button").forEach(b=>b.onclick=()=>show(CUR,+b.dataset.n));
+  res.innerHTML=`<div class="seg gsel xr" role="group" aria-label="Giornata">${R.map(r=>`<button type="button" data-n="${r}" aria-pressed="${r===RN}">${r}</button>`).join("")}</div><div class="xrsel"><button type="button" data-n="${R[k-1]||""}"${k>0?"":" disabled"} aria-label="Giornata precedente">‹</button><label><span class="vh">Giornata</span><select>${R.map(r=>`<option value="${r}"${r===RN?" selected":""}>${r}ª giornata${d0(r)}</option>`).join("")}</select></label><button type="button" data-n="${R[k+1]||""}"${k<R.length-1?"":" disabled"} aria-label="Giornata successiva">›</button></div>${roundHTML(M,RN)}${pageHTML(M,R)}`;
+  res.querySelectorAll(".xr button,.xrsel button,.xpg .xtabs button").forEach(b=>b.onclick=()=>show(CUR,+b.dataset.n));
   res.querySelector(".xrsel select").onchange=e=>show(CUR,+e.target.value);
   res.classList.add("one");
   const mine=document.getElementById("xmine");mine.innerHTML=mineHTML(M);mine.querySelectorAll(".km").forEach(b=>b.onclick=()=>{show(CUR,+b.dataset.n);document.querySelector("#xres .rnd").scrollIntoView({behavior:"smooth",block:"nearest"})});
