@@ -94,9 +94,9 @@ function drawMap(M){
   return `<li${i===M.cbs?' class="me"':""}${f.y!=null?` data-fk="${fKey(f)}"`:""}><div class="vt">${dot(t)}<b>${esc(t.n)}</b>${d&&d[0]?`<small>${d[0]} km · ${d[1]} min</small>`:""}</div><div class="vf">${esc(fName(f))} · ${esc(fTown(f))}</div><div class="va">${esc(f.a)} · in casa ${f.dom?"Dom":"Sab"} ${esc(f.o)} · <a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni ↗</a></div></li>`}).join("");
 }
 function focusField(k){const mk=MK.get(k);if(!mk)return;document.getElementById("xmapw").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{MAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()},250)}
-// Phone portrait: first screen is a list of the 18 teams (position, last and next match); tap = detail.
+// Phones (portrait and landscape): first screen is a list of the 18 teams (position, last and next match); tap = detail.
 let FROMLIST=false;
-const MOB=matchMedia("(max-width:600px) and (orientation:portrait)");
+const MOB=matchMedia("(max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape)");
 function summary(T){
  const M=model(T),S=standings(M),k=S.findIndex(x=>x.i===M.cbs),me=S[k];
  const mine=M.ms.filter(m=>m.h===M.cbs||m.a===M.cbs).sort((a,b)=>a.d-b.d||a.n-b.n);

@@ -27,7 +27,7 @@
  .xsel{gap:6px 12px}
 }
 /* Phone portrait: team list first screen, detail on tap */
-@media (max-width:600px) and (orientation:portrait){
+@media (max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape){
  .xsel{display:none}
  body.mlist .xhead,body.mlist .xcols{display:none}
  .xlist{margin:12px 0 20px}
@@ -49,7 +49,7 @@
 /* Phone portrait: sticky header whose title is a dropdown of all teams */
 .xcombo{display:none}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-@media (max-width:600px) and (orientation:portrait){
+@media (max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape){
  .xhead{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 8px;margin:0 -16px;padding-left:16px;padding-right:16px;border-bottom:1px solid var(--line)}
  .xhead h2{display:none}
  .xcombo{display:block;position:relative}
@@ -59,7 +59,7 @@
  .xhead p{margin-top:5px}
 }
 /* Phone portrait, team list: the title bar stays on top, compact */
-@media (max-width:600px) and (orientation:portrait){
+@media (max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape){
  body.mlist .mast{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -16px;padding:10px 16px 8px;gap:2px 12px;align-items:center}
  body.mlist .mast .eyebrow{margin:0 0 2px;font-size:11px}
  body.mlist .mast h1{font-size:24px}
@@ -72,7 +72,7 @@
 .xfav{font-size:12px}
 .xg button.isfav{border-color:#f2c94c;box-shadow:inset 0 0 0 1px #f2c94c}
 .xg button.isfav::before{content:"★ ";color:#f2c94c}
-@media (max-width:600px) and (orientation:portrait){
+@media (max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape){
  .xhead{flex-wrap:nowrap}
  .xcombo{flex:1;min-width:0}
  .xfav span{display:none}
@@ -155,8 +155,6 @@ body.mlist .xmapw{display:none}
 @media (max-width:999px){.xmapg{grid-template-columns:minmax(0,1fr)}.xvl{max-height:none}}
 @media (max-width:600px) and (orientation:portrait){
  .xmap{height:320px}
- .xi{grid-template-areas:"t p" "l l" "n n" "w w"}
- .xm:nth-of-type(5){grid-area:w}
 }
 /* Phone portrait, long gironi: giornata dropdown with arrows instead of the button grid */
 .xrsel{display:none}
@@ -174,4 +172,14 @@ body.mlist .xmapw{display:none}
  .ctab.full td.tn div>span:not(.frm){flex:none;width:10em}
  .ctab.full td.tn .frm{flex:1 1 auto;min-width:0}
  .ctab.full td.tn .fb{flex:1 1 0;width:auto;height:16px}
+}
+/* Phones, both orientations: the "Dove" line of the team list */
+@media (max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape){
+ .xi{grid-template-areas:"t p" "l l" "n n" "w w"}
+ .xm:nth-of-type(5){grid-area:w}
+}
+/* Phone landscape: team list in two columns */
+@media (max-height:520px) and (orientation:landscape){
+ .xlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;align-items:start}
+ .xlist h3{grid-column:1/-1}
 }
