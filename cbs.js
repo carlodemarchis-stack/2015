@@ -56,7 +56,7 @@ function formHTML(M,i,max,mark){
 // big gironi (Promozione, Under 19-15): every match box; phones show 10 of them, mid-size screens a second row
 function tableHTML(M,big){
  const S=standings(M);
- return `<table class="ctab${big?" full":""}"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span>${esc(x.t.n)}</span>${formHTML(M,x.i,big?10:0,true)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>${big?`<tr class="frow${x.i===M.cbs?" me":""}"><td></td><td colspan="9">${formHTML(M,x.i,0)}</td></tr>`:""}`).join("")}</tbody></table>`;
+ return `<table class="ctab${big?" full":""}"><thead><tr><th>#</th><th class="tn">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>N</th><th>P</th><th class="opt">GF</th><th class="opt">GS</th><th>DR</th></tr></thead><tbody>${S.map((x,k)=>`<tr class="${x.i===M.cbs?"me":""}"><td>${k+1}</td><td class="tn"><div>${dot(x.t)}<span class="tn2"><span class="fn">${esc(x.t.n)}</span><span class="sn">${esc(x.t.sn||x.t.n)}</span></span>${formHTML(M,x.i,big?10:0,true)}</div></td><td class="pt">${x.p}</td><td>${x.g}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td class="opt">${x.f}</td><td class="opt">${x.a}</td><td>${x.f-x.a>0?"+":""}${x.f-x.a}</td></tr>${big?`<tr class="frow${x.i===M.cbs?" me":""}"><td></td><td colspan="9">${formHTML(M,x.i,0)}</td></tr>`:""}`).join("")}</tbody></table>`;
 }
 function roundHTML(M,n){
  const ms=M.ms.filter(m=>m.n===n).sort((a,b)=>a.d-b.d||a.o.localeCompare(b.o,undefined,{numeric:true}));
@@ -72,6 +72,10 @@ function mineHTML(M){
   const k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u";
   return `<button type="button" class="km ${k}${m.n===RN?" on":""}" data-n="${m.n}"><b>${m.n}ª</b><span class="kd"><i>${WD[m.d.getDay()]} </i>${m.d.getDate()}/${m.d.getMonth()+1} ${esc(m.o)}</span><span class="ko">${home?"vs":"@"} ${dot(opp)}${esc(opp.n)}</span><i class="kr">${r?`${r[0]}-${r[1]}`:m.nd?"N.D.":"-"}</i></button>`}).join("")}</div>`;
 }
+// every team name in the standings gets the width of the longest one (boxes then line up)
+function fitNames(){const t=document.querySelector("#xtbl .ctab");if(!t)return;
+ const w=Math.max(0,...[...t.querySelectorAll("td.tn div>span:not(.frm)")].map(e=>e.scrollWidth));if(w)t.style.setProperty("--nw",w+"px")}
+addEventListener("resize",fitNames);
 let CUR=null,RN=null;
 // "Campi del girone": one pin per field (teams sharing a field share the pin), CBS in red; list beside
 let MAP=null,LAY=null;const MK=new Map();
@@ -139,7 +143,7 @@ function show(k,n){
  document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><button type="button" class="favbtn xfav" id="xfav" aria-pressed="${getFav()===T.k}">${STAR}<span>${getFav()===T.k?"La tua squadra":"Segui questa squadra"}</span></button><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
  document.getElementById("xfav").onclick=()=>{setFav(getFav()===T.k?null:T.k);show(T.k,RN);paintSel()};
  document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v){if(FROMLIST){FROMLIST=false;history.back()}else showList()}else show(v);scrollTo(0,0)};
- drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);document.querySelector(".xcols").classList.toggle("full",big);
+ drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);fitNames();document.querySelector(".xcols").classList.toggle("full",big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
   // phone portrait: a dropdown with prev/next arrows replaces the grid of giornata buttons

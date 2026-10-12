@@ -93,7 +93,6 @@ body.mlist .fbook{display:none}
    boxes inline and narrower. Phone portrait: boxes on their own row under each team. */
 .ctab .frow{display:none}
 .ctab.full td.tn .frm{gap:1px}
-.ctab.full td.tn .fb{width:6px}
 .xmine{display:none}
 @media (min-width:1000px){
  .xcols.full{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"mine tbl" "res res"}
@@ -126,7 +125,6 @@ body.mlist .fbook{display:none}
 /* Phones, both orientations: only the 10 boxes around the current giornata, inline */
 @media (max-width:600px) and (orientation:portrait),(max-height:520px) and (orientation:landscape){
  .ctab.full td.tn .fb.ox{display:none}
- .ctab.full td.tn .fb{width:7px}
 }
 /* Campi del girone: map + list (data/cbs_fields.json and the LND PDF of the 2015 site) */
 .xmapw{border-top:1px solid var(--line);padding-top:12px;margin-bottom:24px}
@@ -164,12 +162,13 @@ body.mlist .xmapw{display:none}
  .xrsel button{font:inherit;font-size:22px;line-height:1;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;width:44px;cursor:pointer}
  .xrsel button:disabled{opacity:.35;cursor:default}
 }
-/* wide screens: inline boxes stretch over all the room between the name and the numbers */
-@media (min-width:1400px){
- .ctab.full td.tn div>span:not(.frm){flex:none;width:10em}
- .ctab.full td.tn .frm{flex:1 1 auto;min-width:0}
- .ctab.full td.tn .fb{flex:1 1 0;width:auto;height:16px}
-}
+/* Match boxes stretch over all the room between the name and the numbers: every name gets the width
+   of the longest one (--nw, measured in cbs.js), so the boxes line up from row to row; phone portrait
+   uses the short names (.tn2), as the giornate do */
+.ctab td.tn div>span:not(.frm){flex:none;width:var(--nw,auto);max-width:70%}
+.ctab td.tn .frm{flex:1 1 auto;min-width:0;justify-content:flex-start}
+.ctab td.tn .fb{flex:1 1 0;width:auto;min-width:4px;max-width:18px}
+@media (min-width:1400px){.ctab.full td.tn .fb{height:16px}}
 /* Phones, both orientations: the "Dove" line of the team list */
 @media all{
  .xi{grid-template-areas:"t p" "l l" "n n" "w w"}
