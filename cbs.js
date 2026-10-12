@@ -79,7 +79,7 @@ function showList(){
   </button>`}).join("")}`).join("");
  // push a history entry so the phone's back gesture returns to this list
  L.querySelectorAll(".xi").forEach(b=>b.onclick=()=>{FROMLIST=true;history.pushState(null,"","#"+b.dataset.k);show(b.dataset.k);scrollTo(0,0)});
- document.getElementById("xsrc").textContent=`Fonti: Sprint e Sport (dati letti il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}); Esordienti 2015 dal sito principale. Verifica sempre con la società.`;
+ document.getElementById("xsrc").textContent=`Dati aggiornati il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Giorno e orario sono indicativi: verifica sempre con la società.`;
 }
 function curRound(M){const R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),t=new Date();t.setHours(0,0,0,0);
  for(const n of R){const ds=M.ms.filter(m=>m.n===n).map(m=>m.d);if(Math.max(...ds)>=t-864e5)return n}return R[R.length-1]}
@@ -100,8 +100,8 @@ function show(k,n){
  }else{RN=null;res.classList.remove("one");res.innerHTML=`<div class="rounds">${R.map(r=>roundHTML(M,r)).join("")}</div>`}
  const h=`#${T.k}${RN?"/"+RN:""}`;if(location.hash!==h)history.replaceState(null,"",h);
  document.getElementById("xsrc").textContent=T.src==="2015"
-  ?"Fonti: calendario ufficiale FIGC LND; giorno, orario e risultati da giocaacalcio.it e Sprint e Sport. Giorno e orario sono indicativi: verifica sempre con la società."
-  :`Fonte: Sprint e Sport, dati letti il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Risultati inseriti anche dagli utenti: verifica sempre con la società.`;
+  ?"Fonte: calendario ufficiale FIGC LND. Giorno e orario sono indicativi: verifica sempre con la società."
+  :`Dati aggiornati il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Giorno e orario sono indicativi: verifica sempre con la società.`;
 }
 addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if(MOB.matches&&!X.teams.some(t=>t.k===k)){FROMLIST=false;showList()}else if(X.teams.some(t=>t.k===k))show(k)});
 const grp=[...new Set(X.teams.map(t=>t.grp))];
