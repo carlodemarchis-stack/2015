@@ -119,7 +119,9 @@ function showList(){
    ${s.next&&s.next.f?`<span class="xm"><em>Dove</em>${esc(fName(s.next.f))} · ${esc(fTown(s.next.f))}</span>`:""}
   </button>`};
  const F=X.teams.find(t=>t.k===fav);
- L.innerHTML=(F?`<h3>La tua squadra</h3>${card(F)}`:"")+grp.map(g=>`<h3>${esc(g)}</h3>${X.teams.filter(t=>t.grp===g).map(card).join("")}`).join("");
+ // one section per group; big screens lay them out as columns (see cbs.css)
+ const slug=g=>g.toLowerCase().replace(/\W+/g,"-");
+ L.innerHTML=(F?`<section class="xgrp g-fav"><h3>La tua squadra</h3>${card(F)}</section>`:"")+grp.map(g=>`<section class="xgrp g-${slug(g)}"><h3>${esc(g)}</h3>${X.teams.filter(t=>t.grp===g).map(card).join("")}</section>`).join("");
  // push a history entry so the phone's back gesture returns to this list
  L.querySelectorAll(".xi").forEach(b=>b.onclick=()=>{FROMLIST=true;history.pushState(null,"","#"+b.dataset.k);show(b.dataset.k);scrollTo(0,0)});
  document.getElementById("xsrc").textContent=`Dati aggiornati il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Giorno e orario sono indicativi: verifica sempre con la società.`;

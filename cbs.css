@@ -177,6 +177,23 @@ body.mlist .xmapw{display:none}
 }
 /* Team list in as many columns as fit: one on phones, two in phone landscape, more on laptops */
 @media all{
- .xlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));column-gap:10px;align-items:start}
- .xlist h3{grid-column:1/-1}
+ .xgrp{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));column-gap:10px;align-items:start}
+ .xgrp h3{grid-column:1/-1}
+}
+/* Big screens: the whole list on one screen, one column per group (favourite, Prima squadra and
+   Femminile share the first), compact cards */
+@media (min-width:1300px){
+ .xlist{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto 1fr;column-gap:16px;margin-top:4px}
+ .xgrp{display:block}
+ .g-fav{grid-column:1;grid-row:1}.g-prima-squadra{grid-column:1;grid-row:2}.g-femminile{grid-column:1;grid-row:3}
+ .g-agonistica{grid-column:2;grid-row:1/4}.g-esordienti{grid-column:3;grid-row:1/4}.g-pulcini{grid-column:4;grid-row:1/4}
+ .xlist h3{margin:6px 0 5px}
+ .xgrp+.xgrp h3{margin-top:6px}
+ .xi{padding:6px 10px;gap:1px 10px;margin-bottom:5px}
+ .xt b{font-size:14px}
+ .xt small{font-size:11px}
+ .xp b{font-size:20px}
+ .xm{font-size:12px;line-height:1.3}
+ .xm em{width:58px}
+ body.mlist .xbook{margin:4px 0 0}
 }
