@@ -83,5 +83,4 @@
 }
 .xbook{margin:12px 0 4px}
 .xbook .book{margin-left:0}
-@media (max-width:600px) and (orientation:portrait){body:not(.mlist) .xbook{display:none}}
 .xbook .book{white-space:normal;max-width:100%}
