@@ -64,6 +64,13 @@ function roundHTML(M,n){
  return `<section class="rnd"><h4>${n}ª giornata${d0?" · "+d0.getDate()+" "+MB[d0.getMonth()]:""}</h4>${ms.map(m=>{const f=M.teams[m.h].f,cb=m.h===M.cbs||m.a===M.cbs;
   return `<div class="mr${winCls(m.sc)}${cb?" cb":""}"${cb&&f&&f.y!=null?` data-fk="${fKey(f)}"`:""} data-tip="${fmtD(m.d)} ${esc(m.o)} · ${esc(M.teams[m.h].n)} - ${esc(M.teams[m.a].n)}${f?` · ${esc(fName(f))}, ${esc(fTown(f))}`:""}">${nm(M.teams[m.h])}${scHTML(m)}${nm(M.teams[m.a],1)}</div>`}).join("")}${rest.length&&rest.length<M.teams.length?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${rest.map(i=>esc(M.teams[i].n)).join(", ")}</em></div>`:""}</section>`;
 }
+// big screens, long gironi: every CBS match in two columns beside the standings; click = its giornata
+function mineHTML(M){
+ const ms=M.ms.filter(m=>m.h===M.cbs||m.a===M.cbs).sort((a,b)=>a.n-b.n);
+ return `<h3>Partite CBS</h3><div class="kl" style="grid-template-rows:repeat(${Math.ceil(ms.length/2)},auto)">${ms.map(m=>{const home=m.h===M.cbs,opp=M.teams[home?m.a:m.h],r=m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null;
+  const k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u";
+  return `<button type="button" class="km ${k}${m.n===RN?" on":""}" data-n="${m.n}"><b>${m.n}ª</b><span class="kd"><i>${WD[m.d.getDay()]} </i>${m.d.getDate()}/${m.d.getMonth()+1} ${esc(m.o)}</span><span class="ko">${home?"vs":"@"} ${dot(opp)}${esc(opp.n)}</span><i class="kr">${r?`${r[0]}-${r[1]}`:m.nd?"N.D.":"-"}</i></button>`}).join("")}</div>`;
+}
 let CUR=null,RN=null;
 // "Campi del girone": one pin per field (teams sharing a field share the pin), CBS in red; list beside
 let MAP=null,LAY=null;const MK=new Map();
@@ -139,7 +146,8 @@ function show(k,n){
   res.querySelectorAll(".xr button,.xrsel button").forEach(b=>b.onclick=()=>show(CUR,+b.dataset.n));
   res.querySelector(".xrsel select").onchange=e=>show(CUR,+e.target.value);
   res.classList.add("one");
- }else{RN=null;res.classList.remove("one");res.innerHTML=`<div class="rounds">${R.map(r=>roundHTML(M,r)).join("")}</div>`}
+  const mine=document.getElementById("xmine");mine.innerHTML=mineHTML(M);mine.querySelectorAll(".km").forEach(b=>b.onclick=()=>show(CUR,+b.dataset.n));
+ }else{RN=null;res.classList.remove("one");document.getElementById("xmine").innerHTML="";res.innerHTML=`<div class="rounds">${R.map(r=>roundHTML(M,r)).join("")}</div>`}
  const h=`#${T.k}${RN?"/"+RN:""}`;if(location.hash!==h)history.replaceState(null,"",h);
  document.getElementById("xsrc").textContent=T.src==="2015"
   ?"Fonte: calendario ufficiale FIGC LND. Giorno e orario sono indicativi: verifica sempre con la società."
