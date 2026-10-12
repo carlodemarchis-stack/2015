@@ -280,3 +280,4 @@ a.surf:hover{filter:brightness(1.25)}
  dialog,#dlg,#cdlg,#gdlg,#mdlg,#sdlg,#vdlg{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;inset:0}
 }
 .rnd .tn2 .fn{display:none}.rnd .tn2 .sn{display:inline}
+.card li .pts.np{opacity:.35;font-weight:500}
