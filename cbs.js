@@ -89,8 +89,10 @@ function show(k,n){
  const M=model(T),R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),big=R.length>10;
  document.querySelectorAll("#xsel button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===T.k));
  const pl=M.ms.filter(m=>m.sc).length;
- document.getElementById("xhead").innerHTML=`<button type="button" class="xback" id="xback">← Tutte le squadre</button><h2>${esc(T.lab)}</h2><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
- document.getElementById("xback").onclick=()=>{if(FROMLIST){FROMLIST=false;history.back()}else showList();scrollTo(0,0)};
+ // phone portrait: the title is a dropdown with every team plus "Tutte le squadre" (back to the list)
+ const opts=`<option value="">Tutte le squadre</option>${[...new Set(X.teams.map(t=>t.grp))].map(g=>`<optgroup label="${esc(g)}">${X.teams.filter(t=>t.grp===g).map(t=>`<option value="${t.k}"${t.k===T.k?" selected":""}>${esc(t.lab)}</option>`).join("")}</optgroup>`).join("")}`;
+ document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
+ document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v){if(FROMLIST){FROMLIST=false;history.back()}else showList()}else show(v);scrollTo(0,0)};
  document.getElementById("xtbl").innerHTML=tableHTML(M,big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);

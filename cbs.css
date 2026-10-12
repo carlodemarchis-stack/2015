@@ -27,11 +27,9 @@
  .xsel{gap:6px 12px}
 }
 /* Phone portrait: team list first screen, detail on tap */
-.xback{display:none}
 @media (max-width:600px) and (orientation:portrait){
  .xsel{display:none}
  body.mlist .xhead,body.mlist .xcols{display:none}
- .xback{display:inline-block;font:inherit;font-size:13px;font-weight:600;color:#8cc8ff;background:none;border:0;padding:0 0 8px;cursor:pointer}
  .xlist{margin:12px 0 20px}
  .xlist h3{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:14px 0 6px}
  .xi{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t p" "l l" "n n";gap:3px 10px;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-bottom:6px;cursor:pointer}
@@ -47,4 +45,16 @@
  .xm em{font-style:normal;color:var(--muted);display:inline-block;width:62px}
  .xm .res{font-style:normal;margin:0 2px 0 0;font-size:11.5px}
  .xm .nx{color:var(--muted)}
+}
+/* Phone portrait: sticky header whose title is a dropdown of all teams */
+.xcombo{display:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:600px) and (orientation:portrait){
+ .xhead{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 8px;margin:0 -16px;padding-left:16px;padding-right:16px;border-bottom:1px solid var(--line)}
+ .xhead h2{display:none}
+ .xcombo{display:block;position:relative}
+ .xcombo::after{content:"";position:absolute;right:12px;top:50%;width:9px;height:9px;border-right:2px solid #6fd0a1;border-bottom:2px solid #6fd0a1;transform:translateY(-70%) rotate(45deg);pointer-events:none}
+ .xcombo select{appearance:none;-webkit-appearance:none;width:100%;font-family:var(--display);font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.01em;color:var(--fg);background:var(--surface);border:1px solid #6fd0a1;border-radius:8px;padding:6px 38px 6px 12px;line-height:1.15}
+ .xcombo select:focus{outline:2px solid #6fd0a1;outline-offset:1px}
+ .xhead p{margin-top:5px}
 }
