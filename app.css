@@ -218,7 +218,7 @@ a.surf:hover{filter:brightness(1.25)}
 /* Classifica giornate: same rule as Calendario, winner's name and goals bold */
 .rnd .mr .sc{font-weight:400}
 .rnd .mr.wh .sc i:first-child,.rnd .mr.wa .sc i:last-child{font-weight:800}
-.rnd .mr.wh>span:first-child,.rnd .mr.wa>span:last-child{font-weight:650}
+.rnd .mr.wh>.rt:first-child .tn2,.rnd .mr.wa>.rt:last-child .tn2{font-weight:650}
 /* Standings form strip: one box per match, giornata order */
 .frm{display:inline-flex;gap:2px;margin-left:auto;padding-left:10px;flex:none}
 .fb{display:block;width:9px;height:15px;border-radius:2px;background:var(--line);cursor:default}
@@ -270,3 +270,13 @@ a.surf:hover{filter:brightness(1.25)}
 }
 .hint .ls{display:none}
 @media (max-width:600px) and (orientation:portrait){.hint .lf{display:none}.hint .ls{display:inline}}
+/* Classifica giornate: squad letter dots next to the names */
+.rnd .rt{display:flex;align-items:center;gap:4px;min-width:0}
+.rnd .rt:last-child{justify-content:flex-end}
+.rnd .rt .dot{width:14px;height:14px;font-size:9px;flex:none}
+.rnd .rt .tn2{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Phones (portrait, and landscape with a short screen): every window covers the whole page */
+@media (max-width:600px),(max-height:520px){
+ dialog,#dlg,#cdlg,#gdlg,#mdlg,#sdlg,#vdlg{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;inset:0}
+}
+.rnd .tn2 .fn{display:none}.rnd .tn2 .sn{display:inline}
