@@ -230,3 +230,19 @@ body.mlist .xmapw{display:none}
  .xpr .rnd.cur{box-shadow:inset 0 0 0 2px #6fd0a1}
 }
 @media (min-width:1400px){.xpr{grid-template-columns:repeat(5,minmax(0,1fr))}}
+/* Laptops, team detail: compact enough for the long gironi to fit one screen */
+@media (min-width:1000px){
+ body:not(.mlist) .mast .eyebrow{display:none}
+ body:not(.mlist) .mast{padding-bottom:6px}
+ body:not(.mlist) .xhead{padding-top:6px;padding-bottom:6px;flex-wrap:nowrap}
+ body:not(.mlist) .xhead p{flex-basis:auto;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ body:not(.mlist) .xcombo select{font-size:20px;padding:4px 36px 4px 12px}
+ .xcols.full{gap:12px 24px;margin-bottom:12px;margin-top:6px}
+ .xcols.full .xmine h3{margin:2px 0 4px}
+ .xcols.full .km{padding:3px 4px;line-height:1.25}
+ .xcols.full .ctab th,.xcols.full .ctab td{padding-top:3px;padding-bottom:3px}
+ .xcols.full .ctab td.tn .fb{height:13px}
+ .xpg .xtabs{margin-bottom:8px}
+ .xpg .xtabs button{padding:4px 14px}
+ body:not(.mlist) footer{margin-top:12px}
+}
