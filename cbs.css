@@ -106,3 +106,41 @@ body.mlist .fbook{display:none}
  .ctab .frow .frm{display:flex;gap:1px;margin:0;padding:0 0 3px}
  .ctab .frow .fb{flex:1;width:auto;height:10px}
 }
+/* Campi del girone: map + list (data/cbs_fields.json and the LND PDF of the 2015 site) */
+.xmapw{border-top:1px solid var(--line);padding-top:12px;margin-bottom:24px}
+.xmapw h3{font-family:var(--display);font-size:20px;text-transform:uppercase;margin:0 0 10px}
+.xmapg{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;align-items:start}
+.xmap{isolation:isolate;height:440px;border-radius:8px;border:1px solid var(--line)}
+.xvl{list-style:none;margin:0;padding:0;max-height:440px;overflow:auto}
+.xvl li{display:block;height:auto;padding:7px 6px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px}
+.xvl li:hover{background:var(--surface)}
+.xvl li.me{background:rgba(229,72,77,.12);border-radius:4px}
+.xvl .vt{display:flex;align-items:center;gap:6px}
+.xvl .vt small{margin-left:auto;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.xvl .vf{margin-top:1px}
+.xvl .va{color:var(--muted);font-size:11.5px}
+.xnote{color:var(--muted);font-size:12px;margin:8px 0 0}
+.pin.cbs{background:#e5484d;color:#fff;border-color:#e5484d}
+.pin.cbs::after{border-top-color:#e5484d}
+.pp .pa{color:var(--muted);font-size:12px}
+.pp .pg{margin:6px 0;display:grid;gap:2px}
+.pp .pr{display:grid;grid-template-columns:28px auto 1fr auto;gap:6px;font-size:12px}
+.rnd .mr.cb[data-fk]{cursor:pointer}
+body.mlist .xmapw{display:none}
+@media (max-width:999px){.xmapg{grid-template-columns:minmax(0,1fr)}.xvl{max-height:none}}
+@media (max-width:600px) and (orientation:portrait){
+ .xmap{height:320px}
+ .xi{grid-template-areas:"t p" "l l" "n n" "w w"}
+ .xm:nth-of-type(5){grid-area:w}
+}
+/* Phone portrait, long gironi: giornata dropdown with arrows instead of the button grid */
+.xrsel{display:none}
+@media (max-width:600px) and (orientation:portrait){
+ .xres .xr{display:none}
+ .xrsel{display:flex;gap:6px;margin-bottom:8px}
+ .xrsel label{flex:1;position:relative}
+ .xrsel label::after{content:"";position:absolute;right:12px;top:50%;width:7px;height:7px;border-right:2px solid var(--fg);border-bottom:2px solid var(--fg);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+ .xrsel select{appearance:none;-webkit-appearance:none;width:100%;font:inherit;font-family:var(--display);font-size:18px;font-weight:700;text-transform:uppercase;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 32px 7px 12px}
+ .xrsel button{font:inherit;font-size:22px;line-height:1;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;width:44px;cursor:pointer}
+ .xrsel button:disabled{opacity:.35;cursor:default}
+}
