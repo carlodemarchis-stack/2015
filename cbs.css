@@ -293,3 +293,13 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 @media (max-width:600px) and (orientation:portrait){body.mlist .xtab{margin-top:8px}.xtab button{font-size:13px;padding:6px 12px}}
 /* weekend list: the match shown on the map */
 .wr.on{background:var(--surface);outline:1.5px solid #6fd0a1;outline-offset:-1.5px}
+/* weekend list: home matches say "Casa"; laptops show one line per match (time, team, opponent, town)
+   so the whole weekend fits beside the map with no inner scrolling */
+.wr .hc{color:#e5484d;font-weight:700}
+.wl{max-height:none;overflow:visible}
+@media (min-width:1000px){
+ .wr{grid-template-columns:42px minmax(0,1fr) auto;grid-template-areas:"t m f";align-items:center;padding:4px 4px}
+ .wr .wf{text-align:right;max-width:13em;font-size:12px}
+ .wr .wfn{display:none}
+ .wl h3{margin:8px 0 2px}
+}
