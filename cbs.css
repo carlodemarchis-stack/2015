@@ -270,16 +270,24 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 .wr .wteam:hover{color:#6fd0a1;text-decoration:underline}
 .wr .wf{grid-area:f;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:999px){.xwkg{grid-template-columns:minmax(0,1fr)}.wmap{height:min(60vh,420px)}.wl{max-height:none}}
-/* Weekend map: Torino in the main map, the whole region in an overview above the list, main view boxed */
-.wov h3{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 4px}
-.wmini{height:190px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+/* Weekend map: Torino in the main map, the whole region in an overview box in its top right corner */
+.wbox{position:relative}
+.wov{position:absolute;top:10px;right:10px;width:230px;z-index:500;border:2px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.45);background:var(--bg)}
 .wov[hidden]{display:none}
+.wov span{position:absolute;left:6px;top:4px;z-index:600;font-family:var(--display);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--fg);text-shadow:0 0 3px var(--bg),0 0 3px var(--bg)}
+.wmini{height:180px}
 .pin.mini{font-size:10px;padding:1px 5px;border-width:1.5px;cursor:pointer}
 /* CBS field: a box to the right of the point, one line per match */
 .pin.wcb{display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;border-radius:8px;line-height:1.25;font-weight:600;font-size:11px;padding:3px 7px;transform:translate(10px,-50%)}
 .pin.wcb b{font-size:12px}
 .pin.wcb::after{left:-7px;top:50%;bottom:auto;margin:-5px 0 0;border:5px solid transparent;border-right-color:#e5484d;border-left:0}
-.wside .wl{max-height:calc(min(72vh,640px) - 220px)}
-@media (max-width:999px){.wside .wl{max-height:none}.wmini{height:170px}}
+@media (max-width:600px){.wov{width:140px;top:6px;right:6px}.wmini{height:110px}}
+/* pins moved off their point by declutter(): leader line + dot, no arrow */
+.pw{position:absolute;left:0;top:0}
+.lead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none;display:none}
+.lead line{stroke:var(--fg);stroke-width:1.5}
+.lead circle{fill:var(--fg)}
+.off .lead{display:block}
+.off .pin::after{display:none}
 /* tabs in the title bar: own line under the title on phones */
 @media (max-width:600px) and (orientation:portrait){body.mlist .xtab{margin-top:8px}.xtab button{font-size:13px;padding:6px 12px}}

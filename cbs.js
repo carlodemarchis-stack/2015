@@ -45,6 +45,33 @@ const fDist=f=>(FLD.dist||{})[fKey(f)];
 const fDay=f=>f.day!==undefined?f.day:(f.dom?"Dom":"Sab");
 const homeTxt=f=>fDay(f)||f.o?` · in casa ${fDay(f)} ${esc(f.o)}`.trimEnd():"";
 // one map setup for both maps: all of Piemonte and Valle d'Aosta (Promozione and Elite opponents travel far)
+// pin markup: label + a leader line/dot that declutter() shows when it moves the label off its point
+const pinIcon=(cls,html)=>L.divIcon({className:"",iconSize:[0,0],html:`<div class="pw"><svg class="lead"><line x1="0" y1="0" x2="0" y2="0"/><circle r="3"/></svg><span class="pin${cls}">${html}</span></div>`});
+// labels never overlap: CBS first, then top to bottom; each label takes the first free slot around its point
+// (up/down in label-height steps, then sideways), inside the map and clear of the zoom buttons and of "avoid"
+// (extra screen boxes, e.g. the overview)
+function declutter(map,list,avoid){
+ const sz=map.getSize(),mr=map.getContainer().getBoundingClientRect(),zc=map.zoomControl&&map.zoomControl.getContainer().getBoundingClientRect();
+ const placed=(avoid||[]).concat(zc?[{x:zc.left-mr.left,y:zc.top-mr.top,w:zc.width,h:zc.height}]:[]);
+ const out=r=>r.x<4||r.y<4||r.x+r.w>sz.x-4||r.y+r.h>sz.y-4;
+ const hit=(r,strict)=>(strict&&out(r))||placed.some(q=>r.x<q.x+q.w+3&&q.x<r.x+r.w+3&&r.y<q.y+q.h+3&&q.y<r.y+r.h+3);
+ const items=list.map(o=>{const el=o.mk.getElement();if(!el)return null;const sp=el.querySelector(".pin"),ln=el.querySelector(".lead line");
+  sp.style.transform="";el.classList.remove("off");ln.setAttribute("x2",0);ln.setAttribute("y2",0);
+  return {o,el,sp,ln,p:map.latLngToContainerPoint(o.mk.getLatLng()),w:sp.offsetWidth,h:sp.offsetHeight}}).filter(Boolean)
+  .filter(it=>it.p.x>-20&&it.p.y>-20&&it.p.x<sz.x+20&&it.p.y<sz.y+20)  // fields off screen take no room
+  .sort((a,b)=>(b.o.cbs-a.o.cbs)||(a.p.y-b.p.y));
+ for(const it of items){
+  const bx=it.o.cbs?it.p.x+10:it.p.x-it.w/2,by=it.o.cbs?it.p.y-it.h/2:it.p.y-it.h;let best=null;
+  // first a free slot inside the map, else any free slot
+  find:for(const strict of [true,false])for(let k=0;k<16;k++)for(const sy of k?[-1,1]:[1])for(const m of [0,-.6,.6,-1.2,1.2,-1.8,1.8]){
+   const r={x:bx+Math.round(m*it.w),y:by+sy*k*(it.h+4),w:it.w,h:it.h};if(!hit(r,strict)){best=r;break find}}
+  best=best||{x:bx,y:by,w:it.w,h:it.h};placed.push(best);
+  const dx=best.x-bx,dy=best.y-by;if(!dx&&!dy)continue;
+  it.sp.style.transform=it.o.cbs?`translate(${10+dx}px,calc(-50% + ${dy}px))`:`translate(calc(-50% + ${dx}px),calc(-100% + ${dy}px))`;
+  it.el.classList.add("off");
+  const cx=Math.max(best.x,Math.min(it.p.x,best.x+it.w)),cy=Math.max(best.y,Math.min(it.p.y,best.y+it.h));
+  it.ln.setAttribute("x2",cx-it.p.x);it.ln.setAttribute("y2",cy-it.p.y)}
+}
 function newMap(id){const m=L.map(id,{minZoom:7,maxZoom:16,zoomSnap:.25,maxBounds:[[43.7,6.4],[46.5,9.5]]});m.attributionControl.setPrefix(false);
  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(m);return m}
 const winCls=sc=>sc?(sc[0]>sc[1]?" wh":sc[0]<sc[1]?" wa":""):"";
@@ -97,7 +124,7 @@ let CUR=null,RN=null;
 let MAP=null,LAY=null;const MK=new Map();
 function drawMap(M){
  const W=document.getElementById("xmapw"),has=M.teams.some(t=>t.f&&t.f.y!=null);W.hidden=!has||!window.L;if(W.hidden)return;
- if(!MAP){MAP=newMap("xmap");LAY=L.layerGroup().addTo(MAP)}
+ if(!MAP){MAP=newMap("xmap");LAY=L.layerGroup().addTo(MAP);MAP.on("zoomend",()=>declutter(MAP,[...MK.values()].map(mk=>({mk,cbs:0}))))}
  LAY.clearLayers();MK.clear();
  const by=new Map();M.teams.forEach((t,i)=>{if(!t.f||t.f.y==null)return;const k=fKey(t.f);if(!by.has(k))by.set(k,{f:t.f,ix:[]});by.get(k).ix.push(i)});
  const pts=[];
@@ -106,9 +133,10 @@ function drawMap(M){
   const rows=games.map(m=>{const opp=M.teams[m.h===M.cbs?m.a:m.h];return `<div class="pr"><b>${m.n}ª</b><span>${fmtD(m.d)} ${esc(m.o)}</span><span>${m.h===M.cbs?"vs":"@"} ${esc(opp.sn||opp.n)}</span>${m.sc?`<b>${m.sc[0]}-${m.sc[1]}</b>`:""}</div>`}).join("");
   const html=`<div class="pp"><b>${esc(fName(f))}</b><div class="pa">${esc(f.a)}, ${esc(fTown(f))}</div><div class="pa">Campo di ${v.ix.map(i=>esc(M.teams[i].n)+(M.teams[i].s?" "+M.teams[i].s:"")).join(", ")}</div>${d&&d[0]?`<div class="pa">${d[0]} km · ${d[1]} min da Corso Sicilia 58</div>`:""}${rows?`<div class="pg">${rows}</div>`:""}<a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni in Google Maps ↗</a></div>`;
   const lab=cb?"CBS":v.ix.map(i=>esc(M.teams[i].sn||M.teams[i].n)).join(" · ");
-  MK.set(k,L.marker([f.y,f.x],{icon:L.divIcon({className:"",html:`<span class="pin${cb?" cbs":""}">${lab}</span>`,iconSize:[0,0]}),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(LAY));
+  MK.set(k,L.marker([f.y,f.x],{icon:pinIcon(cb?" cbs":"",lab),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(LAY));
   pts.push([f.y,f.x])});
  MAP.invalidateSize();if(pts.length)MAP.fitBounds(pts,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});
+ declutter(MAP,[...MK.values()].map(mk=>({mk,cbs:0})));
  const order=M.teams.map((t,i)=>i).filter(i=>M.teams[i].f).sort((a,b)=>(b===M.cbs)-(a===M.cbs)||((fDist(M.teams[a].f)||[99])[0]-(fDist(M.teams[b].f)||[99])[0]));
  document.getElementById("xvl").innerHTML=order.map(i=>{const t=M.teams[i],f=t.f,d=fDist(f);
   return `<li${i===M.cbs?' class="me"':""}${f.y!=null?` data-fk="${fKey(f)}"`:""}><div class="vt">${dot(t)}<b>${esc(t.n)}</b>${d&&d[0]?`<small>${d[0]} km · ${d[1]} min</small>`:""}</div><div class="vf">${esc(fName(f))} · ${esc(fTown(f))}</div><div class="va">${esc(f.a)}${homeTxt(f)} · <a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni ↗</a></div></li>`}).join("");
@@ -141,7 +169,7 @@ function showWeekend(){
  if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP);
   WMINI=L.map("wmini",{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,touchZoom:false});
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(WMINI);WMLAY=L.layerGroup().addTo(WMINI);
-  WMAP.on("moveend zoomend",()=>{if(WRECT)WRECT.setBounds(WMAP.getBounds())})}
+  WMAP.on("moveend zoomend",()=>{if(WRECT)WRECT.setBounds(WMAP.getBounds())});WMAP.on("zoomend",wDeclutter)}
  WLAY.clearLayers();WMLAY.clearLayers();WMK.clear();WRECT=null;
  const by=new Map();W.items.forEach(x=>{if(!x.f||x.f.y==null)return;const k=fKey(x.f);if(!by.has(k))by.set(k,{f:x.f,items:[]});by.get(k).items.push(x)});
  const pts=[],home=FLD.from?FLD.from.join(","):"";
@@ -150,19 +178,24 @@ function showWeekend(){
   const html=`<div class="pp"><b>${esc(fName(f))}</b><div class="pa">${esc(f.a)}, ${esc(fTown(f))}</div>${d&&d[0]?`<div class="pa">${d[0]} km · ${d[1]} min da Corso Sicilia 58</div>`:""}<div class="pg">${rows}</div><a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni in Google Maps ↗</a></div>`;
   // CBS field: one line per match ("Sa 15:00 U19"); elsewhere the team codes
   const lab=cb?`<b>CBS</b>${v.items.map(x=>`<span>${WD[x.m.d.getDay()].slice(0,2)} ${esc(x.m.o)} ${code(x.T)}</span>`).join("")}`:v.items.map(x=>code(x.T)).join(" · ");
-  const mk=L.marker([f.y,f.x],{icon:L.divIcon({className:"",html:`<span class="pin${cb?" cbs wcb":""}">${lab}</span>`,iconSize:[0,0]}),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(WLAY);
+  const mk=L.marker([f.y,f.x],{icon:pinIcon(cb?" cbs wcb":"",lab),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(WLAY);mk._cbs=cb?1:0;
   WMK.set(k,mk);
   const far=crow(f.y,f.x)>NEAR;
   if(far)L.marker([f.y,f.x],{icon:L.divIcon({className:"",html:`<span class="pin mini${cb?" cbs":""}">${cb?"CBS":v.items.map(x=>code(x.T)).join(" · ")}</span>`,iconSize:[0,0]})}).on("click",()=>{WMAP.flyTo([f.y,f.x],13,{duration:.6});setTimeout(()=>mk.openPopup(),650)}).addTo(WMLAY);
   pts.push({p:[f.y,f.x],far})});
  // main map on Torino (fields within NEAR km); the overview beside it shows the whole region, main view boxed
  const near=pts.filter(x=>!x.far).map(x=>x.p),all=pts.map(x=>x.p),anyFar=pts.some(x=>x.far);
- document.getElementById("wov").hidden=!anyFar;
- WMAP.invalidateSize();if(near.length||all.length)WMAP.fitBounds(near.length?near:all,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});
- if(anyFar){WMINI.invalidateSize();WMINI.fitBounds(all,{padding:[18,18]});WRECT=L.rectangle(WMAP.getBounds(),{color:"#e5484d",weight:1.5,fill:false,interactive:false}).addTo(WMLAY)}
+ const ov=document.getElementById("wov");ov.hidden=!anyFar;
+ // the overview sits in the top right corner of the main map: keep that strip free of fields
+ WMAP.invalidateSize();if(near.length||all.length)WMAP.fitBounds(near.length?near:all,{paddingTopLeft:[50,46],paddingBottomRight:[anyFar?ov.offsetWidth+24:50,16],maxZoom:13});
+ if(anyFar){WMINI.invalidateSize();WMINI.fitBounds(all,{padding:[14,14]});WRECT=L.rectangle(WMAP.getBounds(),{color:"#e5484d",weight:1.5,fill:false,interactive:false}).addTo(WMLAY)}
+ wDeclutter();
 }
 document.addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.target.closest("#wl .wr[data-wk]");if(!r)return;const mk=WMK.get(r.dataset.wk);if(!mk)return;
  document.getElementById("wmap").scrollIntoView({behavior:"smooth",block:"nearest"});WMAP.flyTo(mk.getLatLng(),13,{duration:.6});mk.openPopup()});
+function wDeclutter(){if(!WMAP)return;const ov=document.getElementById("wov"),sz=WMAP.getSize();
+ const avoid=ov.hidden?[]:[{x:sz.x-ov.offsetWidth-14,y:6,w:ov.offsetWidth+8,h:ov.offsetHeight+8}];
+ declutter(WMAP,[...WMK.values()].map(mk=>({mk,cbs:mk._cbs})),avoid)}
 // list screen tabs: "Squadre" (team list) / "Questo weekend" (map); #weekend opens the second
 function setView(v){const wk=v==="weekend";
  document.getElementById("xlist").hidden=wk;document.getElementById("xwk").hidden=!wk;
