@@ -291,3 +291,5 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 .off .pin::after{display:none}
 /* tabs in the title bar: own line under the title on phones */
 @media (max-width:600px) and (orientation:portrait){body.mlist .xtab{margin-top:8px}.xtab button{font-size:13px;padding:6px 12px}}
+/* weekend list: the match shown on the map */
+.wr.on{background:var(--surface);outline:1.5px solid #6fd0a1;outline-offset:-1.5px}

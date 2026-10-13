@@ -72,6 +72,10 @@ function declutter(map,list,avoid){
   const cx=Math.max(best.x,Math.min(it.p.x,best.x+it.w)),cy=Math.max(best.y,Math.min(it.p.y,best.y+it.h));
   it.ln.setAttribute("x2",cx-it.p.x);it.ln.setAttribute("y2",cy-it.p.y)}
 }
+// "Tutti" button under the zoom buttons (same look as the main site's map): back to the starting view
+function resetCtl(map,fn){const C=L.Control.extend({options:{position:"topleft"},onAdd(){const b=L.DomUtil.create("button","mreset");b.type="button";
+ b.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Tutti';
+ b.title="Torna a tutti i campi";L.DomEvent.disableClickPropagation(b);b.onclick=fn;return b}});new C().addTo(map)}
 function newMap(id){const m=L.map(id,{minZoom:7,maxZoom:16,zoomSnap:.25,maxBounds:[[43.7,6.4],[46.5,9.5]]});m.attributionControl.setPrefix(false);
  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(m);return m}
 const winCls=sc=>sc?(sc[0]>sc[1]?" wh":sc[0]<sc[1]?" wa":""):"";
@@ -121,10 +125,10 @@ function pageHTML(M,R){
 }
 let CUR=null,RN=null;
 // "Campi del girone": one pin per field (teams sharing a field share the pin), CBS in red; list beside
-let MAP=null,LAY=null;const MK=new Map();
+let MAP=null,LAY=null,MFIT=null;const MK=new Map();
 function drawMap(M){
  const W=document.getElementById("xmapw"),has=M.teams.some(t=>t.f&&t.f.y!=null);W.hidden=!has||!window.L;if(W.hidden)return;
- if(!MAP){MAP=newMap("xmap");LAY=L.layerGroup().addTo(MAP);MAP.on("zoomend",()=>declutter(MAP,[...MK.values()].map(mk=>({mk,cbs:0}))))}
+ if(!MAP){MAP=newMap("xmap");LAY=L.layerGroup().addTo(MAP);resetCtl(MAP,()=>{MAP.closePopup();if(MFIT)MAP.flyToBounds(MFIT,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13,duration:.6})});MAP.on("zoomend",()=>declutter(MAP,[...MK.values()].map(mk=>({mk,cbs:0}))))}
  LAY.clearLayers();MK.clear();
  const by=new Map();M.teams.forEach((t,i)=>{if(!t.f||t.f.y==null)return;const k=fKey(t.f);if(!by.has(k))by.set(k,{f:t.f,ix:[]});by.get(k).ix.push(i)});
  const pts=[];
@@ -135,7 +139,7 @@ function drawMap(M){
   const lab=cb?"CBS":v.ix.map(i=>esc(M.teams[i].sn||M.teams[i].n)).join(" · ");
   MK.set(k,L.marker([f.y,f.x],{icon:pinIcon(cb?" cbs":"",lab),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(LAY));
   pts.push([f.y,f.x])});
- MAP.invalidateSize();if(pts.length)MAP.fitBounds(pts,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});
+ MFIT=pts.length?pts:null;MAP.invalidateSize();if(pts.length)MAP.fitBounds(pts,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});
  declutter(MAP,[...MK.values()].map(mk=>({mk,cbs:0})));
  const order=M.teams.map((t,i)=>i).filter(i=>M.teams[i].f).sort((a,b)=>(b===M.cbs)-(a===M.cbs)||((fDist(M.teams[a].f)||[99])[0]-(fDist(M.teams[b].f)||[99])[0]));
  document.getElementById("xvl").innerHTML=order.map(i=>{const t=M.teams[i],f=t.f,d=fDist(f);
@@ -151,7 +155,7 @@ function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
   if(items.length)return {a,b,items:items.sort((x,y)=>x.m.d-y.m.d||(x.m.o||"99").localeCompare(y.m.o||"99",undefined,{numeric:true}))}}
  return {a:sat,b:sat,items:[]}}
 const GN=["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"],MN=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
-let WMAP=null,WLAY=null,WMINI=null,WMLAY=null,WRECT=null;const WMK=new Map();
+let WMAP=null,WLAY=null,WMINI=null,WMLAY=null,WRECT=null,WFIT=null;const WMK=new Map();
 // pin codes: age groups for Esordienti and Pulcini (Under N, N = 2027 - birth year: 2014 = U13 ... 2017 = U10)
 // plus the squad letter
 const CODE={pro:"PRO",u19:"U19",u17:"U17",u16:"U16",u15:"U15",u14:"U14",u15f:"U15F",e14:"U13",e15:"U12",p16:"U11",p17:"U10"};
@@ -166,7 +170,7 @@ function showWeekend(){
   return `<div class="wr${x.home?" h":""}"${f&&f.y!=null?` data-wk="${fKey(f)}"`:""}><b class="wt">${esc(x.m.o||"-")}</b><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a> ${x.home?"vs":"@"} ${dot(x.opp)}${esc(x.opp.sn||x.opp.n)}</span><small class="wf">${f?`${x.home?"In casa · ":""}${esc(fName(f))} · ${esc(fTown(f))}`:"Campo non indicato"}</small></div>`}).join("")}`).join(""):`<p class="wh">Nessuna partita CBS nelle prossime settimane.</p>`;
  sec.querySelectorAll(".wteam").forEach(a=>a.onclick=e=>{e.preventDefault();e.stopPropagation();FROMLIST=true;history.pushState(null,"","#"+a.dataset.k);show(a.dataset.k);scrollTo(0,0)});
  if(!window.L)return;
- if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP);
+ if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP);resetCtl(WMAP,wReset);
   WMINI=L.map("wmini",{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,touchZoom:false});
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(WMINI);WMLAY=L.layerGroup().addTo(WMINI);
   WMAP.on("moveend zoomend",()=>{if(WRECT)WRECT.setBounds(WMAP.getBounds())});WMAP.on("zoomend",wDeclutter)}
@@ -187,12 +191,15 @@ function showWeekend(){
  const near=pts.filter(x=>!x.far).map(x=>x.p),all=pts.map(x=>x.p),anyFar=pts.some(x=>x.far);
  const ov=document.getElementById("wov");ov.hidden=!anyFar;
  // the overview sits in the top right corner of the main map: keep that strip free of fields
- WMAP.invalidateSize();if(near.length||all.length)WMAP.fitBounds(near.length?near:all,{paddingTopLeft:[50,46],paddingBottomRight:[anyFar?ov.offsetWidth+24:50,16],maxZoom:13});
+ WFIT=(near.length||all.length)?[near.length?near:all,{paddingTopLeft:[50,46],paddingBottomRight:[anyFar?ov.offsetWidth+24:50,16],maxZoom:13}]:null;
+ WMAP.invalidateSize();if(WFIT)WMAP.fitBounds(...WFIT);
  if(anyFar){WMINI.invalidateSize();WMINI.fitBounds(all,{padding:[14,14]});WRECT=L.rectangle(WMAP.getBounds(),{color:"#e5484d",weight:1.5,fill:false,interactive:false}).addTo(WMLAY)}
  wDeclutter();
 }
 document.addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.target.closest("#wl .wr[data-wk]");if(!r)return;const mk=WMK.get(r.dataset.wk);if(!mk)return;
+ document.querySelectorAll("#wl .wr.on").forEach(x=>x.classList.remove("on"));r.classList.add("on");
  document.getElementById("wmap").scrollIntoView({behavior:"smooth",block:"nearest"});WMAP.flyTo(mk.getLatLng(),13,{duration:.6});mk.openPopup()});
+function wReset(){if(!WMAP)return;WMAP.closePopup();document.querySelectorAll("#wl .wr.on").forEach(r=>r.classList.remove("on"));if(WFIT)WMAP.flyToBounds(WFIT[0],{...WFIT[1],duration:.6})}
 function wDeclutter(){if(!WMAP)return;const ov=document.getElementById("wov"),sz=WMAP.getSize();
  const avoid=ov.hidden?[]:[{x:sz.x-ov.offsetWidth-14,y:6,w:ov.offsetWidth+8,h:ov.offsetHeight+8}];
  declutter(WMAP,[...WMK.values()].map(mk=>({mk,cbs:mk._cbs})),avoid)}
