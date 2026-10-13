@@ -303,3 +303,12 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
  .wr .wfn{display:none}
  .wl h3{margin:8px 0 2px}
 }
+/* title-bar tabs styled like the page headings: plain uppercase words, the active one underlined */
+.xtab{gap:22px}
+.xtab button{font-family:var(--display);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:2px 0;cursor:pointer;border-radius:0}
+.xtab button:hover{color:var(--fg)}
+.xtab button[aria-pressed="true"]{color:var(--fg);border-bottom-color:#6fd0a1}
+@media (max-width:600px) and (orientation:portrait){.xtab{gap:18px}.xtab button{font-size:17px;padding:2px 0}}
+/* map "Tutti" button: yellow with black text */
+.leaflet-container .mreset{background:#f2c94c;color:#111;border-color:#f2c94c}
+.leaflet-container .mreset:hover{background:#ffd95e}
