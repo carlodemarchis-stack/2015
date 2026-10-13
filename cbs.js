@@ -155,7 +155,7 @@ function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
   // teams with no match that weekend, and why: rest day, match moved, girone off that weekend, or done
   const idle=X.teams.filter(T=>!items.some(x=>x.T===T)).map(T=>{const M=model(T),mine=M.ms.filter(m=>(m.h===M.cbs||m.a===M.cbs)&&!m.nd).sort((p,q)=>p.d-q.d);
    const next=mine.find(m=>m.d>b),wk=M.ms.filter(m=>m.d>=a&&m.d<=b),rd=wk.length?wk[0].n:null,moved=rd!=null&&mine.find(m=>m.n===rd);
-   const why=!next?(mine.length&&mine.every(m=>m.sc)?"girone concluso":"nessuna partita in calendario")
+   const why=!next?(mine.length&&mine.every(m=>m.sc)?(/qualific/i.test(T.camp)?"girone di qualificazione concluso":"girone concluso"):"nessuna partita in calendario")
     :moved?`partita spostata a ${fmtD(moved.d)}`:wk.length?`turno di riposo, prossima ${fmtD(next.d)}`:`il girone non gioca, prossima ${fmtD(next.d)}`;
    return {T,why}});
   if(items.length)return {a,b,idle,items:items.sort((x,y)=>x.m.d-y.m.d||(x.m.o||"99").localeCompare(y.m.o||"99",undefined,{numeric:true}))}}
