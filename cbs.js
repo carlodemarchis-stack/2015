@@ -41,6 +41,12 @@ const dot=t=>t.s?`<i class="dot s${t.s}">${t.s}</i>`:"";
 const fName=f=>f.c.split(" · ")[0],fTown=f=>f.c.split(" · ").pop(),fKey=f=>`${f.y},${f.x}`;
 const gmaps=f=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(`${f.a}, ${fTown(f)}, Piemonte`);
 const fDist=f=>(FLD.dist||{})[fKey(f)];
+// home day: "day" from cbs_fields.json ("" when the regional PDF leaves it to the championship), "dom" on the 2015 site
+const fDay=f=>f.day!==undefined?f.day:(f.dom?"Dom":"Sab");
+const homeTxt=f=>fDay(f)||f.o?` · in casa ${fDay(f)} ${esc(f.o)}`.trimEnd():"";
+// one map setup for both maps: all of Piemonte and Valle d'Aosta (Promozione and Elite opponents travel far)
+function newMap(id){const m=L.map(id,{minZoom:7,maxZoom:16,zoomSnap:.25,maxBounds:[[43.7,6.4],[46.5,9.5]]});m.attributionControl.setPrefix(false);
+ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(m);return m}
 const winCls=sc=>sc?(sc[0]>sc[1]?" wh":sc[0]<sc[1]?" wa":""):"";
 const scHTML=m=>m.sc?`<b class="sc"><i>${m.sc[0]}</i>-<i>${m.sc[1]}</i></b>${m.tav?'<small class="tav" title="Risultato a tavolino">tav</small>':""}`:m.nd?'<em title="Non disputata">N.D.</em>':"<em>-</em>";
 
@@ -91,8 +97,7 @@ let CUR=null,RN=null;
 let MAP=null,LAY=null;const MK=new Map();
 function drawMap(M){
  const W=document.getElementById("xmapw"),has=M.teams.some(t=>t.f&&t.f.y!=null);W.hidden=!has||!window.L;if(W.hidden)return;
- if(!MAP){MAP=L.map("xmap",{minZoom:9,maxZoom:16,zoomSnap:.25,maxBounds:[[44.6,6.9],[45.45,8.2]]});MAP.attributionControl.setPrefix(false);
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(MAP);LAY=L.layerGroup().addTo(MAP)}
+ if(!MAP){MAP=newMap("xmap");LAY=L.layerGroup().addTo(MAP)}
  LAY.clearLayers();MK.clear();
  const by=new Map();M.teams.forEach((t,i)=>{if(!t.f||t.f.y==null)return;const k=fKey(t.f);if(!by.has(k))by.set(k,{f:t.f,ix:[]});by.get(k).ix.push(i)});
  const pts=[];
@@ -106,9 +111,49 @@ function drawMap(M){
  MAP.invalidateSize();if(pts.length)MAP.fitBounds(pts,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});
  const order=M.teams.map((t,i)=>i).filter(i=>M.teams[i].f).sort((a,b)=>(b===M.cbs)-(a===M.cbs)||((fDist(M.teams[a].f)||[99])[0]-(fDist(M.teams[b].f)||[99])[0]));
  document.getElementById("xvl").innerHTML=order.map(i=>{const t=M.teams[i],f=t.f,d=fDist(f);
-  return `<li${i===M.cbs?' class="me"':""}${f.y!=null?` data-fk="${fKey(f)}"`:""}><div class="vt">${dot(t)}<b>${esc(t.n)}</b>${d&&d[0]?`<small>${d[0]} km · ${d[1]} min</small>`:""}</div><div class="vf">${esc(fName(f))} · ${esc(fTown(f))}</div><div class="va">${esc(f.a)} · in casa ${f.dom?"Dom":"Sab"} ${esc(f.o)} · <a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni ↗</a></div></li>`}).join("");
+  return `<li${i===M.cbs?' class="me"':""}${f.y!=null?` data-fk="${fKey(f)}"`:""}><div class="vt">${dot(t)}<b>${esc(t.n)}</b>${d&&d[0]?`<small>${d[0]} km · ${d[1]} min</small>`:""}</div><div class="vf">${esc(fName(f))} · ${esc(fTown(f))}</div><div class="va">${esc(f.a)}${homeTxt(f)} · <a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni ↗</a></div></li>`}).join("");
 }
 function focusField(k){const mk=MK.get(k);if(!mk)return;document.getElementById("xmapw").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{MAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()},250)}
+// "Questo weekend": where every CBS team plays on the coming (or current) Saturday and Sunday
+function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
+ const sat=new Date(t);sat.setDate(t.getDate()+(d===0?-1:6-d));
+ for(let w=0;w<8;w++){const a=new Date(sat);a.setDate(sat.getDate()+7*w);const b=new Date(a);b.setDate(a.getDate()+1);
+  const items=[];X.teams.forEach(T=>{const M=model(T);M.ms.forEach(m=>{if((m.h===M.cbs||m.a===M.cbs)&&m.d>=a&&m.d<=b&&!m.nd){const home=m.h===M.cbs;
+   items.push({T,M,m,home,opp:M.teams[home?m.a:m.h],f:M.teams[m.h].f})}})});
+  if(items.length)return {a,b,items:items.sort((x,y)=>x.m.d-y.m.d||(x.m.o||"99").localeCompare(y.m.o||"99",undefined,{numeric:true}))}}
+ return {a:sat,b:sat,items:[]}}
+const GN=["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"],MN=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+let WMAP=null,WLAY=null;const WMK=new Map();
+function showWeekend(){
+ const W=weekend(),sec=document.getElementById("xwk");
+ const day=d=>`${GN[d.getDay()][0].toUpperCase()+GN[d.getDay()].slice(1)} ${d.getDate()} ${MN[d.getMonth()]}`;
+ const code=T=>T.k.toUpperCase();
+ const days=[...new Set(W.items.map(x=>x.m.d.getTime()))].map(t=>new Date(t));
+ document.getElementById("wl").innerHTML=W.items.length?`<p class="wh">${W.items.length} partite · ${day(W.a)} e ${day(W.b).toLowerCase()}</p>`+days.map(d=>`<h3>${day(d)}</h3>${W.items.filter(x=>x.m.d.getTime()===d.getTime()).map(x=>{const f=x.f;
+  return `<div class="wr${x.home?" h":""}"${f&&f.y!=null?` data-wk="${fKey(f)}"`:""}><b class="wt">${esc(x.m.o||"-")}</b><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a> ${x.home?"vs":"@"} ${dot(x.opp)}${esc(x.opp.sn||x.opp.n)}</span><small class="wf">${f?`${x.home?"In casa · ":""}${esc(fName(f))} · ${esc(fTown(f))}`:"Campo non indicato"}</small></div>`}).join("")}`).join(""):`<p class="wh">Nessuna partita CBS nelle prossime settimane.</p>`;
+ sec.querySelectorAll(".wteam").forEach(a=>a.onclick=e=>{e.preventDefault();e.stopPropagation();FROMLIST=true;history.pushState(null,"","#"+a.dataset.k);show(a.dataset.k);scrollTo(0,0)});
+ if(!window.L)return;
+ if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP)}
+ WLAY.clearLayers();WMK.clear();
+ const by=new Map();W.items.forEach(x=>{if(!x.f||x.f.y==null)return;const k=fKey(x.f);if(!by.has(k))by.set(k,{f:x.f,items:[]});by.get(k).items.push(x)});
+ const pts=[],home=FLD.from?FLD.from.join(","):"";
+ by.forEach((v,k)=>{const f=v.f,cb=k===home,d=fDist(f);
+  const rows=v.items.map(x=>`<div class="pr"><b>${code(x.T)}</b><span>${fmtD(x.m.d)} ${esc(x.m.o)}</span><span>${x.home?"vs":"@"} ${esc(x.opp.sn||x.opp.n)}</span></div>`).join("");
+  const html=`<div class="pp"><b>${esc(fName(f))}</b><div class="pa">${esc(f.a)}, ${esc(fTown(f))}</div>${d&&d[0]?`<div class="pa">${d[0]} km · ${d[1]} min da Corso Sicilia 58</div>`:""}<div class="pg">${rows}</div><a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni in Google Maps ↗</a></div>`;
+  const lab=cb?`CBS · ${v.items.length}`:v.items.map(x=>code(x.T)).join(" · ");
+  WMK.set(k,L.marker([f.y,f.x],{icon:L.divIcon({className:"",html:`<span class="pin${cb?" cbs":""}">${lab}</span>`,iconSize:[0,0]}),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(WLAY));
+  pts.push([f.y,f.x])});
+ WMAP.invalidateSize();if(pts.length)WMAP.fitBounds(pts,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:12});
+}
+document.addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.target.closest("#wl .wr[data-wk]");if(!r)return;const mk=WMK.get(r.dataset.wk);if(!mk)return;
+ document.getElementById("wmap").scrollIntoView({behavior:"smooth",block:"nearest"});WMAP.flyTo(mk.getLatLng(),13,{duration:.6});mk.openPopup()});
+// list screen tabs: "Squadre" (team list) / "Questo weekend" (map); #weekend opens the second
+function setView(v){const wk=v==="weekend";
+ document.getElementById("xlist").hidden=wk;document.getElementById("xwk").hidden=!wk;
+ document.querySelectorAll("#xtab button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v));
+ const h=wk?"#weekend":"";if(location.hash!==h)history.replaceState(null,"",location.pathname+location.search+h);
+ if(wk)showWeekend()}
+document.querySelectorAll("#xtab button").forEach(b=>b.onclick=()=>setView(b.dataset.v));
 // Every screen: first screen is a list of the 18 teams (position, last and next match); tap = detail.
 let FROMLIST=false;
 function summary(T){
@@ -118,10 +163,9 @@ function summary(T){
  const side=m=>{const home=m.h===M.cbs;return {home,opp:M.teams[home?m.a:m.h],r:m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null}};
  return {pos:me.g?k+1:null,n:S.length,p:me.p,g:me.g,last:last&&{...side(last),m:last},next:next&&{...side(next),m:next,f:M.teams[next.h].f}};
 }
-function showList(){
+function showList(view){
  document.body.classList.add("mlist");CUR=null;
- if(location.hash)history.replaceState(null,"",location.pathname+location.search);
- const L=document.getElementById("xlist");L.hidden=false;
+ const L=document.getElementById("xlist");
  const grp=[...new Set(X.teams.map(t=>t.grp))];
  const fav=getFav(),card=T=>{const s=summary(T);
   const res=s.last?(s.last.r[0]>s.last.r[1]?"w":s.last.r[0]<s.last.r[1]?"l":"d"):"";
@@ -139,6 +183,7 @@ function showList(){
  // push a history entry so the phone's back gesture returns to this list
  L.querySelectorAll(".xi").forEach(b=>b.onclick=()=>{FROMLIST=true;history.pushState(null,"","#"+b.dataset.k);show(b.dataset.k);scrollTo(0,0)});
  document.getElementById("xsrc").textContent=`Dati aggiornati il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Giorno e orario sono indicativi: verifica sempre con la società.`;
+ setView(view||"squadre");
 }
 // back to the team list (dropdown "Tutte le squadre" or the page title)
 function toList(){if(!CUR)return;if(FROMLIST){FROMLIST=false;history.back()}else showList()}
@@ -146,7 +191,7 @@ document.getElementById("xhome").onclick=e=>{e.preventDefault();toList();scrollT
 function curRound(M){const R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),t=new Date();t.setHours(0,0,0,0);
  for(const n of R){const ds=M.ms.filter(m=>m.n===n).map(m=>m.d);if(Math.max(...ds)>=t-864e5)return n}return R[R.length-1]}
 function show(k,n){
- document.body.classList.remove("mlist");document.getElementById("xlist").hidden=true;
+ document.body.classList.remove("mlist");document.getElementById("xlist").hidden=true;document.getElementById("xwk").hidden=true;
  const T=X.teams.find(t=>t.k===k)||X.teams[0];CUR=T.k;
  const M=model(T),R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),big=R.length>10;
  document.querySelectorAll("#xsel button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===T.k));
@@ -179,7 +224,7 @@ document.addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.
  b.textContent=`v${REL[0].v} · Novità`;
  b.onclick=()=>{document.getElementById("vBody").innerHTML=REL.map(r=>`<section class="rel"><h4>Versione ${r.v}${r.date?` <small>${r.date}</small>`:""}</h4><ul>${r.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul></section>`).join("");if(vd.showModal)vd.showModal();else vd.setAttribute("open","")};
  document.getElementById("vX").onclick=()=>vd.close();vd.addEventListener("click",e=>{if(e.target===vd)vd.close()})})();
-addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if(!X.teams.some(t=>t.k===k)){FROMLIST=false;showList()}else show(k)});
+addEventListener("popstate",()=>{const k=location.hash.slice(1).split("/")[0];if(!X.teams.some(t=>t.k===k)){FROMLIST=false;showList(k)}else show(k)});
 const grp=[...new Set(X.teams.map(t=>t.grp))];
 document.getElementById("xsel").innerHTML=grp.map(g=>`<div class="xg"><span>${esc(g)}</span>${X.teams.filter(t=>t.grp===g).map(t=>`<button type="button" data-k="${t.k}" aria-pressed="false">${esc(t.lab)}</button>`).join("")}</div>`).join("");
 document.querySelectorAll("#xsel button").forEach(b=>b.onclick=()=>show(b.dataset.k));
@@ -195,5 +240,5 @@ document.addEventListener("keydown",e=>{if(!CUR)return;const K=X.teams.map(t=>t.
   const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"})})();
 const p=decodeURIComponent(location.hash.slice(1)).split("/");
 let k0=p[0];
-if(X.teams.some(t=>t.k===k0))show(k0,+p[1]||null);else showList();
+if(X.teams.some(t=>t.k===k0))show(k0,+p[1]||null);else showList(k0);
 })();

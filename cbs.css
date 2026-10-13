@@ -252,3 +252,21 @@ body.mlist .xmapw{display:none}
  body.mlist .xbook{display:none}
  .mbook .book{margin:0}
 }
+/* Team list tabs: "Squadre" / "Questo weekend" (map of this weekend's CBS matches) */
+.xtab{display:none}
+body.mlist .xtab{display:inline-flex;margin:12px 0 2px}
+.xtab button{font-size:14px;padding:8px 16px}
+.xwkg{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;align-items:start;margin-top:12px}
+.wmap{height:min(72vh,640px)}
+.wl{max-height:min(72vh,640px);overflow:auto}
+.wl .wh{margin:0 0 4px;color:var(--muted);font-size:13px}
+.wl h3{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:10px 0 4px}
+.wr{display:grid;grid-template-columns:44px minmax(0,1fr);grid-template-areas:"t m" ". f";gap:0 8px;padding:6px 4px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px}
+.wr:hover{background:var(--surface)}
+.wr.h{box-shadow:inset 3px 0 0 #e5484d}
+.wr .wt{grid-area:t;font-variant-numeric:tabular-nums}
+.wr .wm{grid-area:m;display:flex;align-items:center;gap:4px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wr .wteam{color:var(--fg);font-weight:700;text-decoration:none;margin-right:2px}
+.wr .wteam:hover{color:#6fd0a1;text-decoration:underline}
+.wr .wf{grid-area:f;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:999px){.xwkg{grid-template-columns:minmax(0,1fr)}.wmap{height:min(60vh,420px)}.wl{max-height:none}}

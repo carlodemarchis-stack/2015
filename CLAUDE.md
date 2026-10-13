@@ -56,7 +56,12 @@ and its handoff notes are in `legacy/`.
   Torino calendars in `source/` (CU 19 Torino, 3 Oct 2026: L9 Esordienti 2° anno, O9 Pulcini 2° anno, Q9 Pulcini
   1° anno). `teams` = per CBS team key, fields aligned to cbs.json `t`; `dist` = car km/min from the CBS field
   (Corso Sicilia 58, Torino; call it that in the UI) via OSRM (curl: the system Python fails its TLS handshake).
-  The 7 agonistica teams have no fields yet. Rerun after a CBS refresh if the teams change.
+  Agonistica teams too (since 13 Oct): Promozione, Under 19 Torino, Under 17/16/15 Elite (= "Prima serie" in the
+  regional SGS PDF), Under 15 femminile, Under 14 (no field list: home field from its own matches); the PDF per
+  team is in `PDF` of the script. Regional PDFs leave the home day blank = championship default, so `day` is "".
+  Rerun after a CBS refresh if the teams change; check the printed matches and any coordinate far from Piemonte.
+- CBS team list tabs: "Squadre" and "Questo weekend" (`#weekend`): map + list of every CBS match of the coming
+  (or current) Saturday/Sunday, from cbs.json + live data, fields from cbs_fields.json.
 - CBS page version + release notes: `data/releases_cbs.json` (newest first, Italian), separate from the main
   site's `releases.json`; footer badge "vX · Novità" opens them. Add an entry or note on every user-facing
   change to cbs.html/cbs.js/cbs.css.
