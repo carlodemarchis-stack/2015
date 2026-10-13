@@ -124,8 +124,9 @@ function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
  return {a:sat,b:sat,items:[]}}
 const GN=["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"],MN=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
 let WMAP=null,WLAY=null,WMINI=null,WMLAY=null,WRECT=null;const WMK=new Map();
-// pin codes: age groups for Esordienti and Pulcini (2014 = U12 ... 2017 = U9) plus the squad letter
-const CODE={pro:"PRO",u19:"U19",u17:"U17",u16:"U16",u15:"U15",u14:"U14",u15f:"U15F",e14:"U12",e15:"U11",p16:"U10",p17:"U9"};
+// pin codes: age groups for Esordienti and Pulcini (Under N, N = 2027 - birth year: 2014 = U13 ... 2017 = U10)
+// plus the squad letter
+const CODE={pro:"PRO",u19:"U19",u17:"U17",u16:"U16",u15:"U15",u14:"U14",u15f:"U15F",e14:"U13",e15:"U12",p16:"U11",p17:"U10"};
 const code=T=>CODE[T.k]||`${CODE[T.k.slice(0,3)]} ${T.k.slice(3).toUpperCase()}`;
 // km as the crow flies from Corso Sicilia 58: within NEAR the main map (Torino), beyond it the corner overview
 const NEAR=25,crow=(y,x)=>{const [a,b]=FLD.from||[45.03787,7.68004],r=Math.PI/180;return 6371*Math.acos(Math.min(1,Math.sin(a*r)*Math.sin(y*r)+Math.cos(a*r)*Math.cos(y*r)*Math.cos((x-b)*r)))};
