@@ -152,8 +152,14 @@ function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
  for(let w=0;w<8;w++){const a=new Date(sat);a.setDate(sat.getDate()+7*w);const b=new Date(a);b.setDate(a.getDate()+1);
   const items=[];X.teams.forEach(T=>{const M=model(T);M.ms.forEach(m=>{if((m.h===M.cbs||m.a===M.cbs)&&m.d>=a&&m.d<=b&&!m.nd){const home=m.h===M.cbs;
    items.push({T,M,m,home,opp:M.teams[home?m.a:m.h],f:M.teams[m.h].f})}})});
-  if(items.length)return {a,b,items:items.sort((x,y)=>x.m.d-y.m.d||(x.m.o||"99").localeCompare(y.m.o||"99",undefined,{numeric:true}))}}
- return {a:sat,b:sat,items:[]}}
+  // teams with no match that weekend, and why: rest day, match moved, girone off that weekend, or done
+  const idle=X.teams.filter(T=>!items.some(x=>x.T===T)).map(T=>{const M=model(T),mine=M.ms.filter(m=>(m.h===M.cbs||m.a===M.cbs)&&!m.nd).sort((p,q)=>p.d-q.d);
+   const next=mine.find(m=>m.d>b),wk=M.ms.filter(m=>m.d>=a&&m.d<=b),rd=wk.length?wk[0].n:null,moved=rd!=null&&mine.find(m=>m.n===rd);
+   const why=!next?(mine.length&&mine.every(m=>m.sc)?"girone concluso":"nessuna partita in calendario")
+    :moved?`partita spostata a ${fmtD(moved.d)}`:wk.length?`turno di riposo, prossima ${fmtD(next.d)}`:`il girone non gioca, prossima ${fmtD(next.d)}`;
+   return {T,why}});
+  if(items.length)return {a,b,idle,items:items.sort((x,y)=>x.m.d-y.m.d||(x.m.o||"99").localeCompare(y.m.o||"99",undefined,{numeric:true}))}}
+ return {a:sat,b:sat,idle:[],items:[]}}
 const GN=["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"],MN=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
 let WMAP=null,WLAY=null,WMINI=null,WMLAY=null,WRECT=null,WFIT=null;const WMK=new Map();
 // pin codes: age groups for Esordienti and Pulcini (Under N, N = 2027 - birth year: 2014 = U13 ... 2017 = U10)
@@ -167,7 +173,7 @@ function showWeekend(){
  const day=d=>`${GN[d.getDay()][0].toUpperCase()+GN[d.getDay()].slice(1)} ${d.getDate()} ${MN[d.getMonth()]}`;
  const days=[...new Set(W.items.map(x=>x.m.d.getTime()))].map(t=>new Date(t));
  document.getElementById("wl").innerHTML=W.items.length?`<p class="wh">${W.items.length} partite · ${day(W.a)} e ${day(W.b).toLowerCase()}</p>`+days.map(d=>`<h3>${day(d)}</h3>${W.items.filter(x=>x.m.d.getTime()===d.getTime()).map(x=>{const f=x.f;
-  return `<div class="wr${x.home?" h":""}"${f&&f.y!=null?` data-wk="${fKey(f)}"`:""}><b class="wt">${esc(x.m.o||"-")}</b><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a> ${x.home?"vs":"@"} ${dot(x.opp)}${esc(x.opp.sn||x.opp.n)}</span><small class="wf">${f?(x.home?`<b class="hc">Casa</b><span class="wfn"> · ${esc(fName(f))}</span>`:`<span class="wfn">${esc(fName(f))} · </span>${esc(fTown(f))}`):"Campo non indicato"}</small></div>`}).join("")}`).join("")+`<p class="whelp">Clicca una partita per vedere il campo sulla mappa, clicca il nome della squadra per aprire la sua scheda.</p>`:`<p class="wh">Nessuna partita CBS nelle prossime settimane.</p>`;
+  return `<div class="wr${x.home?" h":""}"${f&&f.y!=null?` data-wk="${fKey(f)}"`:""}><b class="wt">${esc(x.m.o||"-")}</b><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a> ${x.home?"vs":"@"} ${dot(x.opp)}${esc(x.opp.sn||x.opp.n)}</span><small class="wf">${f?(x.home?`<b class="hc">Casa</b><span class="wfn"> · ${esc(fName(f))}</span>`:`<span class="wfn">${esc(fName(f))} · </span>${esc(fTown(f))}`):"Campo non indicato"}</small></div>`}).join("")}`).join("")+(W.idle.length?`<h3>Non giocano</h3>${W.idle.map(x=>`<div class="wr wi"><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a></span><small class="wf">${esc(x.why)}</small></div>`).join("")}`:"")+`<p class="whelp">Clicca una partita per vedere il campo sulla mappa, clicca il nome della squadra per aprire la sua scheda.</p>`:`<p class="wh">Nessuna partita CBS nelle prossime settimane.</p>`;
  sec.querySelectorAll(".wteam").forEach(a=>a.onclick=e=>{e.preventDefault();e.stopPropagation();FROMLIST=true;history.pushState(null,"","#"+a.dataset.k);show(a.dataset.k);scrollTo(0,0)});
  if(!window.L)return;
  if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP);resetCtl(WMAP,wReset);
