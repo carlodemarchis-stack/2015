@@ -254,7 +254,7 @@ body.mlist .xmapw{display:none}
 }
 /* Team list tabs: "Squadre" / "Questo weekend" (map of this weekend's CBS matches) */
 .xtab{display:none}
-body.mlist .xtab{display:inline-flex;margin:12px 0 2px}
+body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 .xtab button{font-size:14px;padding:8px 16px}
 .xwkg{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;align-items:start;margin-top:12px}
 .wmap{height:min(72vh,640px)}
@@ -270,3 +270,16 @@ body.mlist .xtab{display:inline-flex;margin:12px 0 2px}
 .wr .wteam:hover{color:#6fd0a1;text-decoration:underline}
 .wr .wf{grid-area:f;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:999px){.xwkg{grid-template-columns:minmax(0,1fr)}.wmap{height:min(60vh,420px)}.wl{max-height:none}}
+/* Weekend map: Torino in the main map, the whole region in an overview above the list, main view boxed */
+.wov h3{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 4px}
+.wmini{height:190px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+.wov[hidden]{display:none}
+.pin.mini{font-size:10px;padding:1px 5px;border-width:1.5px;cursor:pointer}
+/* CBS field: a box to the right of the point, one line per match */
+.pin.wcb{display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;border-radius:8px;line-height:1.25;font-weight:600;font-size:11px;padding:3px 7px;transform:translate(10px,-50%)}
+.pin.wcb b{font-size:12px}
+.pin.wcb::after{left:-7px;top:50%;bottom:auto;margin:-5px 0 0;border:5px solid transparent;border-right-color:#e5484d;border-left:0}
+.wside .wl{max-height:calc(min(72vh,640px) - 220px)}
+@media (max-width:999px){.wside .wl{max-height:none}.wmini{height:170px}}
+/* tabs in the title bar: own line under the title on phones */
+@media (max-width:600px) and (orientation:portrait){body.mlist .xtab{margin-top:8px}.xtab button{font-size:13px;padding:6px 12px}}

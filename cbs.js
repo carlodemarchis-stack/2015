@@ -123,27 +123,42 @@ function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
   if(items.length)return {a,b,items:items.sort((x,y)=>x.m.d-y.m.d||(x.m.o||"99").localeCompare(y.m.o||"99",undefined,{numeric:true}))}}
  return {a:sat,b:sat,items:[]}}
 const GN=["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"],MN=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
-let WMAP=null,WLAY=null;const WMK=new Map();
+let WMAP=null,WLAY=null,WMINI=null,WMLAY=null,WRECT=null;const WMK=new Map();
+// pin codes: age groups for Esordienti and Pulcini (2014 = U12 ... 2017 = U9) plus the squad letter
+const CODE={pro:"PRO",u19:"U19",u17:"U17",u16:"U16",u15:"U15",u14:"U14",u15f:"U15F",e14:"U12",e15:"U11",p16:"U10",p17:"U9"};
+const code=T=>CODE[T.k]||`${CODE[T.k.slice(0,3)]} ${T.k.slice(3).toUpperCase()}`;
+// km as the crow flies from Corso Sicilia 58: within NEAR the main map (Torino), beyond it the corner overview
+const NEAR=25,crow=(y,x)=>{const [a,b]=FLD.from||[45.03787,7.68004],r=Math.PI/180;return 6371*Math.acos(Math.min(1,Math.sin(a*r)*Math.sin(y*r)+Math.cos(a*r)*Math.cos(y*r)*Math.cos((x-b)*r)))};
 function showWeekend(){
  const W=weekend(),sec=document.getElementById("xwk");
  const day=d=>`${GN[d.getDay()][0].toUpperCase()+GN[d.getDay()].slice(1)} ${d.getDate()} ${MN[d.getMonth()]}`;
- const code=T=>T.k.toUpperCase();
  const days=[...new Set(W.items.map(x=>x.m.d.getTime()))].map(t=>new Date(t));
  document.getElementById("wl").innerHTML=W.items.length?`<p class="wh">${W.items.length} partite · ${day(W.a)} e ${day(W.b).toLowerCase()}</p>`+days.map(d=>`<h3>${day(d)}</h3>${W.items.filter(x=>x.m.d.getTime()===d.getTime()).map(x=>{const f=x.f;
   return `<div class="wr${x.home?" h":""}"${f&&f.y!=null?` data-wk="${fKey(f)}"`:""}><b class="wt">${esc(x.m.o||"-")}</b><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a> ${x.home?"vs":"@"} ${dot(x.opp)}${esc(x.opp.sn||x.opp.n)}</span><small class="wf">${f?`${x.home?"In casa · ":""}${esc(fName(f))} · ${esc(fTown(f))}`:"Campo non indicato"}</small></div>`}).join("")}`).join(""):`<p class="wh">Nessuna partita CBS nelle prossime settimane.</p>`;
  sec.querySelectorAll(".wteam").forEach(a=>a.onclick=e=>{e.preventDefault();e.stopPropagation();FROMLIST=true;history.pushState(null,"","#"+a.dataset.k);show(a.dataset.k);scrollTo(0,0)});
  if(!window.L)return;
- if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP)}
- WLAY.clearLayers();WMK.clear();
+ if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP);
+  WMINI=L.map("wmini",{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,touchZoom:false});
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(WMINI);WMLAY=L.layerGroup().addTo(WMINI);
+  WMAP.on("moveend zoomend",()=>{if(WRECT)WRECT.setBounds(WMAP.getBounds())})}
+ WLAY.clearLayers();WMLAY.clearLayers();WMK.clear();WRECT=null;
  const by=new Map();W.items.forEach(x=>{if(!x.f||x.f.y==null)return;const k=fKey(x.f);if(!by.has(k))by.set(k,{f:x.f,items:[]});by.get(k).items.push(x)});
  const pts=[],home=FLD.from?FLD.from.join(","):"";
  by.forEach((v,k)=>{const f=v.f,cb=k===home,d=fDist(f);
   const rows=v.items.map(x=>`<div class="pr"><b>${code(x.T)}</b><span>${fmtD(x.m.d)} ${esc(x.m.o)}</span><span>${x.home?"vs":"@"} ${esc(x.opp.sn||x.opp.n)}</span></div>`).join("");
   const html=`<div class="pp"><b>${esc(fName(f))}</b><div class="pa">${esc(f.a)}, ${esc(fTown(f))}</div>${d&&d[0]?`<div class="pa">${d[0]} km · ${d[1]} min da Corso Sicilia 58</div>`:""}<div class="pg">${rows}</div><a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni in Google Maps ↗</a></div>`;
-  const lab=cb?`CBS · ${v.items.length}`:v.items.map(x=>code(x.T)).join(" · ");
-  WMK.set(k,L.marker([f.y,f.x],{icon:L.divIcon({className:"",html:`<span class="pin${cb?" cbs":""}">${lab}</span>`,iconSize:[0,0]}),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(WLAY));
-  pts.push([f.y,f.x])});
- WMAP.invalidateSize();if(pts.length)WMAP.fitBounds(pts,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:12});
+  // CBS field: one line per match ("Sa 15:00 U19"); elsewhere the team codes
+  const lab=cb?`<b>CBS</b>${v.items.map(x=>`<span>${WD[x.m.d.getDay()].slice(0,2)} ${esc(x.m.o)} ${code(x.T)}</span>`).join("")}`:v.items.map(x=>code(x.T)).join(" · ");
+  const mk=L.marker([f.y,f.x],{icon:L.divIcon({className:"",html:`<span class="pin${cb?" cbs wcb":""}">${lab}</span>`,iconSize:[0,0]}),zIndexOffset:cb?1000:0}).bindPopup(html).addTo(WLAY);
+  WMK.set(k,mk);
+  const far=crow(f.y,f.x)>NEAR;
+  if(far)L.marker([f.y,f.x],{icon:L.divIcon({className:"",html:`<span class="pin mini${cb?" cbs":""}">${cb?"CBS":v.items.map(x=>code(x.T)).join(" · ")}</span>`,iconSize:[0,0]})}).on("click",()=>{WMAP.flyTo([f.y,f.x],13,{duration:.6});setTimeout(()=>mk.openPopup(),650)}).addTo(WMLAY);
+  pts.push({p:[f.y,f.x],far})});
+ // main map on Torino (fields within NEAR km); the overview beside it shows the whole region, main view boxed
+ const near=pts.filter(x=>!x.far).map(x=>x.p),all=pts.map(x=>x.p),anyFar=pts.some(x=>x.far);
+ document.getElementById("wov").hidden=!anyFar;
+ WMAP.invalidateSize();if(near.length||all.length)WMAP.fitBounds(near.length?near:all,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});
+ if(anyFar){WMINI.invalidateSize();WMINI.fitBounds(all,{padding:[18,18]});WRECT=L.rectangle(WMAP.getBounds(),{color:"#e5484d",weight:1.5,fill:false,interactive:false}).addTo(WMLAY)}
 }
 document.addEventListener("click",e=>{if(e.target.closest("a"))return;const r=e.target.closest("#wl .wr[data-wk]");if(!r)return;const mk=WMK.get(r.dataset.wk);if(!mk)return;
  document.getElementById("wmap").scrollIntoView({behavior:"smooth",block:"nearest"});WMAP.flyTo(mk.getLatLng(),13,{duration:.6});mk.openPopup()});
