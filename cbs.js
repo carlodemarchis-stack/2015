@@ -1,6 +1,6 @@
 // CBS Scuola Calcio: one view per team (its own girone): standings with form boxes + giornate.
-// 15 teams come from data/cbs.json (Sprint e Sport, read in the browser on request); the three
-// Esordienti 2015 teams come from this site's own data (LND PDF + giocaacalcio/manual results).
+// 15 teams come from data/cbs.json (results read on request); the three
+// Esordienti 2015 teams come from this site's own data (LND PDF + live results).
 (async()=>{
 const get=u=>fetch(u,{cache:"no-cache"}).then(r=>r.json());
 const [X,D,LIVE,SHORT,FLD,REL]=await Promise.all([get("data/cbs.json"),get("data/teams_matches.json"),get("data/live.json").catch(()=>({m:{}})),get("data/short.json").catch(()=>({})),get("data/cbs_fields.json").catch(()=>({teams:{},dist:{}})),get("data/releases_cbs.json").catch(()=>[])]);

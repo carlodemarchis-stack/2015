@@ -31,7 +31,7 @@ function tiles(map){
  map.attributionControl.setPrefix(false);
  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(map);
 }
-// Real date/time and score from giocaacalcio.it (data/live.json), keyed by the pair of teams:
+// Real date/time and score (data/live.json), keyed by the pair of teams:
 // each pair meets once per girone. Falls back to the computed day/time when a match is missing.
 const LV=new Map();let LUPD=LIVE.updated;
 function setLive(L){LV.clear();Object.entries(L.m||{}).forEach(([g,rows])=>rows.forEach(([n,h,a,dt,sc,id,alt])=>LV.set(`${g}|${Math.min(h,a)}|${Math.max(h,a)}`,{h,a,dt,sc,id,alt})))}
