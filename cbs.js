@@ -146,6 +146,8 @@ function drawMap(M){
   return `<li${i===M.cbs?' class="me"':""}${f.y!=null?` data-fk="${fKey(f)}"`:""}><div class="vt">${dot(t)}<b>${esc(t.n)}</b>${d&&d[0]?`<small>${d[0]} km · ${d[1]} min</small>`:""}</div><div class="vf">${esc(fName(f))} · ${esc(fTown(f))}</div><div class="va">${esc(f.a)}${homeTxt(f)} · <a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni ↗</a></div></li>`}).join("");
 }
 function focusField(k){const mk=MK.get(k);if(!mk)return;document.getElementById("xmapw").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{MAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()},250)}
+// result from the CBS side ("5-1" = CBS 5) with its colour class, or "" before the match is played
+const cbsRes=x=>{if(!x.m.sc)return "";const r=x.home?x.m.sc:[x.m.sc[1],x.m.sc[0]],k=r[0]>r[1]?"w":r[0]<r[1]?"l":"d";return `<i class="wres ${k}">${r[0]}-${r[1]}</i>`};
 // "Questo weekend": where every CBS team plays on the coming (or current) Saturday and Sunday
 function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
  const sat=new Date(t);sat.setDate(t.getDate()+(d===0?-1:6-d));
@@ -173,7 +175,7 @@ function showWeekend(){
  const day=d=>`${GN[d.getDay()][0].toUpperCase()+GN[d.getDay()].slice(1)} ${d.getDate()} ${MN[d.getMonth()]}`;
  const days=[...new Set(W.items.map(x=>x.m.d.getTime()))].map(t=>new Date(t));
  document.getElementById("wl").innerHTML=W.items.length?`<p class="wh">${W.items.length} partite · ${day(W.a)} e ${day(W.b).toLowerCase()}</p>`+days.map(d=>`<h3>${day(d)}</h3>${W.items.filter(x=>x.m.d.getTime()===d.getTime()).map(x=>{const f=x.f;
-  return `<div class="wr${x.home?" h":""}"${f&&f.y!=null?` data-wk="${fKey(f)}"`:""}><b class="wt">${esc(x.m.o||"-")}</b><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a> ${x.home?"vs":"@"} ${dot(x.opp)}${esc(x.opp.sn||x.opp.n)}</span><small class="wf">${f?(x.home?`<b class="hc">Casa</b><span class="wfn"> · ${esc(fName(f))}</span>`:`<span class="wfn">${esc(fName(f))} · </span>${esc(fTown(f))}`):"Campo non indicato"}</small></div>`}).join("")}`).join("")+(W.idle.length?`<h3>Non giocano</h3>${W.idle.map(x=>`<div class="wr wi"><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a></span><small class="wf">${esc(x.why)}</small></div>`).join("")}`:"")+`<p class="whelp">Clicca una partita per vedere il campo sulla mappa, clicca il nome della squadra per aprire la sua scheda.</p>`:`<p class="wh">Nessuna partita CBS nelle prossime settimane.</p>`;
+  return `<div class="wr${x.home?" h":""}"${f&&f.y!=null?` data-wk="${fKey(f)}"`:""}><b class="wt">${esc(x.m.o||"-")}</b><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a> ${x.home?"vs":"@"} ${dot(x.opp)}${esc(x.opp.sn||x.opp.n)}</span>${cbsRes(x)}<small class="wf">${f?(x.home?`<b class="hc">Casa</b><span class="wfn"> · ${esc(fName(f))}</span>`:`<span class="wfn">${esc(fName(f))} · </span>${esc(fTown(f))}`):"Campo non indicato"}</small></div>`}).join("")}`).join("")+(W.idle.length?`<h3>Non giocano</h3>${W.idle.map(x=>`<div class="wr wi"><span class="wm"><a class="wteam" href="#${x.T.k}" data-k="${x.T.k}">${esc(x.T.lab)}</a></span><small class="wf">${esc(x.why)}</small></div>`).join("")}`:"")+`<p class="whelp">Clicca una partita per vedere il campo sulla mappa, clicca il nome della squadra per aprire la sua scheda.</p>`:`<p class="wh">Nessuna partita CBS nelle prossime settimane.</p>`;
  sec.querySelectorAll(".wteam").forEach(a=>a.onclick=e=>{e.preventDefault();e.stopPropagation();FROMLIST=true;history.pushState(null,"","#"+a.dataset.k);show(a.dataset.k);scrollTo(0,0)});
  if(!window.L)return;
  if(!WMAP){WMAP=newMap("wmap");WLAY=L.layerGroup().addTo(WMAP);resetCtl(WMAP,wReset);
@@ -184,7 +186,7 @@ function showWeekend(){
  const by=new Map();W.items.forEach(x=>{if(!x.f||x.f.y==null)return;const k=fKey(x.f);if(!by.has(k))by.set(k,{f:x.f,items:[]});by.get(k).items.push(x)});
  const pts=[],home=FLD.from?FLD.from.join(","):"";
  by.forEach((v,k)=>{const f=v.f,cb=k===home,d=fDist(f);
-  const rows=v.items.map(x=>`<div class="pr"><b>${code(x.T)}</b><span>${fmtD(x.m.d)} ${esc(x.m.o)}</span><span>${x.home?"vs":"@"} ${esc(x.opp.sn||x.opp.n)}</span></div>`).join("");
+  const rows=v.items.map(x=>`<div class="pr"><b>${code(x.T)}</b><span>${fmtD(x.m.d)} ${esc(x.m.o)}</span><span>${x.home?"vs":"@"} ${esc(x.opp.sn||x.opp.n)}</span>${cbsRes(x)}</div>`).join("");
   const html=`<div class="pp"><b>${esc(fName(f))}</b><div class="pa">${esc(f.a)}, ${esc(fTown(f))}</div>${d&&d[0]?`<div class="pa">${d[0]} km · ${d[1]} min da Corso Sicilia 58</div>`:""}<div class="pg">${rows}</div><a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni in Google Maps ↗</a></div>`;
   // CBS field: one line per match ("Sa 15:00 U19"); elsewhere the team codes
   const lab=cb?`<b>CBS</b>${v.items.map(x=>`<span>${WD[x.m.d.getDay()].slice(0,2)} ${esc(x.m.o)} ${code(x.T)}</span>`).join("")}`:v.items.map(x=>code(x.T)).join(" · ");

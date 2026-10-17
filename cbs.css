@@ -316,3 +316,12 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 /* "Non giocano": team + reason, no time column */
 .wr.wi{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"m f";cursor:default}
 .wr.wi .wf{text-align:right;white-space:nowrap;max-width:none}
+/* weekend list and map popups: result from the CBS side */
+.wres{font-style:normal;font-weight:700;font-size:12px;border-radius:3px;padding:1px 6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.wres.w{background:#2f9a4f;color:#fff}.wres.d{background:#d8b03a;color:#17201c}.wres.l{background:#c0453b;color:#fff}
+.wr{grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"t m r" ". f f"}
+.wr .wres{grid-area:r;justify-self:end}
+.pp .pr{grid-template-columns:44px auto 1fr auto}
+@media (min-width:1000px){
+ .wr{grid-template-columns:42px minmax(0,1fr) auto auto;grid-template-areas:"t m r f";column-gap:10px}
+}
