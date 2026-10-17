@@ -65,3 +65,10 @@ and its handoff notes are in `legacy/`.
 - CBS page version + release notes: `data/releases_cbs.json` (newest first, Italian), separate from the main
   site's `releases.json`; footer badge "vX · Novità" opens them. Add an entry or note on every user-facing
   change to cbs.html/cbs.js/cbs.css.
+- "Aggiorna" / "leggi Sprint e Sport" (Carlo's call: giocaacalcio stays the reference and the Action's source;
+  Sprint e Sport is read by hand because its results arrive first): tools in `scripts/sse/`. Start
+  `python3 scripts/sse/recv.py` (background), copy `scripts/sse/recv.html` into the preview folder as `_recv.html`,
+  run `scripts/sse/read.js` in the browser pane on www.sprintesport.it, navigate that tab to the preview's
+  `/_recv.html`, then `python3 scripts/sse/merge.py $TMPDIR/sse_raw.json` and `python3 scripts/update.py`.
+  merge.py updates cbs.json (CBS page) and manual.json (2015 site, names matched to the LND teams of the same
+  giornata; exits on a weak match), keeps scores only for matches started >= 2h ago, and lists conflicts.

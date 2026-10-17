@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><title>recv</title><pre id="o">…</pre>
+<script>
+// copied into the local preview as _recv.html: posts window.name (the reading) to recv.py on 127.0.0.1:8799
+const d=window.name;window.name="";
+fetch("http://127.0.0.1:8799/",{method:"POST",headers:{"Content-Type":"application/json"},body:d})
+ .then(r=>r.text()).then(t=>{document.getElementById("o").textContent=t+" | "+d.length}).catch(e=>{document.getElementById("o").textContent="ERR "+e.message+" | "+d.length});
+</script>
