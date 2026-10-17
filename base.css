@@ -328,3 +328,5 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:bas
 .mychip{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:12px;padding:3px 10px;border-radius:999px;cursor:pointer;color:#f2c94c;background:rgba(242,201,76,.10);border:1px solid rgba(242,201,76,.5)}
 .mychip b{font-weight:700}
 @media (max-width:600px){.favw small{display:none}.favbtn span{display:none}.favbtn{padding:7px 9px}}
+/* results the sources disagree on: asterisk, the other score in the tooltip */
+.altm{font-size:.75em;margin-left:1px;color:#f2c94c;cursor:help}

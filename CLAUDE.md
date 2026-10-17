@@ -37,8 +37,11 @@ and its handoff notes are in `legacy/`.
 - Club codes for the Calendario "Tutte" grid: `data/abbr.json` (57 clubs, 3 letters, unique). A new club
   needs a code there, or the page falls back to the first 3 letters of its name.
 - Manual results: `data/manual.json`, rows `[girone, home, squad, away, squad, "h-a", note]` with LND PDF
-  names. Carlo reads them on Sprint e Sport and dictates them; `update.py` fills only matches giocaacalcio
-  has no score for. Never fetch Sprint e Sport (`/webservices/` is disallowed in its robots.txt) or
+  names, plus optional meta {since, reads, lock}. Filled by scripts/sse/merge.py (or dictated by Carlo). A manual
+  score fills a match with no score; on a conflict giocaacalcio wins for the first 24h, then the manual score wins
+  if it was read at least twice (meta.reads >= 2) or Carlo locked it (meta.lock: he knows from the club). The losing
+  score goes in live.json as alt (7th element) and both pages show an asterisk with "risulta anche X".
+  The pages never name the sources (no giocaacalcio / Sprint e Sport anywhere visible, Carlo's rule). Never fetch Sprint e Sport (`/webservices/` is disallowed in its robots.txt) or
   tuttocampo (403 to bots) from scripts or the Action.
 - Short club names for phone portrait: `data/short.json` (57 clubs, max 13 chars). Portrait-only CSS lives in
   `@media (max-width:600px) and (orientation:portrait)`; landscape and desktop must not change with it.

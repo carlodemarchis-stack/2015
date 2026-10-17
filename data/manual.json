@@ -58,5 +58,7 @@
  ["I", "Sisport", "A", "Carrara 90", "A", "3-5", "Sprint e Sport, letto 17/10 18:59"],
  ["M", "CSF Carmagnola Queen", "A", "Vanchiglia 1915", "A", "1-2", "Sprint e Sport, letto 17/10 18:59"],
  ["M", "Onnisport Club", "B", "Dorina", "A", "9-2", "Sprint e Sport, letto 17/10 18:59"],
- ["M", "San Luigi Santena", "A", "Trofarello 1927", "A", "6-4", "Sprint e Sport, letto 17/10 18:59"]
+ ["M", "San Luigi Santena", "A", "Trofarello 1927", "A", "6-4", "Sprint e Sport, letto 17/10 18:59"],
+ ["A", "Borgaro Autoingros", "C", "San Maurizio C.se", "A", "1-4", "Sprint e Sport, letto 17/10 18:58", {"since": "2026-10-11T12:10", "reads": 4}],
+ ["H", "Torino FC (femm.)", "A", "Rosta Calcio", "B", "9-1", "Sprint e Sport, letto 17/10 18:58", {"since": "2026-10-17T18:58", "reads": 1}]
 ]

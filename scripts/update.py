@@ -3,7 +3,8 @@ match id of every game, keyed to our own team indexes in data/teams_matches.json
 
     python3 scripts/update.py            # writes data/live.json only if something changed
 
-live.json: {"updated": iso, "m": {girone: [[giornata, homeIdx, awayIdx, "YYYY-MM-DDTHH:MM", score, id], ...]}}
+live.json: {"updated": iso, "m": {girone: [[giornata, homeIdx, awayIdx, "YYYY-MM-DDTHH:MM", score, id, alt?], ...]}}
+alt (only on a conflict) = the other source's score, shown on the pages as "da verificare".
 Home/away come from giocaacalcio, so a swapped fixture shows up with the real home team.
 Exits non-zero if a team name cannot be matched (see NAME_FIX) so the Action fails loudly.
 
@@ -11,7 +12,8 @@ Source rule: giocaacalcio supplies only date/time, home/away order and scores. T
 fields, addresses and home times always come from the LND PDF (teams_matches.json), which
 this script only reads."""
 import json, os, re, sys, unicodedata
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from difflib import SequenceMatcher
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -20,9 +22,13 @@ from scrape_giocaacalcio import scrape
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 TEAMS = os.path.join(ROOT, "data", "teams_matches.json")
 OUT = os.path.join(ROOT, "data", "live.json")
-# Results entered by hand (read by Carlo elsewhere): [girone, home, homeSquad, away, awaySquad, score, note].
-# Names and squad letters as in the LND PDF. They only fill matches giocaacalcio has no score for.
+# Results entered by hand (read elsewhere on Carlo's request): [girone, home, homeSquad, away, awaySquad, score,
+# note, meta?]. Names and squad letters as in the LND PDF. meta = {"since": local iso time this score was first
+# read, "reads": readings that saw it, "lock": true when Carlo fixed it}. A manual score fills a match with no
+# score; on a conflict giocaacalcio wins unless the manual score is locked or stable (>= STABLE old and read
+# at least twice). The losing score is kept as alt.
 MANUAL = os.path.join(ROOT, "data", "manual.json")
+STABLE = timedelta(hours=24)
 NAME_FIX = {}  # "GIOCA NAME": "Our name" when the fuzzy match gets one wrong
 
 
@@ -71,10 +77,26 @@ def build(D, G, old=None):
     return live
 
 
+def first_read(row):
+    """When the manual score was first read: meta "since", else the time in the note ("letto 17/10 13:00")."""
+    meta = row[7] if len(row) > 7 else {}
+    if meta.get("since"):
+        return datetime.fromisoformat(meta["since"])
+    m = re.search(r"(\d\d)/(\d\d) (\d\d):(\d\d)", row[6] if len(row) > 6 else "")
+    if not m:
+        return None
+    mo = int(m[2])
+    return datetime(2026 if mo >= 7 else 2027, mo, int(m[1]), int(m[3]), int(m[4]))  # season 2026/27
+
+
 def apply_manual(D, live):
     if not os.path.exists(MANUAL):
         return
-    for g, hn, hs, an, as_, score, *_ in json.load(open(MANUAL)):
+    now = datetime.now(ZoneInfo("Europe/Rome")).replace(tzinfo=None)
+    flip = lambda s: "-".join(reversed(s.split("-")))
+    for mrow in json.load(open(MANUAL)):
+        g, hn, hs, an, as_, score = mrow[:6]
+        meta = mrow[7] if len(mrow) > 7 else {}
         idx = {(t["n"], t["s"]): i for i, t in enumerate(D[g]["t"])}
         if (hn, hs) not in idx or (an, as_) not in idx:
             raise SystemExit(f"manual.json: unknown team in {g}: {hn} {hs} / {an} {as_}")
@@ -82,8 +104,15 @@ def apply_manual(D, live):
         row = next((r for r in live[g] if {r[1], r[2]} == {h, a}), None)
         if row is None:
             raise SystemExit(f"manual.json: {hn} - {an} is not a match of girone {g}")
-        if not row[4]:
-            row[4] = score if row[1] == h else "-".join(reversed(score.split("-")))
+        sc = score if row[1] == h else flip(score)
+        cur = re.sub(r"\s", "", row[4] or "")
+        if not cur:
+            row[4] = sc
+        elif cur != sc:
+            since = first_read(mrow)
+            won = meta.get("lock") or (since and now - since >= STABLE and meta.get("reads", 1) >= 2)
+            row[4], alt = (sc, cur) if won else (row[4], sc)
+            row[6:] = [alt]
 
 
 def main():

@@ -18,11 +18,11 @@ function model(T){
  if(T.src==="2015"){
   const v=D[T.gir],live=new Map((LIVE.m[T.gir]||[]).map(r=>[`${Math.min(r[1],r[2])}|${Math.max(r[1],r[2])}`,r]));
   const ms=v.m.filter(m=>m[2]!==-1).map(m=>{const r=live.get(`${Math.min(m[2],m[3])}|${Math.max(m[2],m[3])}`);
-   let d,o,h=m[2],a=m[3],sc=null;
-   if(r){h=r[1];a=r[2];if(r[3]){const [dd,tt]=r[3].split("T"),[y,mo,da]=dd.split("-").map(Number);d=new Date(y,mo-1,da);o=(tt||"").replace(/^0/,"")}
+   let d,o,h=m[2],a=m[3],sc=null,alt=null;
+   if(r){h=r[1];a=r[2];alt=r[6]||null;if(r[3]){const [dd,tt]=r[3].split("T"),[y,mo,da]=dd.split("-").map(Number);d=new Date(y,mo-1,da);o=(tt||"").replace(/^0/,"")}
     const g=r[4]&&r[4].match(/(\d+)\s*[-:]\s*(\d+)/);if(g)sc=[+g[1],+g[2]]}
    if(!d){const [dd,mo,y]=m[1].split("/").map(Number),ht=v.t[m[2]];d=new Date(2000+y,mo-1,dd+(ht.dom?1:0));o=ht.o||""}
-   return {n:m[0],d,o,h,a,sc,nd:false,tav:false}});
+   return {n:m[0],d,o,h,a,sc,alt,nd:false,tav:false}});
   return {teams:v.t.map(t=>({n:t.n,sn:(SHORT[t.n.replace(" (femm.)","")]||t.n)+(t.n.includes("(femm.)")?" F":""),s:t.s,f:t.c?t:null})),cbs:T.i,ms};
  }
  const ms=T.m.map(([n,dt,h,a,sc,tav])=>{const [dd,tt]=dt.split(" "),[y,mo,da]=dd.split("-").map(Number),g=sc.match(/^(\d+)-(\d+)$/);
@@ -79,7 +79,9 @@ function resetCtl(map,fn){const C=L.Control.extend({options:{position:"topleft"}
 function newMap(id){const m=L.map(id,{minZoom:7,maxZoom:16,zoomSnap:.25,maxBounds:[[43.7,6.4],[46.5,9.5]]});m.attributionControl.setPrefix(false);
  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(m);return m}
 const winCls=sc=>sc?(sc[0]>sc[1]?" wh":sc[0]<sc[1]?" wa":""):"";
-const scHTML=m=>m.sc?`<b class="sc"><i>${m.sc[0]}</i>-<i>${m.sc[1]}</i></b>${m.tav?'<small class="tav" title="Risultato a tavolino">tav</small>':""}`:m.nd?'<em title="Non disputata">N.D.</em>':"<em>-</em>";
+// a "*" when the sources disagree on a score (m.alt = the other score, live home first)
+const altMark=m=>m.alt?`<sup class="altm" title="Risultato da verificare: risulta anche ${esc(m.alt)}">*</sup>`:"";
+const scHTML=m=>m.sc?`<b class="sc"><i>${m.sc[0]}</i>-<i>${m.sc[1]}</i>${altMark(m)}</b>${m.tav?'<small class="tav" title="Risultato a tavolino">tav</small>':""}`:m.nd?'<em title="Non disputata">N.D.</em>':"<em>-</em>";
 
 // data-e = index of the first unplayed match: fitTable() keeps the boxes up to it plus the next 2
 function formHTML(M,i){
@@ -147,7 +149,9 @@ function drawMap(M){
 }
 function focusField(k){const mk=MK.get(k);if(!mk)return;document.getElementById("xmapw").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{MAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()},250)}
 // result from the CBS side ("5-1" = CBS 5) with its colour class, or "" before the match is played
-const cbsRes=x=>{if(!x.m.sc)return "";const r=x.home?x.m.sc:[x.m.sc[1],x.m.sc[0]],k=r[0]>r[1]?"w":r[0]<r[1]?"l":"d";return `<i class="wres ${k}">${r[0]}-${r[1]}</i>`};
+const cbsRes=x=>{if(!x.m.sc)return "";const r=x.home?x.m.sc:[x.m.sc[1],x.m.sc[0]],k=r[0]>r[1]?"w":r[0]<r[1]?"l":"d";
+ const alt=x.m.alt&&(x.home?x.m.alt:x.m.alt.split("-").reverse().join("-"));
+ return `<i class="wres ${k}"${alt?` title="Risultato da verificare: risulta anche ${esc(alt)}"`:""}>${r[0]}-${r[1]}${alt?"*":""}</i>`};
 // "Questo weekend": where every CBS team plays on the coming (or current) Saturday and Sunday
 function weekend(){const t=new Date();t.setHours(0,0,0,0);const d=t.getDay();
  const sat=new Date(t);sat.setDate(t.getDate()+(d===0?-1:6-d));

@@ -32,6 +32,10 @@ def nz(s): return " ".join(re.sub(r"[^A-Z0-9 ]", " ", unicodedata.normalize("NFK
 def sim(a, b):
     a, b = nz(a), nz(b); return SequenceMatcher(None, a, b).ratio() + 0.5 * (a.split()[0] in b.split() or b.split()[0] in a.split())
 idx = {tuple(r[:5]): r for r in M}; mch = []; wait = []; conflict = []
+NOW = f"{now:%Y-%m-%dT%H:%M}"
+def meta_of(r):
+    while len(r) < 8: r.append("" if len(r) == 6 else {})
+    return r[7]
 for g, rows in raw["e15"].items():
     t = D[g]["t"]
     for n, dt, h, a, sc in rows:
@@ -40,15 +44,23 @@ for g, rows in raw["e15"].items():
         best = max((r for r in L[g] if r[0] == n), key=lambda r: sim(h, t[r[1]]["n"]) + sim(a, t[r[2]]["n"]))
         if sim(h, t[best[1]]["n"]) + sim(a, t[best[2]]["n"]) < 1.6: sys.exit(f"weak match {g} {h}-{a}")
         H, A = t[best[1]], t[best[2]]; k = (g, H["n"], H["s"], A["n"], A["s"]); lab = f"{g} {n}ª {H['n']} {H['s']} {sc} {A['n']} {A['s']}"
-        gioca = (best[4] or "").replace(" ", "")
+        # the site already agrees with this score and shows no conflict (row oriented like k: H = t[best[1]])
+        agree = re.sub(r"\s", "", best[4] or "") == sc and not (len(best) > 6 and best[6])
         if not ok(dt): wait.append(lab + f" (ore {dt[11:]})"); continue
-        if gioca and gioca != sc: conflict.append(lab + f" | giocaacalcio {gioca}")
-        if k in idx:
-            if idx[k][5] != sc: mch.append(f"{lab} (prima {idx[k][5]})"); idx[k][5] = sc; idx[k][6] = NOTE
-        elif not gioca:
-            r = list(k) + [sc, NOTE]; M.append(r); idx[k] = r; mch.append(lab + " (nuova)")
+        r = idx.get(k)
+        if r and meta_of(r).get("lock"): continue
+        if not r and agree: continue                         # both sources agree, nothing to keep
+        if r and r[5] == sc:
+            m = meta_of(r); m["reads"] = m.get("reads", 1) + 1; m.setdefault("since", NOW); r[6] = NOTE
+        elif r:
+            mch.append(f"{lab} (prima {r[5]})"); r[5] = sc; r[6] = NOTE; r[7] = {"since": NOW, "reads": 1}
+        else:
+            r = list(k) + [sc, NOTE, {"since": NOW, "reads": 1}]; M.append(r); idx[k] = r; mch.append(lab + " (nuova)")
 open("data/manual.json", "w").write("[\n" + ",\n".join(" " + json.dumps(x, ensure_ascii=False) for x in M) + "\n]\n")
 print("CBS:", len(cch), "changes"); [print("  ", c) for c in cch]
 print("2015 manual:", len(mch)); [print("  ", c) for c in mch]
 print("2015 waiting (<2h):"); [print("  ", c) for c in wait]
-print("2015 conflicts (giocaacalcio wins):"); [print("  ", c) for c in conflict]
+print("2015 conflicts (giocaacalcio wins until the manual score is 24h old and read twice):")
+for r in M:
+    gr = next((x for x in L[r[0]] if {D[r[0]]["t"][x[1]]["n"] + D[r[0]]["t"][x[1]]["s"], D[r[0]]["t"][x[2]]["n"] + D[r[0]]["t"][x[2]]["s"]} == {r[1] + r[2], r[3] + r[4]}), None)
+    if gr and gr[4] and len(gr) > 6 and gr[6]: print("  ", r[0], r[1], r[2], "-", r[3], r[4], "| sito:", gr[4], "| altro:", gr[6], "|", r[7] if len(r) > 7 else "")

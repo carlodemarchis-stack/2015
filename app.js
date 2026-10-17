@@ -1,5 +1,5 @@
 // Esordienti 2015 Torino. Data: data/teams_matches.json (calendar), data/road_distances.json
-// (OSRM km/min), data/live.json (real date/time + scores from giocaacalcio.it, refreshed by the Action).
+// (OSRM km/min), data/live.json (real date/time + scores, refreshed by the Action).
 var FAVK="esordienti2015_mia_squadra";
 (async()=>{
 const get=u=>fetch(u,{cache:"no-cache"}).then(r=>r.json());
@@ -34,14 +34,17 @@ function tiles(map){
 // Real date/time and score from giocaacalcio.it (data/live.json), keyed by the pair of teams:
 // each pair meets once per girone. Falls back to the computed day/time when a match is missing.
 const LV=new Map();let LUPD=LIVE.updated;
-function setLive(L){LV.clear();Object.entries(L.m||{}).forEach(([g,rows])=>rows.forEach(([n,h,a,dt,sc,id])=>LV.set(`${g}|${Math.min(h,a)}|${Math.max(h,a)}`,{h,a,dt,sc,id})))}
+function setLive(L){LV.clear();Object.entries(L.m||{}).forEach(([g,rows])=>rows.forEach(([n,h,a,dt,sc,id,alt])=>LV.set(`${g}|${Math.min(h,a)}|${Math.max(h,a)}`,{h,a,dt,sc,id,alt})))}
 setLive(LIVE);
 const liveOf=(g,h,a)=>LV.get(`${g}|${Math.min(h,a)}|${Math.max(h,a)}`);
 const ha=(g,m)=>{const lv=m[2]===-1?null:liveOf(g,m[2],m[3]);return lv?[lv.h,lv.a]:[m[2],m[3]]};
-// Score "3 - 1" -> [3,1] as goals of the giocaacalcio home team; null when not entered.
-function goals(lv){const m=lv&&lv.sc&&lv.sc.match(/(\d+)\s*[-:]\s*(\d+)/);return m?[+m[1],+m[2]]:null}
+// Score "3 - 1" -> [3,1] as goals of the live home team; null when not entered. .alt = the other score
+// reported when the sources disagree ("da verificare"), in the same orientation.
+const flipSc=s=>s.split("-").reverse().join("-");
+function goals(lv){const m=lv&&lv.sc&&lv.sc.match(/(\d+)\s*[-:]\s*(\d+)/);if(!m)return null;const g=[+m[1],+m[2]];if(lv.alt)g.alt=lv.alt;return g}
 // Goals for/against from team i's side, or null.
-function resFor(g,m,i){const lv=liveOf(g,m[2],m[3]),gl=goals(lv);if(!gl)return null;return lv.h===i?gl:[gl[1],gl[0]]}
+function resFor(g,m,i){const lv=liveOf(g,m[2],m[3]),gl=goals(lv);if(!gl)return null;if(lv.h===i)return gl;const r=[gl[1],gl[0]];if(gl.alt)r.alt=flipSc(gl.alt);return r}
+const altMark=gl=>gl&&gl.alt?`<sup class="altm" title="Risultato da verificare: risulta anche ${esc(gl.alt)}">*</sup>`:"";
 function dayOf(g,m){
  const lv=liveOf(g,m[2],m[3]);
  if(lv&&lv.dt){const [d,t]=lv.dt.split("T"),[y,mo,da]=d.split("-").map(Number);return {x:new Date(y,mo-1,da),o:(t||"").replace(/^0/,""),real:true}}
@@ -55,7 +58,7 @@ function weekend(dt){const [d,m,y]=dt.split("/").map(Number),sa=new Date(2000+y,
  return sa.getMonth()===su.getMonth()?`${sa.getDate()}/${su.getDate()} ${MB[sa.getMonth()]}`:`${sa.getDate()} ${MB[sa.getMonth()]}/${su.getDate()} ${MB[su.getMonth()]}`}
 // A match whose real date falls outside its giornata weekend (postponed or brought forward).
 // Score markup + row class: winner side bold (team and its number), draws and unplayed plain.
-const scHTML=gl=>`<b class="sc"><i>${gl[0]}</i>-<i>${gl[1]}</i></b>`;
+const scHTML=gl=>`<b class="sc"><i>${gl[0]}</i>-<i>${gl[1]}</i>${altMark(gl)}</b>`;
 const winCls=gl=>gl?(gl[0]>gl[1]?" wh":gl[0]<gl[1]?" wa":""):"";
 function moved(g,m){const r=dayOf(g,m);if(!r.real)return false;const [d,mo,y]=m[1].split("/").map(Number),sat=new Date(2000+y,mo-1,d),diff=Math.round((r.x-sat)/864e5);return diff<0||diff>1}
 function when(dt,home,g,mt){
@@ -76,7 +79,7 @@ function open(g,i){
   if(h===-1)return `<li class="rest"><div class="gn">${n}</div><div class="when"><b>${weekend(dt)}</b></div><div class="opp">Riposo</div></li>`;
   const home=h===i,opp=v.t[home?a:h],ht=v.t[h],w=when(dt,ht,g,m),r=resFor(g,m,i);
   const sf=surf(ht),where=ht.c?`<a class="map" href="${maps(ht)}" target="_blank" rel="noopener">${esc(fieldName(ht))} · ${esc(ht.a)} <span aria-hidden="true">↗</span></a>`:"Campo non indicato nel calendario";
-  return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}" title="${esc(w.o)}">${r[0]}-${r[1]}</span>`:`<span>${esc(w.o)}</span>`}${moved(g,m)?'<em class="mvtag">Spostata</em>':""}</div><div class="opp">${opp.l?`<img class="ologo" src="${opp.l}" alt="" loading="lazy">`:""}<i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span></div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div>${ht.c?`<a class="surf ${sf.k}" href="${maps(ht)}" target="_blank" rel="noopener" title="${esc(fieldName(ht))} · ${esc(ht.a)}">${sf.l} ↗</a>`:`<div class="surf ${sf.k}">${sf.l}</div>`}<div class="where">${where}</div></li>`;
+  return `<li class="${home?"home":"away"}"><div class="gn">${n}</div><div class="when"><b>${w.ds}</b>${r?`<span class="res ${r[0]>r[1]?"w":r[0]<r[1]?"l":"d"}" title="${esc(w.o)}${r.alt?` · da verificare, risulta anche ${esc(r.alt)}`:""}">${r[0]}-${r[1]}${r.alt?"*":""}</span>`:`<span>${esc(w.o)}</span>`}${moved(g,m)?'<em class="mvtag">Spostata</em>':""}</div><div class="opp">${opp.l?`<img class="ologo" src="${opp.l}" alt="" loading="lazy">`:""}<i class="dot s${opp.s}">${opp.s}</i><span>${esc(label(opp))}</span></div><div class="ha"><span class="tag ${home?"h":"a"}">${home?"Casa":"Trasferta"}</span></div>${ht.c?`<a class="surf ${sf.k}" href="${maps(ht)}" target="_blank" rel="noopener" title="${esc(fieldName(ht))} · ${esc(ht.a)}">${sf.l} ↗</a>`:`<div class="surf ${sf.k}">${sf.l}</div>`}<div class="where">${where}</div></li>`;
  }).join("");
  const C=document.getElementById("dlgC");
  C.innerHTML=`<h4>Classifica girone ${g}</h4>`+tableHTML(g,standings(g),i);
@@ -324,7 +327,7 @@ function formHTML(g,i){
  return `<span class="frm">${v.m.filter(m=>m[2]!==-1&&(m[2]===i||m[3]===i)).sort((a,b)=>a[0]-b[0]).map(m=>{
   const [h,a]=ha(g,m),opp=v.t[h===i?a:h],r=resFor(g,m,i),d=dayOf(g,m),home=h===i;
   const k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u",lab={w:"Vittoria",d:"Pareggio",l:"Sconfitta",u:"Da giocare"}[k];
-  const tip=`<b>${m[0]}ª giornata</b> · ${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1}${d.o?" "+esc(d.o):""}<br>${home?"Casa":"Trasferta"} vs <i class="dot s${opp.s}">${opp.s}</i> ${esc(opp.n)}<br><span class="tt ${k}">${lab}${r?` ${r[0]}-${r[1]}`:""}</span>`;
+  const tip=`<b>${m[0]}ª giornata</b> · ${WD[d.x.getDay()]} ${d.x.getDate()}/${d.x.getMonth()+1}${d.o?" "+esc(d.o):""}<br>${home?"Casa":"Trasferta"} vs <i class="dot s${opp.s}">${opp.s}</i> ${esc(opp.n)}<br><span class="tt ${k}">${lab}${r?` ${r[0]}-${r[1]}`:""}</span>${r&&r.alt?`<br>Da verificare: risulta anche ${esc(r.alt)}`:""}`;
   return `<i class="fb ${k}" data-tiph="${esc(tip)}"></i>`}).join("")}</span>`;
 }
 function tableHTML(g,T,me){
