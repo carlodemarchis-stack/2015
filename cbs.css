@@ -325,3 +325,9 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 @media (min-width:1000px){
  .wr{grid-template-columns:42px minmax(0,1fr) auto auto;grid-template-areas:"t m r f";column-gap:10px}
 }
+/* laptops: a played match shows its result in place of the kick-off time */
+@media (min-width:1000px){
+ .wr{grid-template-columns:48px minmax(0,1fr) auto auto}
+ .wr.pl .wt{display:none}
+ .wr.pl .wres{grid-area:t;justify-self:start}
+}
