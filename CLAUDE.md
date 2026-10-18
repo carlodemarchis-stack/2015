@@ -65,6 +65,8 @@ and its handoff notes are in `legacy/`.
   regional SGS PDF), Under 15 femminile, Under 14 (no field list: home field from its own matches); the PDF per
   team is in `PDF` of the script. Regional PDFs leave the home day blank = championship default, so `day` is "".
   Rerun after a CBS refresh if the teams change; check the printed matches and any coordinate far from Piemonte.
+- CBS team detail tabs (title bar): Classifica / Mappa / Tutti contro tutti, one view at a time (body.v-cla|v-map|v-poly),
+  in the hash as `#pro/7/mappa` or `#e15b/tutti`; the polygon is drawn when its tab shows.
 - CBS team list tabs: "Squadre" and "Questo weekend" (`#weekend`): map + list of every CBS match of the coming
   (or current) Saturday/Sunday, from cbs.json + live data, fields from cbs_fields.json.
 - CBS page version + release notes: `data/releases_cbs.json` (newest first, Italian), separate from the main

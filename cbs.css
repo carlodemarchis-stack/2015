@@ -335,3 +335,11 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 .xpolyw{border-top:1px solid var(--line);padding-top:12px;margin-bottom:20px}
 .xpolyw h3{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0}
 body.mlist .xpolyw{display:none}
+/* team detail tabs (title bar): one view at a time */
+body:not(.mlist) .dtab{display:inline-flex;margin:0;align-self:flex-end}
+body.mlist .dtab{display:none}
+body.v-cla .xmapw,body.v-cla .xpolyw,body.v-map .xcols,body.v-map .xpolyw,body.v-poly .xcols,body.v-poly .xmapw{display:none}
+.xpolyw{border-top:0;padding-top:4px}
+.xpolyw .poly{max-width:min(760px,calc((100vh - 215px) * 1.15))}
+.xmapw{border-top:0;padding-top:6px}
+@media (max-width:600px) and (orientation:portrait){body:not(.mlist) .dtab{margin-top:8px}.dtab{gap:14px}.dtab button{font-size:15px}}

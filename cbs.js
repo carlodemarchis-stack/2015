@@ -147,7 +147,7 @@ function drawMap(M){
  document.getElementById("xvl").innerHTML=order.map(i=>{const t=M.teams[i],f=t.f,d=fDist(f);
   return `<li${i===M.cbs?' class="me"':""}${f.y!=null?` data-fk="${fKey(f)}"`:""}><div class="vt">${dot(t)}<b>${esc(t.n)}</b>${d&&d[0]?`<small>${d[0]} km · ${d[1]} min</small>`:""}</div><div class="vf">${esc(fName(f))} · ${esc(fTown(f))}</div><div class="va">${esc(f.a)}${homeTxt(f)} · <a href="${gmaps(f)}" target="_blank" rel="noopener">Indicazioni ↗</a></div></li>`}).join("");
 }
-function focusField(k){const mk=MK.get(k);if(!mk)return;document.getElementById("xmapw").scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{MAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()},250)}
+function focusField(k){const mk=MK.get(k);if(!mk)return;if(VIEW!=="map")setDView("map");setTimeout(()=>{MAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()},250)}
 // result from the CBS side ("5-1" = CBS 5) with its colour class, or "" before the match is played
 const cbsRes=x=>{if(!x.m.sc)return "";const r=x.home?x.m.sc:[x.m.sc[1],x.m.sc[0]],k=r[0]>r[1]?"w":r[0]<r[1]?"l":"d";
  const alt=x.m.alt&&(x.home?x.m.alt:x.m.alt.split("-").reverse().join("-"));
@@ -258,6 +258,16 @@ function toList(){if(!CUR)return;if(FROMLIST){FROMLIST=false;history.back()}else
 document.getElementById("xhome").onclick=e=>{e.preventDefault();toList();scrollTo(0,0)};
 function curRound(M){const R=[...new Set(M.ms.map(m=>m.n))].sort((a,b)=>a-b),t=new Date();t.setHours(0,0,0,0);
  for(const n of R){const ds=M.ms.filter(m=>m.n===n).map(m=>m.d);if(Math.max(...ds)>=t-864e5)return n}return R[R.length-1]}
+// team detail tabs in the title bar: Classifica (giornate + standings), Mappa (fields), Tutti contro tutti (polygon)
+// one view at a time so each fits a laptop screen; the view stays in the hash (#pro/7/mappa) and across teams
+let VIEW="cla",POLY=null;const VNAME={map:"mappa",poly:"tutti"};
+function setDView(v,quiet){VIEW=v;["cla","map","poly"].forEach(x=>document.body.classList.toggle("v-"+x,x===v));
+ document.querySelectorAll("#dtab button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v));
+ if(v==="map"&&MAP){MAP.invalidateSize();if(MFIT)MAP.fitBounds(MFIT,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});declutter(MAP,[...MK.values()].map(mk=>({mk,cbs:0})))}
+ if(v==="poly"&&POLY&&window.polyChart)polyChart(document.getElementById("xpoly"),POLY);
+ if(CUR){const h=`#${CUR}${RN?"/"+RN:""}${VNAME[v]?"/"+VNAME[v]:""}`;if(location.hash!==h)history.replaceState(null,"",h)}
+ if(!quiet)scrollTo(0,0)}
+document.querySelectorAll("#dtab button").forEach(b=>b.onclick=()=>setDView(b.dataset.v));
 function show(k,n){
  document.body.classList.remove("mlist");document.getElementById("xlist").hidden=true;document.getElementById("xwk").hidden=true;
  const T=X.teams.find(t=>t.k===k)||X.teams[0];CUR=T.k;
@@ -270,10 +280,11 @@ function show(k,n){
  document.getElementById("xfav").onclick=()=>{setFav(getFav()===T.k?null:T.k);show(T.k,RN);paintSel()};
  document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v)toList();else show(v);scrollTo(0,0)};
  drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);fitTable();
- // "Tutti contro tutti" polygon (poly.js), teams in standings order, CBS outlined
- if(window.polyChart){const S=standings(M),pos={};S.forEach((x,k)=>pos[x.i]=k);
-  polyChart(document.getElementById("xpoly"),{teams:S.map(x=>({n:(x.t.sn||x.t.n)+(x.t.s?" "+x.t.s:""),pts:x.p,me:x.i===M.cbs})),
-   ms:M.ms.filter(m=>!m.nd).map(m=>[pos[m.h],pos[m.a]].concat(m.sc?m.sc:[]))})}document.querySelector(".xcols").classList.toggle("full",big);
+ // "Tutti contro tutti" polygon data (poly.js), teams in standings order, CBS outlined; drawn when its tab shows
+ {const S=standings(M),pos={};S.forEach((x,k)=>pos[x.i]=k);
+  POLY={teams:S.map(x=>({n:(x.t.sn||x.t.n)+(x.t.s?" "+x.t.s:""),pts:x.p,me:x.i===M.cbs})),
+   ms:M.ms.filter(m=>!m.nd).map(m=>[pos[m.h],pos[m.a]].concat(m.sc?m.sc:[]))}}
+ document.querySelector(".xcols").classList.toggle("full",big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
   // phone portrait: a dropdown with prev/next arrows replaces the grid of giornata buttons
@@ -284,7 +295,7 @@ function show(k,n){
   res.classList.add("one");
   const mine=document.getElementById("xmine");mine.innerHTML=mineHTML(M);mine.querySelectorAll(".km").forEach(b=>b.onclick=()=>{show(CUR,+b.dataset.n);document.querySelector("#xres .rnd").scrollIntoView({behavior:"smooth",block:"nearest"})});
  }else{RN=null;res.classList.remove("one");document.getElementById("xmine").innerHTML="";res.innerHTML=`<div class="rounds">${R.map(r=>roundHTML(M,r)).join("")}</div>`}
- const h=`#${T.k}${RN?"/"+RN:""}`;if(location.hash!==h)history.replaceState(null,"",h);
+ setDView(VIEW,true);
  document.getElementById("xsrc").textContent=T.src==="2015"
   ?"Fonte: calendario ufficiale FIGC LND. Giorno e orario sono indicativi: verifica sempre con la società."
   :`Dati aggiornati il ${(([d,t])=>d.split("-").reverse().slice(0,2).join("/")+" alle "+t)(X.updated.split("T"))}. Giorno e orario sono indicativi: verifica sempre con la società.`;
@@ -312,5 +323,6 @@ document.addEventListener("keydown",e=>{if(!CUR)return;const K=X.teams.map(t=>t.
   const w=tip.offsetWidth;tip.style.left=Math.min(e.clientX+14,innerWidth-w-8)+"px";tip.style.top=(e.clientY+16)+"px"})})();
 const p=decodeURIComponent(location.hash.slice(1)).split("/");
 let k0=p[0];
+if(p.includes("mappa"))VIEW="map";else if(p.includes("tutti"))VIEW="poly";
 if(X.teams.some(t=>t.k===k0))show(k0,+p[1]||null);else showList(k0);
 })();
