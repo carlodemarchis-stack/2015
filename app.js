@@ -349,16 +349,23 @@ function drawTable(g){
  // "Tutti contro tutti" polygon data (poly.js), teams in standings order; drawn when its tab shows
  {const pos={};T.forEach((x,k)=>pos[x.i]=k);
   CPOLY={teams:T.map(x=>({n:`${short(x.t)} ${x.t.s}`,pts:x.p,me:isFav(g,x.i)})),
-   ms:v.m.filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));return [pos[h],pos[a]].concat(gl?[gl[0],gl[1]]:[])})}}
+   ms:v.m.filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));return [pos[h],pos[a]].concat(gl?[gl[0],gl[1]]:[])})};
+  // the girone's matches beside the polygon, one block per giornata: first half left, the rest right
+  const R=Object.keys(byR).map(Number).sort((a,b)=>a-b),blk=n=>`<section><h5>${n}ª giornata</h5>${byR[n].filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a)),
+   nm=(t,w)=>`<span${w?' class="wn"':""}>${esc(short(t))} ${t.s}</span>`;
+   return `<div class="pm" data-i="${pos[h]}" data-j="${pos[a]}">${nm(v.t[h],gl&&gl[0]>gl[1])}<b>${gl?`${gl[0]}-${gl[1]}${gl.alt?"*":""}`:"-"}</b>${nm(v.t[a],gl&&gl[1]>gl[0])}</div>`}).join("")}</section>`,half=Math.ceil(R.length/2);
+  CSIDE=[R.slice(0,half).map(blk).join(""),R.slice(half).map(blk).join("")]}
  cView(CVIEW,true);
 }
 // Classifica modal tabs (its top bar): Classifica (giornate + table), Mappa (fields of the girone), Tutti contro
 // tutti (polygon); one view at a time, kept in the hash (#classifica/I/mappa)
-let CVIEW="cla",CPOLY=null,CMAP=null,CLAY=null,CMK=[],CFIT=null;const CVN={map:"mappa",poly:"tutti"};
+let CVIEW="cla",CPOLY=null,CSIDE=["",""],CMAP=null,CLAY=null,CMK=[],CFIT=null;const CVN={map:"mappa",poly:"tutti"};
 function cView(v,quiet){CVIEW=v;const d=document.getElementById("cdlg");["cla","map","poly"].forEach(x=>d.classList.toggle("v-"+x,x===v));
  document.querySelectorAll("#cTabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v));
  if(v==="map"&&CG)drawCMap(CG);
- if(v==="poly"&&CPOLY&&window.polyChart)polyChart(document.getElementById("cPoly"),CPOLY);
+ if(v==="poly"&&CPOLY&&window.polyChart){const b=document.getElementById("cPoly");polyChart(b,CPOLY);
+  document.getElementById("cpl").innerHTML=CSIDE[0];document.getElementById("cpr").innerHTML=CSIDE[1];
+  document.querySelectorAll("#cpl .pm,#cpr .pm").forEach(r=>{r.onmouseenter=()=>b.polyPair&&b.polyPair(+r.dataset.i,+r.dataset.j);r.onmouseleave=()=>b.polyPair&&b.polyPair(null,null)})}
  if(!quiet)setHash()}
 document.querySelectorAll("#cTabs button").forEach(b=>b.onclick=()=>cView(b.dataset.v));
 function drawCMap(g){

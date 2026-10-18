@@ -4,7 +4,7 @@
   "date": "17 ottobre 2026",
   "notes": [
    "Risultati da verificare: quando le fonti non coincidono il risultato ha un asterisco, e passandoci sopra si vede l'altro punteggio",
-   "Classifica in tre viste nella barra in alto: Classifica, Mappa dei campi del girone e Tutti contro tutti, un poligono con le squadre ai vertici, la torta di vittorie, pareggi e sconfitte e una linea per ogni partita"
+   "Classifica in tre viste nella barra in alto: Classifica, Mappa dei campi del girone e Tutti contro tutti, un poligono con le squadre ai vertici, la torta di vittorie, pareggi e sconfitte e una linea per ogni partita. Ai lati del poligono tutte le partite del girone per giornata: passando sopra una partita si accende la sua linea"
   ]
  },
  {
