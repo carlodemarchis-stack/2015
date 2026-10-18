@@ -269,7 +269,11 @@ function show(k,n){
  document.getElementById("xhead").innerHTML=`<label class="xcombo"><span class="vh">Squadra</span><select id="xpick">${opts}</select></label><h2>${esc(T.lab)}</h2><button type="button" class="favbtn xfav" id="xfav" aria-pressed="${getFav()===T.k}">${STAR}<span>${getFav()===T.k?"La tua squadra":"Segui questa squadra"}</span></button><p>${esc(T.camp)} · Girone ${esc(T.gir)} · ${M.teams.length} squadre · Partite giocate <b>${pl}/${M.ms.length}</b></p>`;
  document.getElementById("xfav").onclick=()=>{setFav(getFav()===T.k?null:T.k);show(T.k,RN);paintSel()};
  document.getElementById("xpick").onchange=e=>{const v=e.target.value;if(!v)toList();else show(v);scrollTo(0,0)};
- drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);fitTable();document.querySelector(".xcols").classList.toggle("full",big);
+ drawMap(M);document.getElementById("xtbl").innerHTML=tableHTML(M,big);fitTable();
+ // "Tutti contro tutti" polygon (poly.js), teams in standings order, CBS outlined
+ if(window.polyChart){const S=standings(M),pos={};S.forEach((x,k)=>pos[x.i]=k);
+  polyChart(document.getElementById("xpoly"),{teams:S.map(x=>({n:(x.t.sn||x.t.n)+(x.t.s?" "+x.t.s:""),pts:x.p,me:x.i===M.cbs})),
+   ms:M.ms.filter(m=>!m.nd).map(m=>[pos[m.h],pos[m.a]].concat(m.sc?m.sc:[]))})}document.querySelector(".xcols").classList.toggle("full",big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
   // phone portrait: a dropdown with prev/next arrows replaces the grid of giornata buttons

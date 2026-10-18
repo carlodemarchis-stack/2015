@@ -344,8 +344,12 @@ function drawTable(g){
    const nm=(t,r)=>{const dot=`<i class="dot s${t.s}">${t.s}</i>`;return `<span class="rt" title="${esc(t.n)} ${t.s}">${r?"":dot}<span class="tn2"><span class="fn">${esc(t.n)}</span><span class="sn">${esc(short(t))}</span></span>${r?dot:""}</span>`};
    return `<div class="mr${winCls(gl)}">${nm(v.t[h])}${gl?scHTML(gl):"<em>-</em>"}${nm(v.t[a],1)}</div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
  }).join("");
- document.getElementById("cBody").innerHTML=`<div class="ccols"><div class="cres"><div class="rounds">${rounds}</div></div><div class="ctbl">${tbl}</div></div>`;
+ document.getElementById("cBody").innerHTML=`<div class="ccols"><div class="cres"><div class="rounds">${rounds}</div></div><div class="ctbl">${tbl}</div></div><div class="poly" id="cPoly"></div>`;
  document.querySelectorAll("#cBody tr[data-i]").forEach(r=>r.onclick=()=>{document.getElementById("cdlg").close();open(g,+r.dataset.i)});
+ // "Tutti contro tutti" polygon (poly.js), teams in standings order
+ if(window.polyChart){const pos={};T.forEach((x,k)=>pos[x.i]=k);
+  polyChart(document.getElementById("cPoly"),{teams:T.map(x=>({n:`${short(x.t)} ${x.t.s}`,pts:x.p,me:isFav(g,x.i)})),
+   ms:v.m.filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));return [pos[h],pos[a]].concat(gl?[gl[0],gl[1]]:[])})})}
 }
 function openTable(g){
  const f=getFav();g=g||CG||(f?f.split("|")[0]:"A");

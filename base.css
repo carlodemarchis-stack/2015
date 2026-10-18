@@ -330,3 +330,16 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:bas
 @media (max-width:600px){.favw small{display:none}.favbtn span{display:none}.favbtn{padding:7px 9px}}
 /* results the sources disagree on: asterisk, the other score in the tooltip */
 .altm{font-size:.75em;margin-left:1px;color:#f2c94c;cursor:help}
+/* "Tutti contro tutti" polygon (poly.js), shared by both pages */
+.poly{margin:16px auto 0;max-width:760px}
+.poly-leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin-bottom:4px}
+.poly-leg span{display:inline-flex;align-items:center;gap:5px}
+.poly-leg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.poly-leg i.dash{width:14px;height:0;border-top:1.5px dashed var(--muted);border-radius:0}
+.poly-wrap{position:relative}
+.poly-wrap svg{display:block}
+.poly-tip{position:absolute;pointer-events:none;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 9px;font-size:12px;white-space:nowrap;z-index:5;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.poly-tip[hidden]{display:none}
+.poly-info{font-size:12.5px;color:var(--muted);margin:4px 0 0;min-height:18px}
+.poly-team{cursor:pointer}
+.ccols .ctbl{position:static}

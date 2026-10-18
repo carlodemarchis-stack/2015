@@ -7,6 +7,8 @@ and its handoff notes are in `legacy/`.
 
 ## Files
 - `index.html` markup, `base.css` original styles (shared), `app.css` additions, `app.js` all logic (loads `data/*.json`).
+- `poly.js` (shared): "Tutti contro tutti" polygon, `polyChart(el, {teams:[{n,pts,me}], ms:[[i,j,gi,gj]|[i,j]]})`, teams in
+  standings order; under the standings modal (index.html) and the team detail (cbs.html). Phone width = rank numbers.
 - `cbs.html` + `cbs.js` + `cbs.css`: page with the 18 CBS Scuola Calcio teams (own girone: giornate + standings).
   15 teams from `data/cbs.json` (Sprint e Sport snapshot), the 3 Esordienti 2015 teams from this site's own data.
 - `data/teams_matches.json` calendar from the FIGC PDF: per girone `t` teams

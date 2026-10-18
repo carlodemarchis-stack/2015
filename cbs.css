@@ -331,3 +331,7 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
  .wr.pl .wt{display:none}
  .wr.pl .wres{grid-area:t;justify-self:start}
 }
+/* "Tutti contro tutti" polygon under giornate and standings */
+.xpolyw{border-top:1px solid var(--line);padding-top:12px;margin-bottom:20px}
+.xpolyw h3{font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0}
+body.mlist .xpolyw{display:none}
