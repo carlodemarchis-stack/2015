@@ -75,5 +75,6 @@
  ["B", "Ciriè Calcio 1946", "B", "Autovip San Mauro", "B", "3-5", "Sprint e Sport, letto 18/10 18:55", {"since": "2026-10-18T17:05", "reads": 2}],
  ["E", "USD Caselette", "A", "Valle di Susa", "A", "4-8", "Sprint e Sport, letto 18/10 18:55", {"since": "2026-10-18T17:05", "reads": 2}],
  ["F", "Chieri", "C", "Mirafiori", "B", "3-5", "Sprint e Sport, letto 18/10 18:55", {"since": "2026-10-18T17:05", "reads": 2}],
- ["L", "Vianney", "B", "PSG", "B", "0-8", "Sprint e Sport, letto 18/10 18:55", {"since": "2026-10-18T18:55", "reads": 1}]
+ ["L", "Vianney", "B", "PSG", "B", "0-8", "Sprint e Sport, letto 18/10 18:55", {"since": "2026-10-18T18:55", "reads": 1}],
+ ["I", "Pozzomaina", "A", "CBS Scuola Calcio", "B", "16-0", "Dettato da Carlo 18/10", {"lock": true}]
 ]
