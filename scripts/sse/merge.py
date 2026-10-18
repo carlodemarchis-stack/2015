@@ -60,7 +60,4 @@ open("data/manual.json", "w").write("[\n" + ",\n".join(" " + json.dumps(x, ensur
 print("CBS:", len(cch), "changes"); [print("  ", c) for c in cch]
 print("2015 manual:", len(mch)); [print("  ", c) for c in mch]
 print("2015 waiting (<2h):"); [print("  ", c) for c in wait]
-print("2015 conflicts (giocaacalcio wins until the manual score is 24h old and read twice):")
-for r in M:
-    gr = next((x for x in L[r[0]] if {D[r[0]]["t"][x[1]]["n"] + D[r[0]]["t"][x[1]]["s"], D[r[0]]["t"][x[2]]["n"] + D[r[0]]["t"][x[2]]["s"]} == {r[1] + r[2], r[3] + r[4]}), None)
-    if gr and gr[4] and len(gr) > 6 and gr[6]: print("  ", r[0], r[1], r[2], "-", r[3], r[4], "| sito:", gr[4], "| altro:", gr[6], "|", r[7] if len(r) > 7 else "")
+print("2015 conflicts: listed by scripts/update.py, run it next")

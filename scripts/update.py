@@ -113,6 +113,9 @@ def apply_manual(D, live):
             won = meta.get("lock") or (since and now - since >= STABLE and meta.get("reads", 1) >= 2)
             row[4], alt = (sc, cur) if won else (row[4], sc)
             row[6:] = [alt]
+            print(f"conflict {g} {hn} {hs} - {an} {as_}: site {row[4]}, other {alt}"
+                  f" ({'manual wins' if won else 'giocaacalcio wins'}; manual first read {since:%d/%m %H:%M}, reads {meta.get('reads', 1)})"
+                  if since else f"conflict {g} {hn} {hs} - {an} {as_}: site {row[4]}, other {alt}")
 
 
 def main():

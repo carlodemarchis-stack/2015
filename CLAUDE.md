@@ -81,4 +81,6 @@ and its handoff notes are in `legacy/`.
   run `scripts/sse/read.js` in the browser pane on www.sprintesport.it, navigate that tab to the preview's
   `/_recv.html`, then `python3 scripts/sse/merge.py $TMPDIR/sse_raw.json` and `python3 scripts/update.py`.
   merge.py updates cbs.json (CBS page) and manual.json (2015 site, names matched to the LND teams of the same
-  giornata; exits on a weak match), keeps scores only for matches started >= 2h ago, and lists conflicts.
+  giornata; exits on a weak match), keeps scores only for matches started >= 2h ago; update.py then prints every open conflict
+  (report those to Carlo, never a conflicting score as a plain new result). giocaacalcio cells with class
+  so_not_played carry placeholder scores (seen 1-0 for a 1-10).
