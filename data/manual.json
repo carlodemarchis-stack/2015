@@ -70,6 +70,6 @@
  ["C", "Lucento", "A", "Alpignano", "A", "1-1", "Sprint e Sport, letto 18/10 12:53", {"since": "2026-10-18T12:53", "reads": 1}],
  ["C", "Venaria Reale", "A", "Sisport", "B", "2-1", "Sprint e Sport, letto 18/10 12:53", {"since": "2026-10-18T12:53", "reads": 1}],
  ["D", "Virtus Accademia Calcio", "B", "Pol. Paradiso Collegno", "A", "9-4", "Sprint e Sport, letto 18/10 12:53", {"since": "2026-10-18T12:53", "reads": 1}],
- ["G", "CBS Scuola Calcio", "A", "Top Player Academy", "A", "8-1", "Sprint e Sport, letto 18/10 12:53", {"since": "2026-10-18T12:53", "reads": 1}],
+ ["G", "CBS Scuola Calcio", "A", "Top Player Academy", "A", "8-1", "Fissato da Carlo 18/10", {"since": "2026-10-18T12:53", "reads": 1, "lock": true}],
  ["L", "Vanchiglia 1915", "B", "Chisola Calcio", "B", "1-10", "Sprint e Sport, letto 18/10 12:53", {"since": "2026-10-18T12:53", "reads": 1}]
 ]
