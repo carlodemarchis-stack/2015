@@ -4,6 +4,7 @@
 // play are dashed. Double round robins get two parallel lines per pair. Hover/tap a team to keep only its
 // lines, hover a line for the score. Used by index.html (standings modal) and cbs.html (team detail).
 //   polyChart(el, {teams: [{n, pts, me}], ms: [[i, j, gi, gj] | [i, j]]})   i, j = indexes into teams
+//   el.polyPair(i, j) keeps only the lines between i and j (null, null = all again)
 (function () {
   const C = { w: "#2f9a4f", d: "#d8b03a", l: "#c0453b" }, NS = "http://www.w3.org/2000/svg";
   const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e };
@@ -57,6 +58,7 @@
         for (const l of [l1, l2]) { l.addEventListener("mousemove", e => showTip(e, `${esc(T[m[0]].n)} <b>${x}-${y}</b> ${esc(T[m[1]].n)}`)); l.addEventListener("mouseleave", () => tip.hidden = true) }
       });
     }
+    box.polyPair = (i, j) => { for (const o of lines) { const on = i == null || (o.t.includes(i) && o.t.includes(j)); for (const x of o.ln) x.setAttribute("opacity", on ? 1 : .06) } };
     let sel = null;
     const focus = i => {
       sel = i; for (const o of lines) { const on = i == null || o.t.includes(i); for (const x of o.ln) x.setAttribute("opacity", on ? 1 : .06) }

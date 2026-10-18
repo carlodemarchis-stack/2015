@@ -264,10 +264,12 @@ let VIEW="cla",POLY=null;const VNAME={map:"mappa",poly:"tutti"};
 function setDView(v,quiet){VIEW=v;["cla","map","poly"].forEach(x=>document.body.classList.toggle("v-"+x,x===v));
  document.querySelectorAll("#dtab button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v));
  if(v==="map"&&MAP){MAP.invalidateSize();if(MFIT)MAP.fitBounds(MFIT,{paddingTopLeft:[50,46],paddingBottomRight:[50,16],maxZoom:13});declutter(MAP,[...MK.values()].map(mk=>({mk,cbs:0})))}
- if(v==="poly"&&POLY&&window.polyChart)polyChart(document.getElementById("xpoly"),POLY);
+ if(v==="poly"&&POLY&&window.polyChart){const b=document.getElementById("xpoly");polyChart(b,POLY);polySides(b)}
  if(CUR){const h=`#${CUR}${RN?"/"+RN:""}${VNAME[v]?"/"+VNAME[v]:""}`;if(location.hash!==h)history.replaceState(null,"",h)}
  if(!quiet)scrollTo(0,0)}
 document.querySelectorAll("#dtab button").forEach(b=>b.onclick=()=>setDView(b.dataset.v));
+// hovering a CBS match beside the polygon keeps only its line
+function polySides(b){document.querySelectorAll("#xpl .ps,#xpr .ps").forEach(r=>{r.onmouseenter=()=>b.polyPair&&b.polyPair(+r.dataset.i,+r.dataset.j);r.onmouseleave=()=>b.polyPair&&b.polyPair(null,null)})}
 function show(k,n){
  document.body.classList.remove("mlist");document.getElementById("xlist").hidden=true;document.getElementById("xwk").hidden=true;
  const T=X.teams.find(t=>t.k===k)||X.teams[0];CUR=T.k;
@@ -283,7 +285,11 @@ function show(k,n){
  // "Tutti contro tutti" polygon data (poly.js), teams in standings order, CBS outlined; drawn when its tab shows
  {const S=standings(M),pos={};S.forEach((x,k)=>pos[x.i]=k);
   POLY={teams:S.map(x=>({n:(x.t.sn||x.t.n)+(x.t.s?" "+x.t.s:""),pts:x.p,me:x.i===M.cbs})),
-   ms:M.ms.filter(m=>!m.nd).map(m=>[pos[m.h],pos[m.a]].concat(m.sc?m.sc:[]))}}
+   ms:M.ms.filter(m=>!m.nd).map(m=>[pos[m.h],pos[m.a]].concat(m.sc?m.sc:[]))};
+  // CBS matches beside the polygon: first half of the season left, second half right
+  const mine=M.ms.filter(m=>m.h===M.cbs||m.a===M.cbs).sort((a,b)=>a.n-b.n),row=m=>{const home=m.h===M.cbs,o=home?m.a:m.h,opp=M.teams[o],r=m.sc?(home?m.sc:[m.sc[1],m.sc[0]]):null,k=r?(r[0]>r[1]?"w":r[0]<r[1]?"l":"d"):"u";
+   return `<div class="ps ${k}" data-i="${pos[M.cbs]}" data-j="${pos[o]}"><b>${m.n}ª</b><span>${home?"vs":"@"} ${esc(opp.sn||opp.n)}</span><i>${r?`${r[0]}-${r[1]}`:m.nd?"N.D.":"-"}</i></div>`},half=Math.ceil(mine.length/2);
+  document.getElementById("xpl").innerHTML=mine.slice(0,half).map(row).join("");document.getElementById("xpr").innerHTML=mine.slice(half).map(row).join("")}
  document.querySelector(".xcols").classList.toggle("full",big);
  const res=document.getElementById("xres");
  if(big){RN=R.includes(n)?n:curRound(M);
