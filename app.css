@@ -281,3 +281,26 @@ a.surf:hover{filter:brightness(1.25)}
 }
 .rnd .tn2 .fn{display:none}.rnd .tn2 .sn{display:inline}
 .card li .pts.np{opacity:.35;font-weight:500}
+/* Classifica modal: Classifica / Mappa / Tutti contro tutti tabs in its top bar, one view at a time, no scrolling */
+#cdlg .dh{align-items:center}
+.ctabs{display:flex;flex-wrap:wrap;gap:4px 22px}
+.ctabs button{font-family:var(--display);font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.01em;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:0 0 1px;cursor:pointer;line-height:1.1}
+.ctabs button:hover{color:var(--fg)}
+.ctabs button[aria-pressed="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+#cdlg .cmapv,#cdlg .cpolyv{display:none}
+#cdlg.v-map #cBody,#cdlg.v-poly #cBody{display:none}
+#cdlg.v-map .cmapv{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;margin-top:12px}
+#cdlg.v-poly .cpolyv{display:block}
+#cMap{height:calc(100dvh - 230px);min-height:340px;border-radius:8px;border:1px solid var(--line)}
+.cvl{list-style:none;margin:0;padding:0;max-height:calc(100dvh - 230px);overflow:auto}
+.cvl li{display:block;height:auto;padding:6px 6px;border-bottom:1px solid var(--line);border-radius:0;font-size:12.5px;cursor:pointer}
+.cvl li b{display:flex;align-items:center;gap:5px;font-weight:600}
+.cvl li span{display:block}
+.cvl li small{color:var(--muted);font-size:11.5px}
+.cvl li.fav{background:var(--cbs-bg)}
+#cdlg .cpolyv .poly{max-width:min(760px,calc((100dvh - 230px) * 1.15))}
+@media (max-width:600px),(max-height:520px){
+ .ctabs{gap:4px 14px}.ctabs button{font-size:17px}
+ #cdlg.v-map .cmapv{grid-template-columns:minmax(0,1fr)}
+ #cMap{height:55dvh}.cvl{max-height:none}
+}

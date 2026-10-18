@@ -343,3 +343,10 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:bas
 .poly-info{font-size:12.5px;color:var(--muted);margin:4px 0 0;min-height:18px}
 .poly-team{cursor:pointer}
 .ccols .ctbl{position:static}
+/* pins.js: decluttered map labels (leader line + dot when a label moves off its point) */
+.pw{position:absolute;left:0;top:0}
+.lead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none;display:none}
+.lead line{stroke:var(--fg);stroke-width:1.5}
+.lead circle{fill:var(--fg)}
+.off .lead{display:block}
+.off .pin::after{display:none}

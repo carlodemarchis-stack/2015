@@ -8,7 +8,10 @@ and its handoff notes are in `legacy/`.
 ## Files
 - `index.html` markup, `base.css` original styles (shared), `app.css` additions, `app.js` all logic (loads `data/*.json`).
 - `poly.js` (shared): "Tutti contro tutti" polygon, `polyChart(el, {teams:[{n,pts,me}], ms:[[i,j,gi,gj]|[i,j]]})`, teams in
-  standings order; under the standings modal (index.html) and the team detail (cbs.html). Phone width = rank numbers.
+  standings order; a tab of the Classifica modal (index.html) and of the team detail (cbs.html). Phone width = rank numbers.
+- `pins.js` (shared): `pinIcon`, `declutter` (map labels never overlap: leader line + dot), `resetCtl` ("Tutti" button).
+- Classifica modal tabs (its top bar): Classifica / Mappa (fields of the girone) / Tutti contro tutti, hash
+  `#classifica/I`, `#classifica/I/mappa`, `#classifica/I/tutti`; one view at a time, no scrolling.
 - `cbs.html` + `cbs.js` + `cbs.css`: page with the 18 CBS Scuola Calcio teams (own girone: giornate + standings).
   15 teams from `data/cbs.json` (Sprint e Sport snapshot), the 3 Esordienti 2015 teams from this site's own data.
 - `data/teams_matches.json` calendar from the FIGC PDF: per girone `t` teams
@@ -28,7 +31,7 @@ and its handoff notes are in `legacy/`.
 - Italian UI. No em-dashes, no "not X but Y" constructions. Plain text.
 - Umami website id 15e9daf4-be09-4ec6-9d6d-eee4b0c92bf3; open the site with `?noumami` (see parent CLAUDE.md).
 - `localStorage['esordienti2015_mia_squadra']` = "G|index" for "Segui questa squadra"; never rename it.
-- Hash state: `#squadra/I/1/cal|grid|map`, `#classifica/F`, `#calendario/3`, `#calendario/tutte`, `#novita`, `#statistiche` (Risultati, default), `#statistiche/societa`, `#mappa`.
+- Hash state: `#squadra/I/1/cal|grid|map`, `#classifica/F[/mappa|/tutti]`, `#calendario/3`, `#calendario/tutte`, `#novita`, `#statistiche` (Risultati, default), `#statistiche/societa`, `#mappa`.
 - If giocaacalcio renames a team, `update.py` fails loudly: add the name to `NAME_FIX`.
 - Social preview: `img/og.png` (1200x630, headless-Chrome screenshot of the main grid), referenced as `og.png?v=1`;
   bump `v` when replacing it. Favicon `favicon.svg`, iOS icon `img/apple-touch-icon.png`.

@@ -283,12 +283,6 @@ body.mlist .xtab{display:inline-flex;margin:0;align-self:flex-end}
 .pin.wcb::after{left:-7px;top:50%;bottom:auto;margin:-5px 0 0;border:5px solid transparent;border-right-color:#e5484d;border-left:0}
 @media (max-width:600px){.wov{width:140px;top:6px;right:6px}.wmini{height:110px}}
 /* pins moved off their point by declutter(): leader line + dot, no arrow */
-.pw{position:absolute;left:0;top:0}
-.lead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none;display:none}
-.lead line{stroke:var(--fg);stroke-width:1.5}
-.lead circle{fill:var(--fg)}
-.off .lead{display:block}
-.off .pin::after{display:none}
 /* tabs in the title bar: own line under the title on phones */
 @media (max-width:600px) and (orientation:portrait){body.mlist .xtab{margin-top:8px}.xtab button{font-size:13px;padding:6px 12px}}
 /* weekend list: the match shown on the map */

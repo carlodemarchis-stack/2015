@@ -344,12 +344,40 @@ function drawTable(g){
    const nm=(t,r)=>{const dot=`<i class="dot s${t.s}">${t.s}</i>`;return `<span class="rt" title="${esc(t.n)} ${t.s}">${r?"":dot}<span class="tn2"><span class="fn">${esc(t.n)}</span><span class="sn">${esc(short(t))}</span></span>${r?dot:""}</span>`};
    return `<div class="mr${winCls(gl)}">${nm(v.t[h])}${gl?scHTML(gl):"<em>-</em>"}${nm(v.t[a],1)}</div>`}).join("")}${rest?`<div class="mr"><em style="grid-column:1/-1;text-align:left">Riposa ${esc(v.t[rest[3]].n)}</em></div>`:""}</section>`;
  }).join("");
- document.getElementById("cBody").innerHTML=`<div class="ccols"><div class="cres"><div class="rounds">${rounds}</div></div><div class="ctbl">${tbl}</div></div><div class="poly" id="cPoly"></div>`;
+ document.getElementById("cBody").innerHTML=`<div class="ccols"><div class="cres"><div class="rounds">${rounds}</div></div><div class="ctbl">${tbl}</div></div>`;
  document.querySelectorAll("#cBody tr[data-i]").forEach(r=>r.onclick=()=>{document.getElementById("cdlg").close();open(g,+r.dataset.i)});
- // "Tutti contro tutti" polygon (poly.js), teams in standings order
- if(window.polyChart){const pos={};T.forEach((x,k)=>pos[x.i]=k);
-  polyChart(document.getElementById("cPoly"),{teams:T.map(x=>({n:`${short(x.t)} ${x.t.s}`,pts:x.p,me:isFav(g,x.i)})),
-   ms:v.m.filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));return [pos[h],pos[a]].concat(gl?[gl[0],gl[1]]:[])})})}
+ // "Tutti contro tutti" polygon data (poly.js), teams in standings order; drawn when its tab shows
+ {const pos={};T.forEach((x,k)=>pos[x.i]=k);
+  CPOLY={teams:T.map(x=>({n:`${short(x.t)} ${x.t.s}`,pts:x.p,me:isFav(g,x.i)})),
+   ms:v.m.filter(m=>m[2]!==-1).map(m=>{const [h,a]=ha(g,m),gl=goals(liveOf(g,h,a));return [pos[h],pos[a]].concat(gl?[gl[0],gl[1]]:[])})}}
+ cView(CVIEW,true);
+}
+// Classifica modal tabs (its top bar): Classifica (giornate + table), Mappa (fields of the girone), Tutti contro
+// tutti (polygon); one view at a time, kept in the hash (#classifica/I/mappa)
+let CVIEW="cla",CPOLY=null,CMAP=null,CLAY=null,CMK=[],CFIT=null;const CVN={map:"mappa",poly:"tutti"};
+function cView(v,quiet){CVIEW=v;const d=document.getElementById("cdlg");["cla","map","poly"].forEach(x=>d.classList.toggle("v-"+x,x===v));
+ document.querySelectorAll("#cTabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v));
+ if(v==="map"&&CG)drawCMap(CG);
+ if(v==="poly"&&CPOLY&&window.polyChart)polyChart(document.getElementById("cPoly"),CPOLY);
+ if(!quiet)setHash()}
+document.querySelectorAll("#cTabs button").forEach(b=>b.onclick=()=>cView(b.dataset.v));
+function drawCMap(g){
+ if(!window.L)return;const T=standings(g);
+ if(!CMAP){CMAP=L.map("cMap",{minZoom:9,maxZoom:16,zoomSnap:.25,maxBounds:[[44.6,6.9],[45.45,8.2]]});tiles(CMAP);CLAY=L.layerGroup().addTo(CMAP);
+  CMAP.on("zoomend",()=>declutter(CMAP,CMK));resetCtl(CMAP,()=>{CMAP.closePopup();if(CFIT)CMAP.flyToBounds(CFIT,{padding:[40,40],maxZoom:13,duration:.6})})}
+ CLAY.clearLayers();CMK=[];const by=new Map();
+ T.forEach((x,k)=>{const t=x.t;if(t.y==null)return;const key=t.y+","+t.x;if(!by.has(key))by.set(key,{t,ix:[]});by.get(key).ix.push({x,k})});
+ const MK=new Map();
+ by.forEach(({t,ix},key)=>{const fav=ix.some(o=>isFav(g,o.x.i));
+  const html=`<div class="pp"><b>${esc(fieldName(t))}</b><div style="color:var(--muted);font-size:12px">${esc(t.a)}, ${esc(t.c.split(" · ").pop())}</div><div style="margin:4px 0">${ix.map(o=>`${o.k+1}. ${esc(o.x.t.n)} ${o.x.t.s}`).join("<br>")}</div><a href="${maps(t)}" target="_blank" rel="noopener">Indicazioni in Google Maps ↗</a></div>`;
+  const mk=L.marker([t.y,t.x],{icon:pinIcon(fav?" home":"",ix.map(o=>`${esc(short(o.x.t))} ${o.x.t.s}`).join(" · "))}).bindPopup(html).addTo(CLAY);
+  CMK.push({mk,cbs:0});MK.set(key,mk)});
+ CFIT=[...by.values()].map(o=>[o.t.y,o.t.x]);
+ const fit=()=>{CMAP.invalidateSize();if(CFIT.length)CMAP.fitBounds(CFIT,{padding:[40,40],maxZoom:13});declutter(CMAP,CMK)};
+ fit();setTimeout(fit,200);  // again once the dialog has its final size (full screen on phones)
+ const L2=document.getElementById("cVl");
+ L2.innerHTML=T.map((x,k)=>{const t=x.t,has=t.y!=null;return `<li${has?` data-k="${t.y},${t.x}"`:""}${isFav(g,x.i)?' class="fav"':""}><b>${k+1}. <i class="dot s${t.s}">${t.s}</i> ${esc(t.n)}</b><span>${t.c?esc(fieldName(t)):"Campo non indicato nel calendario"}</span>${t.c?`<small>${esc(t.a)} · <a href="${maps(t)}" target="_blank" rel="noopener">Indicazioni ↗</a></small>`:""}</li>`}).join("");
+ L2.querySelectorAll("li[data-k]").forEach(li=>li.onclick=e=>{if(e.target.closest("a"))return;const mk=MK.get(li.dataset.k);if(mk){CMAP.flyTo(mk.getLatLng(),14,{duration:.6});mk.openPopup()}});
 }
 function openTable(g){
  const f=getFav();g=g||CG||(f?f.split("|")[0]:"A");
@@ -357,6 +385,7 @@ function openTable(g){
  document.querySelectorAll("#cSel button").forEach(b=>b.onclick=()=>{drawTable(b.dataset.g);setHash()});
  drawTable(g);
  const cd=document.getElementById("cdlg");if(!cd.open){if(cd.showModal)cd.showModal();else cd.setAttribute("open","")}
+ if(CVIEW!=="cla")cView(CVIEW,true);  // map and polygon need the dialog laid out
 }
 document.getElementById("tabBtn").onclick=()=>{openTable();setHash()};
 (()=>{const cd=document.getElementById("cdlg");
@@ -450,13 +479,13 @@ document.getElementById("verBtn").onclick=()=>{openNotes();setHash()};
 let CTAB="cal";
 function setHash(){
  const on=id=>document.getElementById(id).open;
- const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}`:on("gdlg")?`#calendario/${GM==="all"?"tutte":GN}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="soc"?"#statistiche/societa":"#statistiche"):on("vdlg")?"#novita":"";
+ const h=on("dlg")&&CUR?`#squadra/${CUR[0]}/${CUR[1]}/${CTAB}`:on("cdlg")?`#classifica/${CG}${CVN[CVIEW]?"/"+CVN[CVIEW]:""}`:on("gdlg")?`#calendario/${GM==="all"?"tutte":GN}`:on("mdlg")?"#mappa":on("sdlg")?(STAB==="soc"?"#statistiche/societa":"#statistiche"):on("vdlg")?"#novita":"";
  if(location.hash!==h)history.replaceState(null,"",h||location.pathname+location.search);
 }
 ["dlg","cdlg","mdlg","sdlg","vdlg","gdlg"].forEach(id=>document.getElementById(id).addEventListener("close",()=>setTimeout(setHash,0)));
 (()=>{const p=decodeURIComponent(location.hash.slice(1)).split("/");
  if(p[0]==="squadra"&&D[p[1]]&&D[p[1]].t[+p[2]]){open(p[1],+p[2]);if(["cal","grid","map"].includes(p[3]))tab(p[3])}
- else if(p[0]==="classifica")openTable(D[p[1]]?p[1]:null);
+ else if(p[0]==="classifica"){CVIEW=p[2]==="mappa"?"map":p[2]==="tutti"?"poly":"cla";openTable(D[p[1]]?p[1]:null)}
  else if(p[0]==="calendario")openCal(p[1]==="tutte"?"all":+p[1]);else if(p[0]==="novita")openNotes();else if(p[0]==="mappa")openAllMap();else if(p[0]==="statistiche"){STAB=p[1]==="societa"?"soc":"res";stats()}
 })();
 
