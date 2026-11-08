@@ -53,7 +53,7 @@ and its handoff notes are in `legacy/`.
 - CBS page data (`data/cbs.json`): refreshed ONLY when Carlo asks ("leggi Sprint e Sport CBS"), in the
   browser pane: on sprintesport.it run the page's own getResults fetch for the 15 gironi listed in cbs.json
   (comitato/categoria/girone ids are in the session notes: Promozione 2/2/4, U19 Torino 4/195/2, U17/U16/U15
-  Elite 2/232|344|233/1, U14 qualif 92/174/56, U15F 2/182/2, Esordienti 2014 4/241/8|7, Pulcini 2016
+  Elite 2/232|344|233/1, U14 regionale 2/174/4 (girone D; the qualification girone was 92/174/56), U15F 2/182/2, Esordienti 2014 4/241/8|7, Pulcini 2016
   4/249/8|14|12, Pulcini 2017 4/250/9|12|13). Keep only giornata, dataorap, teams, risultato: the feed also
   carries submitters' emails, never store them. Transfer: set window.name to the JSON, navigate the tab to a
   local page that POSTs it to a localhost receiver (an https page cannot reach localhost directly).
@@ -65,7 +65,7 @@ and its handoff notes are in `legacy/`.
   1° anno). `teams` = per CBS team key, fields aligned to cbs.json `t`; `dist` = car km/min from the CBS field
   (Corso Sicilia 58, Torino; call it that in the UI) via OSRM (curl: the system Python fails its TLS handshake).
   Agonistica teams too (since 13 Oct): Promozione, Under 19 Torino, Under 17/16/15 Elite (= "Prima serie" in the
-  regional SGS PDF), Under 15 femminile, Under 14 (no field list: home field from its own matches); the PDF per
+  regional SGS PDF), Under 15 femminile, Under 14 regionale (girone D since 24 Oct; LND calendar of 16 Oct); the PDF per
   team is in `PDF` of the script. Regional PDFs leave the home day blank = championship default, so `day` is "".
   Rerun after a CBS refresh if the teams change; check the printed matches and any coordinate far from Piemonte.
 - CBS team detail tabs (title bar): Classifica / Mappa / Tutti contro tutti, one view at a time (body.v-cla|v-map|v-poly),

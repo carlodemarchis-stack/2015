@@ -1,7 +1,7 @@
 """Fields of the Sprint e Sport CBS gironi from the LND PDFs in source/: Esordienti 2014 and Pulcini 2016/2017
 (CU 19 Torino, 3 Oct 2026), Under 19 Torino (CU 17 Torino), Promozione (CU 7 regionale), Under 17/16/15
-Elite = "Prima serie" (CU 5 regionale), Under 15 femminile (CU 25 regionale), Under 14 qualificazione
-(CU 14 regionale: no field list, the home field comes from its own matches). Writes data/cbs_fields.json: per CBS team key, one entry per team
+Elite = "Prima serie" (CU 5 regionale), Under 15 femminile (CU 25 regionale), Under 14 regionale
+(LND calendar of 16 Oct 2026, girone D). Writes data/cbs_fields.json: per CBS team key, one entry per team
 of T["t"] (same order) with LND name n, field c, address a, home day ("Sab"/"Dom"; "" when the PDF leaves it
 to the championship default, as the regional ones do) and time o, lat y / lon x,
 under "teams"; "dist" = car km/min from Cavoretto (CBS field, "from") to every field of the 11 CBS gironi
@@ -10,7 +10,6 @@ Coordinates: reused from teams_matches.json when the address is already there, e
 Manual, local run (needs PyMuPDF): python3 scripts/cbs_fields.py"""
 import json, os, re, subprocess, sys, time, urllib.parse, urllib.request
 from difflib import SequenceMatcher
-from datetime import date
 import fitz
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -28,7 +27,7 @@ PDF = {"e14": ("Calendario_ESORDIENTI-2-ANNO_2014_TORINO.pdf", None, None),
        "u16": ("Calendari_SGS_Regionali_U17_U16_U15_2026.pdf", "REGIONALE U16 - PRIMA SERIE", "A"),
        "u15": ("Calendari_SGS_Regionali_U17_U16_U15_2026.pdf", "REGIONALE U15 - PRIMA SERIE", "A"),
        "u15f": ("Calendari_U15_U17_Femminile_2026.pdf", "UNDER 15 FEMMINILE REGIONALE", "B"),
-       "u14": ("Calendario_U14_Qualificazione_Regionale_2026.pdf", "MATCHES", "21")}
+       "u14": ("Calendari_U14_Regionale_2026.pdf", "GIOVANISS. B UNDER 14 REGION.", "D")}
 # Sprint e Sport short names the fuzzy match would miss (normalised -> LND name)
 ALIAS2 = {"G CENTALLO": "GIOVANILE CENTALLO 2006", "CUNEO 1905": "A C CUNEO 1905 OLMO",
           "FULGOR CRV": "FULGOR CHIAVAZZESE R V"}
@@ -70,24 +69,6 @@ def fields(path):
                 n=name, s=letter, field=fld, city=city,
                 day=day.group(1).title() if day else "", o=c[ti].strip(), a=c[ti + 1].strip()))
     return out
-
-
-def match_fields(path, gir):
-    """Under 14 PDF: no field list; one line per match (home, away, field, date, time, round, town, address).
-    Each team's home field is the one of its first home match."""
-    text = "\n".join(p.get_text() for p in fitz.open(path))
-    out, on = {}, False
-    for line in text.splitlines():
-        if line.startswith("GIRONE"):
-            on = line.split()[1] == gir
-            continue
-        m = on and re.match(r"(.{26})(.{26})(.{30})\s*(\d+)/(\d+)/(\d+)\s+(\d+:\d+)\s+\d+[AR]\s+(.+?)\s{2,}(.+?)\s*$", line)
-        if m and m.group(1).strip() not in out:
-            d = date(2000 + int(m.group(6)), int(m.group(5)), int(m.group(4)))
-            out[m.group(1).strip()] = dict(n=m.group(1).strip(), s="A", field=m.group(3).strip(), city=m.group(8).strip(),
-                                           day=["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"][d.weekday()],
-                                           o=m.group(7), a=m.group(9).strip())
-    return {("MATCHES", gir): list(out.values())}
 
 
 def geocode(a, city, known):
@@ -160,7 +141,7 @@ def main():
         f, camp, gir = PDF[key]
         if f not in parsed:
             path = os.path.join(ROOT, "source", f)
-            parsed[f] = match_fields(path, gir) if camp == "MATCHES" else fields(path)
+            parsed[f] = fields(path)
         cands = [r for (cp, g), rows in parsed[f].items() if (camp is None or cp == camp) and g == (gir or T["gir"]) for r in rows]
         rows = []
         for i, n in enumerate(T["t"]):
