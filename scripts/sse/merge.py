@@ -29,7 +29,7 @@ json.dump(X, open("data/cbs.json", "w"), ensure_ascii=False, separators=(",", ":
 # --- 2015 site
 D = json.load(open("data/teams_matches.json")); L = json.load(open("data/live.json"))["m"]; M = json.load(open("data/manual.json"))
 def nz(s): return " ".join(re.sub(r"[^A-Z0-9 ]", " ", unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().upper()).split())
-ALIAS = {"AUGUSTA LEINI": "CALCIO LEINI"}  # Sprint e Sport names whose first word differs from the LND one
+ALIAS = {"AUGUSTA LEINI": "CALCIO LEINI", "AUT SANMAURO": "AUTOVIP SAN MAURO", "S MAURIZIO": "SAN MAURIZIO C SE"}  # Sprint e Sport names whose first word differs from the LND one
 def sim(a, b):
     a, b = nz(a), nz(b); a = ALIAS.get(a, a); return SequenceMatcher(None, a, b).ratio() + 0.5 * (a.split()[0] in b.split() or b.split()[0] in a.split())
 idx = {tuple(r[:5]): r for r in M}; mch = []; wait = []; conflict = []
